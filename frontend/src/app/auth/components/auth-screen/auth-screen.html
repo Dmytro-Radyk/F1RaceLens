@@ -1,0 +1,20 @@
+<main class="auth-screen">
+  <section class="auth-card" aria-labelledby="auth-heading">
+    <div class="auth-brand-panel">
+      <div class="auth-brand-name">F1 Race Lens</div>
+      <div>
+        <p class="auth-brand-kicker">ВАШІ ПЕРЕГОНИ. ВАШ ПОГЛЯД.</p>
+        <h2>Відчуйте кожне коло.</h2>
+        <p>Стежте за сезоном, порівнюйте пілотів і дивіться на Формулу-1 по-новому.</p>
+      </div>
+      <p class="auth-brand-footer">ФОРМУЛА-1 · 2026</p>
+    </div>
+    <div class="auth-form-panel">
+      @if (mode() === 'login') {
+        <app-login-form (registerRequested)="switchTo('register')" />
+      } @else {
+        <app-register-form (loginRequested)="switchTo('login')" />
+      }
+    </div>
+  </section>
+</main>

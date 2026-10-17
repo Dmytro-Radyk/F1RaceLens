@@ -1,0 +1,40 @@
+<div class="auth-form-content">
+  <p class="auth-eyebrow">З поверненням</p>
+  <h1 id="auth-heading" tabindex="-1">Увійти</h1>
+  <p class="auth-intro">Увійдіть, щоб переглядати F1 Race Lens.</p>
+
+  <form novalidate (submit)="submit($event)">
+    <div class="auth-field">
+      <label for="login">Логін</label>
+      <input id="login" autocomplete="username" [formField]="loginForm.login"
+        [attr.aria-invalid]="loginForm.login().touched() && loginForm.login().invalid()"
+        [attr.aria-describedby]="loginForm.login().touched() && loginForm.login().invalid() ? 'login-error' : null" />
+      @if (loginForm.login().touched() && loginForm.login().invalid()) {
+        <p class="field-error" id="login-error">{{ loginForm.login().errors()[0].message }}</p>
+      }
+    </div>
+
+    <div class="auth-field">
+      <label for="login-password">Пароль</label>
+      <input id="login-password" type="password" autocomplete="current-password"
+        [formField]="loginForm.password"
+        [attr.aria-invalid]="loginForm.password().touched() && loginForm.password().invalid()"
+        [attr.aria-describedby]="loginForm.password().touched() && loginForm.password().invalid() ? 'password-error' : null" />
+      @if (loginForm.password().touched() && loginForm.password().invalid()) {
+        <p class="field-error" id="password-error">{{ loginForm.password().errors()[0].message }}</p>
+      }
+    </div>
+
+    <div class="auth-helper"><a href="#" (click)="showResetNotice($event)">Забули пароль?</a></div>
+    @if (error()) { <p class="form-error" role="alert">{{ error() }}</p> }
+    @if (notice()) { <p class="form-notice" role="status">{{ notice() }}</p> }
+    <button class="auth-primary" type="submit">Увійти</button>
+  </form>
+
+  <p class="auth-divider"><span>або продовжити через</span></p>
+  <div class="auth-social">
+    <button type="button" disabled title="Вхід через Google з’явиться згодом">Google</button>
+    <button type="button" disabled title="Вхід через GitHub з’явиться згодом">GitHub</button>
+  </div>
+  <p class="auth-switch">Немає облікового запису? <button type="button" (click)="registerRequested.emit()">Зареєструватися</button></p>
+</div>
