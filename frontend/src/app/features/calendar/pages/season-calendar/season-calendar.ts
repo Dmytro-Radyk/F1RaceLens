@@ -1,6 +1,7 @@
-import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, linkedSignal, signal } from '@angular/core';
 import { httpResource } from '@angular/common/http';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
 import type { CalendarResponse, RaceSchedule } from '../../models/calendar.types';
 import { SourceNote } from '../../components/source-note';
 import {
@@ -20,10 +21,34 @@ type CalendarFilter = 'all' | 'upcoming' | 'past';
   templateUrl: './season-calendar.html',
 })
 export class SeasonCalendar {
-  protected readonly calendar = httpResource<CalendarResponse>(
-    () => '/api/seasons/current/calendar',
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly query = toSignal(this.route.queryParamMap, {
+    initialValue: this.route.snapshot.queryParamMap,
+  });
+  protected readonly currentYear = new Date(Date.now()).getUTCFullYear();
+  protected readonly seasons = Array.from(
+    { length: this.currentYear - 1950 + 1 },
+    (_, index) => this.currentYear - index,
   );
-  protected readonly filter = signal<CalendarFilter>('all');
+  protected readonly season = computed(() => this.query().get('season') ?? 'current');
+  protected readonly validSeason = computed(() => {
+    const season = this.season();
+    return (
+      season === 'current' ||
+      (/^\d{4}$/.test(season) && Number(season) >= 1950 && Number(season) <= this.currentYear)
+    );
+  });
+  protected readonly selectedYear = computed(() =>
+    this.season() === 'current' ? this.currentYear : Number(this.season()),
+  );
+  protected readonly calendar = httpResource<CalendarResponse>(() =>
+    this.validSeason() ? `/api/seasons/${this.season()}/calendar` : undefined,
+  );
+  protected readonly filter = linkedSignal<string, CalendarFilter>({
+    source: this.season,
+    computation: () => 'all',
+  });
   protected readonly now = signal(Date.now());
   protected readonly filters: readonly { id: CalendarFilter; label: string }[] = [
     { id: 'all', label: 'Усі етапи' },
@@ -50,6 +75,15 @@ export class SeasonCalendar {
   protected readonly timeZone = userTimeZone;
   protected readonly isSprint = (race: RaceSchedule) =>
     race.sessions.some((session) => session.kind === 'Sprint');
+
+  protected selectSeason(event: Event) {
+    const year = (event.target as HTMLSelectElement).value;
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { season: year === String(this.currentYear) ? null : year },
+      queryParamsHandling: 'merge',
+    });
+  }
 
   constructor() {
     const timer = setInterval(() => this.now.set(Date.now()), 60_000);

@@ -1,5 +1,7 @@
 <div class="schedule-page" [attr.aria-busy]="schedule.isLoading()">
-  <a class="back-link" routerLink="/calendar"><span aria-hidden="true">←</span> До календаря</a>
+  <a class="back-link" routerLink="/calendar" [queryParams]="calendarQuery()"
+    ><span aria-hidden="true">←</span> До календаря сезону</a
+  >
   @if (notFound()) {
     <section class="feedback-panel">
       <p class="section-eyebrow">404</p>
@@ -61,8 +63,15 @@
         }
       </ol>
       <p class="schedule-hint">
-        Час сесій відображається у вашому часовому поясі. Розклад може оновлюватися.
+        Відомий час сесій відображається у вашому часовому поясі. Якщо час не вказано, джерело його
+        не надало.
       </p>
+      @if (race.sessions.length === 1 && race.sessions[0].kind === 'Race') {
+        <p class="schedule-hint">
+          Джерело містить лише дату гонки. Дані про практики та кваліфікацію для цього етапу
+          відсутні.
+        </p>
+      }
     </section>
     <app-source-note [metadata]="data" />
   }

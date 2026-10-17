@@ -26,7 +26,7 @@ export function formatSessionDay(schedule: ScheduledDate): string {
   return weekdayFormat.format(displayDate(schedule));
 }
 export function formatScheduleTime(schedule: ScheduledDate): string {
-  return schedule.startsAt ? timeFormat.format(new Date(schedule.startsAt)) : 'Час уточнюється';
+  return schedule.startsAt ? timeFormat.format(new Date(schedule.startsAt)) : 'Час не вказано';
 }
 
 export function isPastSchedule(schedule: ScheduledDate, now: number): boolean {
@@ -42,6 +42,7 @@ export function scheduleLabel(schedule: ScheduledDate, now: number): string {
 }
 
 const countryNames: Readonly<Record<string, string>> = {
+  Argentina: 'Аргентина',
   Australia: 'Австралія',
   Austria: 'Австрія',
   Azerbaijan: 'Азербайджан',
@@ -53,17 +54,23 @@ const countryNames: Readonly<Record<string, string>> = {
   France: 'Франція',
   Germany: 'Німеччина',
   Hungary: 'Угорщина',
+  India: 'Індія',
   Italy: 'Італія',
   Japan: 'Японія',
   Malaysia: 'Малайзія',
   Mexico: 'Мексика',
   Monaco: 'Монако',
+  Morocco: 'Марокко',
   Netherlands: 'Нідерланди',
   Portugal: 'Португалія',
   Qatar: 'Катар',
   'Saudi Arabia': 'Саудівська Аравія',
   Singapore: 'Сінгапур',
+  'South Africa': 'ПАР',
+  'South Korea': 'Південна Корея',
   Spain: 'Іспанія',
+  Sweden: 'Швеція',
+  Switzerland: 'Швейцарія',
   Turkey: 'Туреччина',
   UAE: 'ОАЕ',
   UK: 'Велика Британія',

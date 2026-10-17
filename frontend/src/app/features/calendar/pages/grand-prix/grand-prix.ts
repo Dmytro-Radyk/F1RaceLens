@@ -45,6 +45,9 @@ export class GrandPrix {
       (this.schedule.error() instanceof HttpErrorResponse &&
         (this.schedule.error() as HttpErrorResponse).status === 404),
   );
+  protected readonly calendarQuery = computed(() =>
+    this.validParams() ? { season: this.params().get('season') } : {},
+  );
   protected readonly formatDate = formatScheduleDate;
   protected readonly formatTime = formatScheduleTime;
   protected readonly formatDay = formatSessionDay;

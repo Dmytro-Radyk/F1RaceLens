@@ -1,5 +1,24 @@
 <div class="schedule-page" [attr.aria-busy]="calendar.isLoading()">
-  @if (calendar.isLoading()) {
+  <div class="season-picker">
+    <label for="calendar-season">Сезон</label>
+    <select id="calendar-season" (change)="selectSeason($event)">
+      @if (!validSeason()) {
+        <option value="" selected disabled>Невідомий сезон</option>
+      }
+      @for (year of seasons; track year) {
+        <option [value]="year" [selected]="year === selectedYear()">
+          {{ year }}{{ year === currentYear ? ' · поточний' : '' }}
+        </option>
+      }
+    </select>
+    <span>Архів від 1950 року</span>
+  </div>
+  @if (!validSeason()) {
+    <section class="feedback-panel" role="alert">
+      <h2>Сезон не знайдено</h2>
+      <p>Виберіть рік від 1950 до {{ currentYear }} у списку вище.</p>
+    </section>
+  } @else if (calendar.isLoading()) {
     <section class="feedback-panel" role="status">
       <span class="loading-line" aria-hidden="true"></span>
       <h2>Завантажуємо календар…</h2>
