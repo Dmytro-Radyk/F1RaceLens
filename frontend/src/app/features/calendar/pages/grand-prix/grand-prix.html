@@ -43,36 +43,52 @@
         </div>
       </div>
     </section>
-    <section class="sessions-panel" aria-labelledby="sessions-heading">
-      <div class="sessions-heading">
-        <h2 id="sessions-heading">Розклад вікенду</h2>
-        <p>{{ timeZone }}</p>
-      </div>
-      <ol class="session-list">
-        @for (session of race.sessions; track session.kind) {
-          <li [class.race-session]="session.kind === 'Race'">
-            <span class="session-marker" aria-hidden="true"></span>
-            <div>
-              <p>{{ formatDay(session) }}</p>
-              <h3>{{ session.name }}</h3>
-            </div>
-            <time [attr.datetime]="session.startsAt ?? session.date">{{
-              formatTime(session)
-            }}</time>
-          </li>
-        }
-      </ol>
-      <p class="schedule-hint">
-        Відомий час сесій відображається у вашому часовому поясі. Якщо час не вказано, джерело його
-        не надало.
-      </p>
-      @if (race.sessions.length === 1 && race.sessions[0].kind === 'Race') {
-        <p class="schedule-hint">
-          Джерело містить лише дату гонки. Дані про практики та кваліфікацію для цього етапу
-          відсутні.
-        </p>
+    <nav class="session-navigation" aria-label="Сесії Гран-прі">
+      @for (tab of tabs(); track tab.id) {
+        <a
+          [routerLink]="[]"
+          [queryParams]="{ session: tab.id === 'schedule' ? null : tab.id }"
+          queryParamsHandling="merge"
+          [class.selected]="selectedTab() === tab.id"
+          [attr.aria-current]="selectedTab() === tab.id ? 'page' : null"
+          >{{ tab.label }}</a
+        >
       }
-    </section>
-    <app-source-note [metadata]="data" />
+    </nav>
+    @if (resultKind(); as kind) {
+      <app-results-table [race]="race" [kind]="kind" />
+    } @else {
+      <section class="sessions-panel" aria-labelledby="sessions-heading">
+        <div class="sessions-heading">
+          <h2 id="sessions-heading">Розклад вікенду</h2>
+          <p>{{ timeZone }}</p>
+        </div>
+        <ol class="session-list">
+          @for (session of race.sessions; track session.kind) {
+            <li [class.race-session]="session.kind === 'Race'">
+              <span class="session-marker" aria-hidden="true"></span>
+              <div>
+                <p>{{ formatDay(session) }}</p>
+                <h3>{{ session.name }}</h3>
+              </div>
+              <time [attr.datetime]="session.startsAt ?? session.date">{{
+                formatTime(session)
+              }}</time>
+            </li>
+          }
+        </ol>
+        <p class="schedule-hint">
+          Відомий час сесій відображається у вашому часовому поясі. Якщо час не вказано, джерело
+          його не надало.
+        </p>
+        @if (race.sessions.length === 1 && race.sessions[0].kind === 'Race') {
+          <p class="schedule-hint">
+            Джерело містить лише дату гонки. Дані про практики та кваліфікацію для цього етапу
+            відсутні.
+          </p>
+        }
+      </section>
+      <app-source-note [metadata]="data" />
+    }
   }
 </div>

@@ -1,0 +1,126 @@
+<section
+  class="results-panel"
+  [attr.aria-busy]="results.isLoading()"
+  aria-labelledby="results-heading"
+>
+  <h2 id="results-heading">{{ title() }}</h2>
+  @if (results.isLoading()) {
+    <p role="status">Завантажуємо результати…</p>
+  } @else if (results.error()) {
+    <div role="alert">
+      <h3>Не вдалося завантажити результати</h3>
+      <p>Джерело тимчасово недоступне. Спробуйте ще раз.</p>
+      <button class="primary-link" type="button" (click)="results.reload()">
+        Спробувати ще раз
+      </button>
+    </div>
+  } @else if (results.hasValue()) {
+    @let data = results.value();
+    @if (data.entries.length) {
+      <p class="results-hint" id="results-help">
+        На вузькому екрані таблицю можна прокручувати горизонтально.
+      </p>
+      <div
+        class="results-scroll"
+        tabindex="0"
+        role="region"
+        [attr.aria-label]="'Таблиця: ' + title()"
+        aria-describedby="results-help"
+      >
+        <table>
+          <caption>
+            {{
+              title()
+            }}
+            ·
+            {{
+              race().name
+            }}
+            ·
+            {{
+              race().season
+            }}
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Місце</th>
+              <th scope="col">Пілот</th>
+              <th scope="col">Команда</th>
+              @if (kind() === 'qualifying') {
+                <th scope="col">Q1</th>
+                <th scope="col">Q2</th>
+                <th scope="col">Q3</th>
+              } @else {
+                <th scope="col">Старт</th>
+                <th scope="col">Кола</th>
+                <th scope="col">Час / відставання</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Очки</th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of data.entries; track $index) {
+              <tr [class.podium]="row.position <= 3">
+                <td class="result-position">{{ row.position }}</td>
+                <th scope="row">
+                  {{ row.driverName }}
+                  @if (row.driverCode) {
+                    <span class="driver-code">{{ row.driverCode }}</span>
+                  }
+                </th>
+                <td>{{ row.team ?? '—' }}</td>
+                @if (kind() === 'qualifying') {
+                  <td>{{ row.q1 ?? '—' }}</td>
+                  <td>{{ row.q2 ?? '—' }}</td>
+                  <td>{{ row.q3 ?? '—' }}</td>
+                } @else {
+                  <td>{{ row.grid === 0 ? '0*' : (row.grid ?? '—') }}</td>
+                  <td>{{ row.laps ?? '—' }}</td>
+                  <td>{{ row.time ?? '—' }}</td>
+                  <td>
+                    {{
+                      row.status === 'Finished'
+                        ? 'Фінішував'
+                        : (row.status ?? row.positionText ?? '—')
+                    }}
+                  </td>
+                  <td class="result-points">{{ points(row.points) }}</td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="results-hint">
+        Тире означає, що значення відсутнє у джерелі або не застосовується.
+        @if (kind() === 'qualifying') {
+          Q1/Q2/Q3 відображаються лише за наявності; формат старих кваліфікацій відрізнявся.
+        } @else {
+          0* на старті — позначення джерела: піт-лейн або невказана позиція. Причини сходу наведено
+          мовою джерела.
+        }
+      </p>
+    } @else {
+      <div class="results-empty" role="status">
+        <h3>
+          {{ isPast() ? 'Джерело не надало результатів цієї сесії' : 'Результатів ще немає' }}
+        </h3>
+        <p>
+          {{
+            isPast()
+              ? 'Історичні дані можуть бути неповними. Спробуйте іншу сесію або оновіть дані пізніше.'
+              : 'Результати з’являться після сесії та публікації у джерелі.'
+          }}
+        </p>
+        <button class="primary-link" type="button" (click)="results.reload()">
+          Оновити результати
+        </button>
+      </div>
+    }
+    <app-source-note
+      [metadata]="data"
+      staleMessage="Джерело тимчасово недоступне. Показуємо останні збережені результати."
+    />
+  }
+</section>

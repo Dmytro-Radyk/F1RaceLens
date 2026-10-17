@@ -7,7 +7,7 @@ import { formatUpdatedAt, userTimeZone } from '../utils/schedule-format';
   template: `
     @if (metadata().isStale) {
       <p class="stale-notice" role="status">
-        Джерело тимчасово недоступне. Показуємо останній збережений розклад.
+        {{ staleMessage() }}
       </p>
     }
     <footer class="source-note">
@@ -26,6 +26,9 @@ import { formatUpdatedAt, userTimeZone } from '../utils/schedule-format';
 })
 export class SourceNote {
   readonly metadata = input.required<ScheduleMetadata>();
+  readonly staleMessage = input(
+    'Джерело тимчасово недоступне. Показуємо останній збережений розклад.',
+  );
   protected readonly formatUpdatedAt = formatUpdatedAt;
   protected readonly timeZone = userTimeZone;
 }

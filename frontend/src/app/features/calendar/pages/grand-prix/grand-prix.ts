@@ -4,6 +4,8 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import type { RaceResponse } from '../../models/calendar.types';
 import { SourceNote } from '../../components/source-note';
+import { ResultsTable } from '../../components/results-table';
+import type { ResultKind } from '../../models/results.types';
 import {
   countryName,
   formatScheduleDate,
@@ -14,13 +16,36 @@ import {
 
 @Component({
   selector: 'app-grand-prix',
-  imports: [RouterLink, SourceNote],
+  imports: [RouterLink, SourceNote, ResultsTable],
   templateUrl: './grand-prix.html',
 })
 export class GrandPrix {
   private readonly route = inject(ActivatedRoute);
   private readonly params = toSignal(this.route.paramMap, {
     initialValue: this.route.snapshot.paramMap,
+  });
+  private readonly query = toSignal(this.route.queryParamMap, {
+    initialValue: this.route.snapshot.queryParamMap,
+  });
+  protected readonly tabs = computed(() => {
+    const items: { id: 'schedule' | ResultKind; label: string }[] = [
+      { id: 'schedule', label: 'Розклад' },
+      { id: 'qualifying', label: 'Кваліфікація' },
+      { id: 'race', label: 'Гонка' },
+    ];
+    if (
+      this.schedule.hasValue() &&
+      this.schedule.value().race.sessions.some((session) => session.kind === 'Sprint')
+    )
+      items.push({ id: 'sprint', label: 'Спринт' });
+    return items;
+  });
+  protected readonly selectedTab = computed(
+    () => this.tabs().find((tab) => tab.id === this.query().get('session'))?.id ?? 'schedule',
+  );
+  protected readonly resultKind = computed(() => {
+    const tab = this.selectedTab();
+    return tab === 'schedule' ? null : tab;
   });
   protected readonly validParams = computed(() => {
     const season = this.params().get('season') ?? '';

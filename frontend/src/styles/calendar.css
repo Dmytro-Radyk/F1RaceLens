@@ -3,6 +3,34 @@
   padding: 32px 36px 28px;
   margin: auto;
 }
+.session-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+.session-navigation a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 18px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel-bg);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.session-navigation a.selected {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.session-navigation a:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 3px;
+}
 .season-picker {
   display: flex;
   flex-wrap: wrap;
