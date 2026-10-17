@@ -33,7 +33,11 @@
             <a
               class="nav-item"
               [routerLink]="'/' + item.id"
+              [queryParams]="
+                item.id === 'calendar' || item.id === 'standings' ? seasonQuery() : null
+              "
               routerLinkActive="is-active"
+              [routerLinkActiveOptions]="activeLinkOptions"
               ariaCurrentWhenActive="page"
               (click)="closeMenu()"
             >

@@ -1,5 +1,6 @@
 using F1RaceLens.Api.Calendar;
 using F1RaceLens.Api.RaceResults;
+using F1RaceLens.Api.Standings;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddProblemDetails();
@@ -15,12 +16,15 @@ builder.Services.AddSingleton<JolpicaCalendarClient>();
 builder.Services.AddSingleton<CalendarService>();
 builder.Services.AddSingleton<JolpicaResultsClient>();
 builder.Services.AddSingleton<ResultsService>();
+builder.Services.AddSingleton<JolpicaStandingsClient>();
+builder.Services.AddSingleton<StandingsService>();
 
 var app = builder.Build();
 app.UseExceptionHandler();
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
 app.MapCalendarEndpoints();
 app.MapResultsEndpoints();
+app.MapStandingsEndpoints();
 app.Run();
 
 public partial class Program;

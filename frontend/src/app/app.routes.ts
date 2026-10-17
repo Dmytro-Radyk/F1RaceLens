@@ -27,9 +27,15 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/calendar/pages/grand-prix/grand-prix').then((m) => m.GrandPrix),
       },
+      {
+        path: 'standings',
+        title: 'Турнірна таблиця · F1 Race Lens',
+        data: { label: 'Турнірна таблиця' },
+        loadComponent: () =>
+          import('./features/standings/season-standings').then((m) => m.SeasonStandings),
+      },
       ...[
         ['home', 'Головна'],
-        ['standings', 'Турнірна таблиця'],
         ['drivers', 'Пілоти'],
         ['teams', 'Команди'],
         ['compare', 'Порівняння'],

@@ -1,10 +1,13 @@
-import { Component, ElementRef, inject, signal, viewChild } from '@angular/core';
+import { Component, computed, ElementRef, inject, signal, viewChild } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
 import {
   Router,
   RouterLink,
   RouterLinkActive,
   RouterOutlet,
   ActivatedRoute,
+  NavigationEnd,
 } from '@angular/router';
 import { AuthService } from '../../auth/services/auth.service';
 import { ThemeService } from '../../core/services/theme.service';
@@ -30,6 +33,28 @@ interface NavItem {
 export class AppShell {
   protected readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+  private readonly navigation = toSignal(
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)),
+    { initialValue: null },
+  );
+  protected readonly seasonQuery = computed(() => {
+    this.navigation();
+    const child = this.route.firstChild?.snapshot;
+    const year = child?.paramMap.get('season') ?? child?.queryParamMap.get('season');
+    const valid =
+      year !== null &&
+      year !== undefined &&
+      /^\d{4}$/.test(year) &&
+      Number(year) >= 1950 &&
+      Number(year) <= new Date(Date.now()).getUTCFullYear() + 1;
+    return { season: valid ? year : null };
+  });
+  protected readonly activeLinkOptions = {
+    paths: 'subset',
+    queryParams: 'ignored',
+    matrixParams: 'ignored',
+    fragment: 'ignored',
+  } as const;
   protected readonly auth = inject(AuthService);
   protected readonly theme = inject(ThemeService);
   protected readonly menuItems: readonly NavItem[] = [
