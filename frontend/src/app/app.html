@@ -1,9 +1,14 @@
 <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
   <symbol id="icon-mark" viewBox="0 0 24 24">
-    <path d="M7 3h10v3a5 5 0 0 1-10 0V3ZM7 5H4v2a4 4 0 0 0 4 4m9-6h3v2a4 4 0 0 1-4 4M12 11v5m-4 4h8m-6-4h4v4h-4z" />
+    <path
+      d="M7 3h10v3a5 5 0 0 1-10 0V3ZM7 5H4v2a4 4 0 0 0 4 4m9-6h3v2a4 4 0 0 1-4 4M12 11v5m-4 4h8m-6-4h4v4h-4z"
+    />
   </symbol>
   <symbol id="icon-menu" viewBox="0 0 24 24">
     <path d="M4 6h16M4 12h16M4 18h16" />
+  </symbol>
+  <symbol id="icon-close" viewBox="0 0 24 24">
+    <path d="m6 6 12 12M6 18 18 6" />
   </symbol>
   <symbol id="icon-home" viewBox="0 0 24 24">
     <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10Zm6 11v-7h6v7" />
@@ -37,91 +42,102 @@
   </symbol>
   <symbol id="icon-sun" viewBox="0 0 24 24">
     <circle cx="12" cy="12" r="4" />
-    <path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+    <path
+      d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
+    />
   </symbol>
 </svg>
 
 @if (!auth.isAuthenticated()) {
   <app-auth-screen />
 } @else {
-<div class="app-shell" [class.theme-dark]="isDarkTheme()" [class.menu-open]="isMenuOpen()">
-  @if (isMenuOpen()) {
-    <button
-      class="menu-backdrop"
-      type="button"
-      aria-label="Закрити меню навігації"
-      (click)="closeMenu()"
-    ></button>
-  }
-
-  <aside class="sidebar" id="sidebar">
-    <div class="brand">
-      <svg class="brand-icon" aria-hidden="true"><use href="#icon-mark" /></svg>
-      <span>F1 Race Lens</span>
-    </div>
-
-    <nav class="primary-nav" aria-label="Головна навігація">
-      <p class="nav-heading">Огляд</p>
-      <ul class="nav-list">
-        @for (item of menuItems; track item.id) {
-          <li>
-            <button
-              class="nav-item"
-              type="button"
-              [class.is-active]="activeItem() === item.id"
-              [attr.aria-pressed]="activeItem() === item.id"
-              (click)="selectItem(item.id)"
-            >
-              <svg class="nav-icon" aria-hidden="true"><use [attr.href]="item.icon" /></svg>
-              <span>{{ item.label }}</span>
-            </button>
-          </li>
-        }
-      </ul>
-    </nav>
-
-    <div class="sidebar-bottom">
-      <p class="nav-heading">Інструменти</p>
-      <button class="nav-item tool-item" type="button" disabled title="Пошук з’явиться згодом">
-        <svg class="nav-icon" aria-hidden="true"><use href="#icon-search" /></svg>
-        <span>Пошук</span>
-      </button>
+  <div class="app-shell" [class.menu-open]="isMenuOpen()">
+    @if (isMenuOpen()) {
       <button
-        class="nav-item tool-item"
+        class="menu-backdrop"
         type="button"
-        [attr.aria-pressed]="isDarkTheme()"
-        (click)="toggleTheme()"
-      >
-        <svg class="nav-icon" aria-hidden="true">
-          <use [attr.href]="isDarkTheme() ? '#icon-sun' : '#icon-moon'" />
-        </svg>
-        <span>{{ isDarkTheme() ? 'Світла тема' : 'Темна тема' }}</span>
-      </button>
-    </div>
-  </aside>
+        aria-label="Закрити меню навігації"
+        (click)="closeMenu()"
+      ></button>
+    }
 
-  <div class="page-frame">
-    <header class="topbar">
-      <button
-        #menuToggle
-        class="menu-toggle"
-        type="button"
-        aria-label="Перемкнути меню навігації"
-        aria-controls="sidebar"
-        [attr.aria-expanded]="isMenuOpen()"
-        (click)="toggleMenu()"
-      >
-        <svg class="nav-icon" aria-hidden="true"><use href="#icon-menu" /></svg>
+    <div
+      class="sidebar"
+      id="sidebar"
+      #sideNavigation
+      [attr.role]="isMenuOpen() ? 'dialog' : 'complementary'"
+      [attr.aria-modal]="isMenuOpen() ? 'true' : null"
+      [attr.aria-label]="isMenuOpen() ? 'Меню навігації' : null"
+      (keydown)="trapMenuFocus($event)"
+    >
+      <button class="sidebar-close" type="button" aria-label="Закрити меню" (click)="closeMenu()">
+        <svg class="nav-icon" aria-hidden="true"><use href="#icon-close" /></svg>
       </button>
-
-      <div class="page-heading">
-        <p class="eyebrow">F1 Race Lens <span aria-hidden="true">·</span> Огляд</p>
-        <h1 id="page-heading" tabindex="-1">{{ activeLabel() }}</h1>
+      <div class="brand">
+        <span class="brand-badge" aria-hidden="true">F1</span>
+        <span>F1 Race Lens<span class="brand-caption">ВАШ ПОГЛЯД НА ПЕРЕГОНИ</span></span>
       </div>
-      <button class="logout-button" type="button" (click)="logout()">Вийти</button>
-    </header>
 
-    <main class="workspace" id="main-content" aria-label="Вміст сторінки"></main>
+      <nav class="primary-nav" aria-label="Головна навігація">
+        <p class="nav-heading">Огляд</p>
+        <ul class="nav-list">
+          @for (item of menuItems; track item.id) {
+            <li>
+              <button
+                class="nav-item"
+                type="button"
+                [class.is-active]="activeItem() === item.id"
+                [attr.aria-pressed]="activeItem() === item.id"
+                (click)="selectItem(item.id)"
+              >
+                <svg class="nav-icon" aria-hidden="true"><use [attr.href]="item.icon" /></svg>
+                <span>{{ item.label }}</span>
+              </button>
+            </li>
+          }
+        </ul>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <p class="nav-heading">Інструменти</p>
+        <button class="nav-item tool-item" type="button" disabled title="Пошук з’явиться згодом">
+          <svg class="nav-icon" aria-hidden="true"><use href="#icon-search" /></svg>
+          <span>Пошук</span>
+        </button>
+        <button class="nav-item tool-item" type="button" (click)="toggleTheme()">
+          <svg class="nav-icon" aria-hidden="true">
+            <use [attr.href]="theme.isDark() ? '#icon-sun' : '#icon-moon'" />
+          </svg>
+          <span>{{ theme.isDark() ? 'Світла тема' : 'Темна тема' }}</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="page-frame" [inert]="isMenuOpen()">
+      <header class="topbar">
+        <button
+          #menuToggle
+          class="menu-toggle"
+          type="button"
+          aria-label="Перемкнути меню навігації"
+          aria-controls="sidebar"
+          [attr.aria-expanded]="isMenuOpen()"
+          (click)="toggleMenu()"
+        >
+          <svg class="nav-icon" aria-hidden="true"><use href="#icon-menu" /></svg>
+        </button>
+
+        <div class="page-heading">
+          <p class="eyebrow">
+            <span class="header-mark" aria-hidden="true"></span> F1 Race Lens
+            <span aria-hidden="true">/</span> Огляд
+          </p>
+          <h1 id="page-heading" tabindex="-1">{{ activeLabel() }}</h1>
+        </div>
+        <button class="logout-button" type="button" (click)="logout()">Вийти</button>
+      </header>
+
+      <main class="workspace" id="main-content" aria-label="Вміст сторінки"></main>
+    </div>
   </div>
-</div>
 }

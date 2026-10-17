@@ -1,15 +1,9 @@
 import { Component, ElementRef, computed, inject, signal, viewChild } from '@angular/core';
 import { AuthScreen } from './auth/components/auth-screen/auth-screen';
 import { AuthService } from './auth/services/auth.service';
+import { ThemeService } from './core/services/theme.service';
 
-type NavId =
-  | 'home'
-  | 'calendar'
-  | 'standings'
-  | 'drivers'
-  | 'teams'
-  | 'compare'
-  | 'insights';
+type NavId = 'home' | 'calendar' | 'standings' | 'drivers' | 'teams' | 'compare' | 'insights';
 
 interface NavItem {
   id: NavId;
@@ -24,10 +18,13 @@ interface NavItem {
   templateUrl: './app.html',
   host: {
     '(document:keydown.escape)': 'closeMenu()',
+    '(window:resize)': 'closeMenuOnDesktop()',
+    '[attr.data-theme]': 'theme.mode()',
   },
 })
 export class App {
   protected readonly auth = inject(AuthService);
+  protected readonly theme = inject(ThemeService);
   protected readonly menuItems: readonly NavItem[] = [
     { id: 'home', label: 'Головна', icon: '#icon-home' },
     { id: 'calendar', label: 'Календар', icon: '#icon-calendar' },
@@ -39,13 +36,13 @@ export class App {
   ];
 
   protected readonly activeItem = signal<NavId>('home');
-  protected readonly isDarkTheme = signal(false);
   protected readonly isMenuOpen = signal(false);
   protected readonly activeLabel = computed(
     () => this.menuItems.find((item) => item.id === this.activeItem())?.label ?? 'Головна',
   );
 
   private readonly menuToggle = viewChild<ElementRef<HTMLButtonElement>>('menuToggle');
+  private readonly sideNavigation = viewChild<ElementRef<HTMLElement>>('sideNavigation');
 
   protected selectItem(id: NavId): void {
     this.activeItem.set(id);
@@ -53,18 +50,49 @@ export class App {
   }
 
   protected toggleMenu(): void {
-    this.isMenuOpen.update((isOpen) => !isOpen);
+    if (this.isMenuOpen()) {
+      this.closeMenu();
+      return;
+    }
+
+    this.isMenuOpen.set(true);
+    setTimeout(() =>
+      this.sideNavigation()?.nativeElement.querySelector<HTMLButtonElement>('button')?.focus(),
+    );
   }
 
   protected closeMenu(): void {
     if (!this.isMenuOpen()) return;
 
     this.isMenuOpen.set(false);
-    this.menuToggle()?.nativeElement.focus();
+    setTimeout(() => this.menuToggle()?.nativeElement.focus());
+  }
+
+  protected closeMenuOnDesktop(): void {
+    if (window.innerWidth > 760) this.closeMenu();
+  }
+
+  protected trapMenuFocus(event: KeyboardEvent): void {
+    if (!this.isMenuOpen() || event.key !== 'Tab') return;
+    const buttons =
+      this.sideNavigation()?.nativeElement.querySelectorAll<HTMLButtonElement>(
+        'button:not(:disabled)',
+      );
+    if (!buttons?.length) return;
+    const first = buttons[0];
+    const last = buttons[buttons.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
   }
 
   protected toggleTheme(): void {
-    this.isDarkTheme.update((isDark) => !isDark);
+    this.theme.toggle();
   }
 
   protected logout(): void {
