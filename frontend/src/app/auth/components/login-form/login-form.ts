@@ -2,6 +2,7 @@ import { Component, inject, output, signal } from '@angular/core';
 import { form, FormField, required } from '@angular/forms/signals';
 import { AuthService } from '../../services/auth.service';
 import type { AuthCredentials } from '../../models/auth.types';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -11,6 +12,8 @@ import type { AuthCredentials } from '../../models/auth.types';
 export class LoginForm {
   readonly registerRequested = output<void>();
   private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   protected readonly model = signal<AuthCredentials>({ login: '', password: '' });
   protected readonly loginForm = form(this.model, (fields) => {
     required(fields.login, { message: 'Введіть логін.' });
@@ -27,7 +30,10 @@ export class LoginForm {
     if (this.loginForm().invalid()) return;
 
     if (this.auth.login(this.model())) {
-      setTimeout(() => document.getElementById('page-heading')?.focus());
+      const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+      void this.router.navigateByUrl(
+        returnUrl?.startsWith('/') && !returnUrl.startsWith('//') ? returnUrl : '/calendar',
+      );
     } else {
       this.error.set('Невірний логін або пароль.');
     }

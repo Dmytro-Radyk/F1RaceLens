@@ -1,0 +1,97 @@
+<div class="app-shell" [class.menu-open]="isMenuOpen()">
+  @if (isMenuOpen()) {
+    <button
+      class="menu-backdrop"
+      type="button"
+      aria-label="Закрити меню навігації"
+      (click)="closeMenu()"
+    ></button>
+  }
+
+  <div
+    class="sidebar"
+    id="sidebar"
+    #sideNavigation
+    [attr.role]="isMenuOpen() ? 'dialog' : 'complementary'"
+    [attr.aria-modal]="isMenuOpen() ? 'true' : null"
+    [attr.aria-label]="isMenuOpen() ? 'Меню навігації' : null"
+    (keydown)="trapMenuFocus($event)"
+  >
+    <button class="sidebar-close" type="button" aria-label="Закрити меню" (click)="closeMenu()">
+      <svg class="nav-icon" aria-hidden="true"><use href="#icon-close" /></svg>
+    </button>
+    <div class="brand">
+      <span class="brand-badge" aria-hidden="true">F1</span>
+      <span>F1 Race Lens<span class="brand-caption">ВАШ ПОГЛЯД НА ПЕРЕГОНИ</span></span>
+    </div>
+
+    <nav class="primary-nav" aria-label="Головна навігація">
+      <p class="nav-heading">Огляд</p>
+      <ul class="nav-list">
+        @for (item of menuItems; track item.id) {
+          <li>
+            <a
+              class="nav-item"
+              [routerLink]="'/' + item.id"
+              routerLinkActive="is-active"
+              ariaCurrentWhenActive="page"
+              (click)="closeMenu()"
+            >
+              <svg class="nav-icon" aria-hidden="true"><use [attr.href]="item.icon" /></svg>
+              <span>{{ item.label }}</span>
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <p class="nav-heading">Інструменти</p>
+      <button class="nav-item tool-item" type="button" disabled title="Пошук з’явиться згодом">
+        <svg class="nav-icon" aria-hidden="true"><use href="#icon-search" /></svg>
+        <span>Пошук</span>
+      </button>
+      <button class="nav-item tool-item" type="button" (click)="toggleTheme()">
+        <svg class="nav-icon" aria-hidden="true">
+          <use [attr.href]="theme.isDark() ? '#icon-sun' : '#icon-moon'" />
+        </svg>
+        <span>{{ theme.isDark() ? 'Світла тема' : 'Темна тема' }}</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="page-frame" [inert]="isMenuOpen()">
+    <header class="topbar">
+      <button
+        #menuToggle
+        class="menu-toggle"
+        type="button"
+        aria-label="Перемкнути меню навігації"
+        aria-controls="sidebar"
+        [attr.aria-expanded]="isMenuOpen()"
+        (click)="toggleMenu()"
+      >
+        <svg class="nav-icon" aria-hidden="true"><use href="#icon-menu" /></svg>
+      </button>
+
+      <div class="page-heading">
+        <p class="eyebrow">
+          <span class="header-mark" aria-hidden="true"></span> F1 Race Lens
+          <span aria-hidden="true">/</span> Огляд
+        </p>
+        <h1 id="page-heading" tabindex="-1">{{ activeLabel() }}</h1>
+      </div>
+      @if (auth.isAuthenticated()) {
+        <button class="logout-button" type="button" (click)="logout()">Вийти</button>
+      } @else {
+        <a class="logout-button" routerLink="/login" [queryParams]="{ returnUrl: router.url }"
+          >Увійти</a
+        >
+      }
+    </header>
+
+    <main class="workspace" id="main-content" aria-label="Вміст сторінки">
+      <router-outlet (activate)="onPageActivated()" />
+    </main>
+  </div>
+</div>

@@ -2,10 +2,11 @@ import { Component, inject, signal } from '@angular/core';
 import { LoginForm } from '../login-form/login-form';
 import { RegisterForm } from '../register-form/register-form';
 import { ThemeService } from '../../../core/services/theme.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-auth-screen',
-  imports: [LoginForm, RegisterForm],
+  imports: [LoginForm, RegisterForm, RouterLink],
   templateUrl: './auth-screen.html',
   styleUrl: './auth-screen.css',
 })

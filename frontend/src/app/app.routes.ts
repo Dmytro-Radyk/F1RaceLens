@@ -1,3 +1,53 @@
 import { Routes } from '@angular/router';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./auth/components/auth-screen/auth-screen').then((m) => m.AuthScreen),
+  },
+  {
+    path: '',
+    loadComponent: () => import('./layout/app-shell/app-shell').then((m) => m.AppShell),
+    children: [
+      { path: '', pathMatch: 'full', redirectTo: 'calendar' },
+      {
+        path: 'calendar',
+        title: 'Календар сезону · F1 Race Lens',
+        data: { label: 'Календар сезону' },
+        loadComponent: () =>
+          import('./features/calendar/pages/season-calendar/season-calendar').then(
+            (m) => m.SeasonCalendar,
+          ),
+      },
+      {
+        path: 'calendar/:season/:round',
+        title: 'Гран-прі · F1 Race Lens',
+        data: { label: 'Гран-прі' },
+        loadComponent: () =>
+          import('./features/calendar/pages/grand-prix/grand-prix').then((m) => m.GrandPrix),
+      },
+      ...[
+        ['home', 'Головна'],
+        ['standings', 'Турнірна таблиця'],
+        ['drivers', 'Пілоти'],
+        ['teams', 'Команди'],
+        ['compare', 'Порівняння'],
+        ['insights', 'Аналітика'],
+      ].map(([path, label]) => ({
+        path,
+        title: `${label} · F1 Race Lens`,
+        data: { label },
+        loadComponent: () =>
+          import('./shared/pages/section-placeholder').then((m) => m.SectionPlaceholder),
+      })),
+      {
+        path: '**',
+        title: 'Сторінку не знайдено · F1 Race Lens',
+        data: { label: 'Сторінку не знайдено', notFound: true },
+        loadComponent: () =>
+          import('./shared/pages/section-placeholder').then((m) => m.SectionPlaceholder),
+      },
+    ],
+  },
+];

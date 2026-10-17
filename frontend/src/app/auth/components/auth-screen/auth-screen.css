@@ -160,6 +160,11 @@
   text-align: center;
 }
 
+.auth-page-footer a {
+  color: var(--accent-text);
+  text-underline-offset: 4px;
+}
+
 @media (max-width: 760px) {
   .auth-screen {
     padding: 16px 16px 24px;

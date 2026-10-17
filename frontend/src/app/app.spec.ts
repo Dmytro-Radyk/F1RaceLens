@@ -1,13 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
 import { App } from './app';
+import { provideRouter, Router } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { routes } from './app.routes';
 
 describe('Authentication screen', () => {
   beforeEach(async () => {
     localStorage.clear();
     await TestBed.configureTestingModule({
       imports: [App],
+      providers: [provideRouter(routes), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
+    await TestBed.inject(Router).navigateByUrl('/login');
   });
 
   afterEach(() => {
@@ -136,11 +142,20 @@ describe('Authentication screen', () => {
     page
       .querySelector('form')!
       .dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    await vi.waitFor(() => {
+      TestBed.inject(HttpTestingController).expectOne('/api/seasons/current/calendar').flush({
+        season: 2026,
+        updatedAt: '2026-10-17T10:00:00Z',
+        isStale: false,
+        source: 'Jolpica',
+        races: [],
+      });
+    });
     await fixture.whenStable();
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(page.querySelector('.brand')?.textContent).toContain('F1 Race Lens');
     expect(page.querySelectorAll('.primary-nav .nav-item')).toHaveLength(7);
-    expect(page.querySelector('.workspace')?.textContent).toBe('');
+    expect(page.querySelector('.workspace')?.textContent).toContain('Календар ще не опублікований');
     expect(document.activeElement).toBe(page.querySelector('#page-heading'));
 
     page.querySelector<HTMLButtonElement>('.logout-button')!.click();

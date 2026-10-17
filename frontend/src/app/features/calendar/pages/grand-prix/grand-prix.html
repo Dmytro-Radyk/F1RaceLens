@@ -1,0 +1,69 @@
+<div class="schedule-page" [attr.aria-busy]="schedule.isLoading()">
+  <a class="back-link" routerLink="/calendar"><span aria-hidden="true">←</span> До календаря</a>
+  @if (notFound()) {
+    <section class="feedback-panel">
+      <p class="section-eyebrow">404</p>
+      <h2>Гран-прі не знайдено</h2>
+      <p>Перевірте адресу або виберіть інший етап у календарі.</p>
+    </section>
+  } @else if (schedule.isLoading()) {
+    <section class="feedback-panel" role="status">
+      <span class="loading-line" aria-hidden="true"></span>
+      <h2>Завантажуємо розклад…</h2>
+    </section>
+  } @else if (schedule.error()) {
+    <section class="feedback-panel" role="alert">
+      <h2>Не вдалося завантажити Гран-прі</h2>
+      <p>Дані тимчасово недоступні. Спробуйте ще раз.</p>
+      <button class="primary-link" type="button" (click)="schedule.reload()">
+        Спробувати ще раз
+      </button>
+    </section>
+  } @else if (schedule.hasValue()) {
+    @let data = schedule.value(); @let race = data.race;
+    <section class="grand-prix-hero">
+      <p class="section-eyebrow">
+        СЕЗОН {{ race.season }} <span aria-hidden="true">/</span> ЕТАП {{ race.round }}
+      </p>
+      <h2>{{ race.name }}</h2>
+      <p class="next-race-location">
+        {{ countryName(race.circuit.country) }} · {{ race.circuit.locality }}
+      </p>
+      <div class="grand-prix-facts">
+        <div>
+          <span>Траса</span><strong>{{ race.circuit.name }}</strong>
+        </div>
+        <div>
+          <span>Дата гонки</span><strong>{{ formatDate(race) }}</strong>
+        </div>
+        <div>
+          <span>Початок гонки</span><strong>{{ formatTime(race) }}</strong>
+        </div>
+      </div>
+    </section>
+    <section class="sessions-panel" aria-labelledby="sessions-heading">
+      <div class="sessions-heading">
+        <h2 id="sessions-heading">Розклад вікенду</h2>
+        <p>{{ timeZone }}</p>
+      </div>
+      <ol class="session-list">
+        @for (session of race.sessions; track session.kind) {
+          <li [class.race-session]="session.kind === 'Race'">
+            <span class="session-marker" aria-hidden="true"></span>
+            <div>
+              <p>{{ formatDay(session) }}</p>
+              <h3>{{ session.name }}</h3>
+            </div>
+            <time [attr.datetime]="session.startsAt ?? session.date">{{
+              formatTime(session)
+            }}</time>
+          </li>
+        }
+      </ol>
+      <p class="schedule-hint">
+        Час сесій відображається у вашому часовому поясі. Розклад може оновлюватися.
+      </p>
+    </section>
+    <app-source-note [metadata]="data" />
+  }
+</div>

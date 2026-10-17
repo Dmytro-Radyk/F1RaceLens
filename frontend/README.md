@@ -1,59 +1,43 @@
-# Frontend
+# Frontend F1 Race Lens
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.8.
+Angular 22, TypeScript, signals, Signal Forms і Vitest. Календар та сторінки Гран-прі доступні без входу, дані надходять із власного ASP.NET Core API.
 
-## Development server
+## Запуск
 
-To start a local development server, run:
+Потрібні Node.js 24.15.0 або новіша сумісна версія 24.x та npm 11.
 
-```bash
-ng serve
+Спочатку в окремому терміналі з кореня репозиторію запустіть API (.NET 10 SDK):
+
+```powershell
+dotnet run --project backend/F1RaceLens.Api --launch-profile http
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+З директорії `frontend`:
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```powershell
+npm ci
+npm run start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Відкрийте <http://localhost:4200/calendar>. Development-проксі з `proxy.conf.json` спрямовує `/api/**` на <http://127.0.0.1:5080>.
 
-```bash
-ng generate --help
+## Сторінки
+
+- `/calendar` — поточний сезон, найближчий Гран-прі та фільтри етапів.
+- `/calendar/{season}/{round}` — траса й розклад фактичних сесій етапу.
+- `/login` — демонстраційні форми входу й реєстрації. Демо-вхід: `admin` / `12345`.
+
+Інші розділи мають явні повідомлення про майбутню реалізацію. Реєстрація, зовнішня авторизація та відновлення пароля ще не підключені до сервера.
+
+## Перевірки
+
+```powershell
+npm run build
+npm test -- --watch=false
 ```
 
-## Building
+Тести охоплюють форми, тему, календарні маршрути, фільтри, відсутній час, помилки й повторні спроби.
 
-To build the project run:
+Production-збірка міститься у `dist/frontend`. На хостингу потрібно налаштувати fallback на `index.html` для маршрутів Angular та reverse proxy `/api` до бекенду: development-проксі в production не працює.
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Дивіться також [головний README](../README.md), [правила frontend](AGENTS.md), [дизайн](../context/design/ui-guidelines.md) та [контракт API](../context/architecture/calendar-api.md).

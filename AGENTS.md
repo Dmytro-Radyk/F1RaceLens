@@ -12,3 +12,7 @@
 
 Для запуску клієнтського застосунку з директорії frontend використовуй npm run start 
 
+Backend: з кореня репозиторію `dotnet run --project backend/F1RaceLens.Api --launch-profile http`.
+Для календаря API й frontend мають працювати одночасно. Контракт: @context/architecture/calendar-api.md.
+Перевірки backend: `dotnet build backend/F1RaceLens.slnx` і `dotnet test backend/F1RaceLens.slnx`.
+

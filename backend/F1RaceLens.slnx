@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="F1RaceLens.Api.Tests/F1RaceLens.Api.Tests.csproj" />
+  <Project Path="F1RaceLens.Api/F1RaceLens.Api.csproj" />
+</Solution>
