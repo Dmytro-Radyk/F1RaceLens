@@ -38,6 +38,62 @@ svg {
   width: 100%;
   min-width: 680px;
 }
+.chart-canvas {
+  position: relative;
+  min-width: 680px;
+}
+.chart-frame {
+  position: relative;
+}
+.chart-point {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+.chart-point.active {
+  z-index: 2;
+}
+.point-target {
+  display: block;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+.point-target:hover,
+.point-target:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 1px;
+}
+.chart-tooltip {
+  position: absolute;
+  width: 220px;
+  max-width: calc(100% - 16px);
+  box-sizing: border-box;
+  z-index: 3;
+  padding: 10px 12px;
+  border: 1px solid var(--field-border);
+  border-radius: 8px;
+  background: var(--panel-bg);
+  color: var(--text);
+  box-shadow: 0 4px 16px var(--shadow);
+  font-size: 12px;
+  line-height: 1.6;
+  cursor: default;
+}
+.chart-tooltip strong,
+.chart-tooltip span {
+  display: block;
+}
+.chart-tooltip strong {
+  margin-bottom: 4px;
+  font-weight: 650;
+}
 text {
   fill: var(--muted);
   font-size: 12px;
