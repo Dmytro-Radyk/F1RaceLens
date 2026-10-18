@@ -48,7 +48,7 @@ public sealed class JolpicaResultsClient(IHttpClientFactory clients)
         }
     }
 
-    private static DriverResult Parse(JsonElement entry)
+    internal static DriverResult Parse(JsonElement entry)
     {
         var driver = entry.GetProperty("Driver");
         var position = Number(entry, "position");

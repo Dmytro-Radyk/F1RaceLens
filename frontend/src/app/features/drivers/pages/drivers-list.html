@@ -1,0 +1,61 @@
+<div class="schedule-page" [attr.aria-busy]="drivers.isLoading()">
+  <app-season-picker
+    [year]="season.year()"
+    [valid]="season.valid()"
+    (yearChange)="season.select($event)"
+  />
+  @if (!season.valid()) {
+    <section class="feedback-panel" role="alert">
+      <h2>Сезон не знайдено</h2>
+      <p>Виберіть рік зі списку.</p>
+    </section>
+  } @else if (drivers.isLoading()) {
+    <section class="feedback-panel" role="status"><h2>Завантажуємо пілотів…</h2></section>
+  } @else if (drivers.error()) {
+    <section class="feedback-panel" role="alert">
+      <h2>Не вдалося завантажити пілотів</h2>
+      <p>Спробуйте ще раз або виберіть інший сезон.</p>
+      <button class="primary-link" type="button" (click)="drivers.reload()">
+        Спробувати ще раз
+      </button>
+    </section>
+  } @else if (drivers.hasValue()) {
+    @let data = drivers.value();
+    <div class="season-heading">
+      <div>
+        <p class="section-eyebrow">ПІЛОТИ ЗІ ЗАЛІКУ СЕЗОНУ</p>
+        <h2>
+          Сезон <span>{{ data.season }}</span>
+        </h2>
+      </div>
+      <p class="driver-note">Відкрийте профіль, результати та графік форми.</p>
+    </div>
+    <div class="driver-grid">
+      @for (entry of data.entries; track entry.id) {
+        <a
+          class="driver-card"
+          [routerLink]="['/drivers', entry.id]"
+          [queryParams]="{ season: data.season }"
+        >
+          <span class="section-eyebrow"
+            >{{ entry.code ?? 'F1' }} <span aria-hidden="true">↗</span></span
+          >
+          <h2>{{ entry.name }}</h2>
+          <p>{{ entry.teams.join(' · ') || 'Команда не вказана' }}</p>
+          <span class="driver-points"
+            >{{ points(entry.points) }} очок · перемог: {{ entry.wins }}</span
+          >
+        </a>
+      } @empty {
+        <section class="feedback-panel">
+          <h2>Список пілотів поки недоступний</h2>
+          <p>Джерело не надало заліку цього сезону. Виберіть інший рік.</p>
+        </section>
+      }
+    </div>
+    <app-source-note
+      [metadata]="data"
+      staleMessage="Джерело тимчасово недоступне. Показуємо збережений список пілотів."
+    />
+  }
+</div>

@@ -64,7 +64,12 @@
               <tr [class.podium]="row.position <= 3">
                 <td class="result-position">{{ row.position }}</td>
                 <th scope="row">
-                  {{ row.driverName }}
+                  <a
+                    class="profile-link"
+                    [routerLink]="['/drivers', row.driverId]"
+                    [queryParams]="{ season: race().season }"
+                    >{{ row.driverName }}</a
+                  >
                   @if (row.driverCode) {
                     <span class="driver-code">{{ row.driverCode }}</span>
                   }

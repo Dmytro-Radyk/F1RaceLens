@@ -1,0 +1,153 @@
+<div class="schedule-page" [attr.aria-busy]="profile.isLoading()">
+  <a
+    class="back-link"
+    routerLink="/drivers"
+    [queryParams]="{
+      season: season.valid() && season.season() !== 'current' ? season.season() : null,
+    }"
+    >← До списку пілотів</a
+  >
+  <app-season-picker
+    [year]="season.year()"
+    [valid]="season.valid()"
+    (yearChange)="season.select($event)"
+  />
+  @if (notFound()) {
+    <section class="feedback-panel">
+      <h2>{{ season.valid() ? 'Пілота не знайдено' : 'Сезон не знайдено' }}</h2>
+      <p>Перевірте адресу або виберіть пілота зі списку.</p>
+    </section>
+  } @else if (profile.isLoading()) {
+    <section class="feedback-panel" role="status"><h2>Завантажуємо профіль…</h2></section>
+  } @else if (profile.error()) {
+    <section class="feedback-panel" role="alert">
+      <h2>Не вдалося завантажити профіль</h2>
+      <p>Джерело тимчасово недоступне.</p>
+      <button class="primary-link" type="button" (click)="profile.reload()">
+        Спробувати ще раз
+      </button>
+    </section>
+  } @else if (profile.hasValue()) {
+    @let data = profile.value();
+    <section class="driver-hero">
+      <p class="section-eyebrow">{{ data.driver.code ?? 'F1' }} / СЕЗОН {{ data.season }}</p>
+      <h2>{{ data.driver.name }}</h2>
+      <p>{{ data.standing?.teams.join(' · ') || 'Команда за цей сезон не вказана у заліку' }}</p>
+      <dl class="driver-bio">
+        <div>
+          <dt>Дата народження</dt>
+          <dd>{{ birthDate(data.driver.dateOfBirth) }}</dd>
+        </div>
+        <div>
+          <dt>Громадянство (дані джерела)</dt>
+          <dd>{{ data.driver.nationality ?? 'Не вказано' }}</dd>
+        </div>
+      </dl>
+    </section>
+    <dl class="driver-stats">
+      <div>
+        <dt>Місце у заліку</dt>
+        <dd>{{ position(data.standing) }}</dd>
+      </div>
+      <div>
+        <dt>Очки чемпіонату</dt>
+        <dd>{{ points(data.standing?.points ?? null) }}</dd>
+      </div>
+      <div>
+        <dt>Перемоги за заліком</dt>
+        <dd>{{ data.standing?.wins ?? '—' }}</dd>
+      </div>
+      <div>
+        <dt>Записів результатів гонок</dt>
+        <dd>{{ data.races.length }}</dd>
+      </div>
+    </dl>
+    <p class="driver-note">
+      Показники чемпіонату взято зі заліку джерела
+      @if (data.standingsRound !== null) {
+        після етапу {{ data.standingsRound }}
+      }
+      . Очки гонок нижче не включають спринти й можуть відрізнятися від очок чемпіонату через
+      правила сезону та штрафи.
+    </p>
+    @if (data.races.length) {
+      <app-form-chart [races]="data.races" />
+      <section class="driver-results" aria-labelledby="driver-results-heading">
+        <h2 id="driver-results-heading">Результати за етапами</h2>
+        <div
+          class="driver-table-scroll"
+          role="region"
+          tabindex="0"
+          aria-label="Таблиця результатів пілота"
+        >
+          <table>
+            <caption>
+              {{
+                data.driver.name
+              }}
+              · гонки сезону
+              {{
+                data.season
+              }}
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Етап</th>
+                <th scope="col">Гран-прі</th>
+                <th scope="col">Команда</th>
+                <th scope="col">Старт</th>
+                <th scope="col">Класифікація</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Час / відставання</th>
+                <th scope="col">Очки гонки</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (race of data.races; track $index) {
+                <tr>
+                  <td>{{ race.round }}</td>
+                  <th scope="row">
+                    <a
+                      [routerLink]="['/calendar', data.season, race.round]"
+                      [queryParams]="{ session: 'race' }"
+                      >{{ race.name }}</a
+                    ><span class="race-date">{{ race.date }} · {{ race.circuit }}</span>
+                  </th>
+                  <td>{{ race.result.team ?? '—' }}</td>
+                  <td>{{ race.result.grid === 0 ? '0*' : (race.result.grid ?? '—') }}</td>
+                  <td>{{ race.result.position }}</td>
+                  <td>
+                    {{
+                      race.result.status === 'Finished'
+                        ? 'Фінішував'
+                        : (race.result.status ?? 'Не вказано')
+                    }}
+                  </td>
+                  <td>{{ race.result.time ?? '—' }}</td>
+                  <td>{{ points(race.result.points) }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <p class="driver-note">
+          Таблиця прокручується горизонтально. 0* на старті — піт-лейн або невказана позиція у
+          джерелі. Класифікація при сході не означає фактичний фініш. Причини сходу наведено мовою
+          джерела.
+        </p>
+      </section>
+    } @else {
+      <section class="feedback-panel" role="status">
+        <h2>Результатів гонок за цей сезон немає</h2>
+        <p>
+          Джерело не надало результатів цього пілота за вибраний рік. Він міг не брати участі або
+          історичні дані можуть бути неповними.
+        </p>
+      </section>
+    }
+    <app-source-note
+      [metadata]="data"
+      staleMessage="Джерело тимчасово недоступне. Профіль або його залік містить збережені дані."
+    />
+  }
+</div>

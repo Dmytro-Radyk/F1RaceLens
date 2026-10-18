@@ -34,7 +34,9 @@
               class="nav-item"
               [routerLink]="'/' + item.id"
               [queryParams]="
-                item.id === 'calendar' || item.id === 'standings' ? seasonQuery() : null
+                item.id === 'calendar' || item.id === 'standings' || item.id === 'drivers'
+                  ? seasonQuery()
+                  : null
               "
               routerLinkActive="is-active"
               [routerLinkActiveOptions]="activeLinkOptions"

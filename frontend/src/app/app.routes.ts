@@ -34,9 +34,22 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/standings/season-standings').then((m) => m.SeasonStandings),
       },
+      {
+        path: 'drivers',
+        title: 'Пілоти · F1 Race Lens',
+        data: { label: 'Пілоти' },
+        loadComponent: () =>
+          import('./features/drivers/pages/drivers-list').then((m) => m.DriversList),
+      },
+      {
+        path: 'drivers/:driverId',
+        title: 'Профіль пілота · F1 Race Lens',
+        data: { label: 'Профіль пілота' },
+        loadComponent: () =>
+          import('./features/drivers/pages/driver-profile').then((m) => m.DriverProfile),
+      },
       ...[
         ['home', 'Головна'],
-        ['drivers', 'Пілоти'],
         ['teams', 'Команди'],
         ['compare', 'Порівняння'],
         ['insights', 'Аналітика'],

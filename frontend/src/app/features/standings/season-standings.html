@@ -102,7 +102,16 @@
                 <tr [class.podium]="podium(entry)">
                   <td class="standing-position">{{ positionLabel(entry) }}</td>
                   <th scope="row">
-                    {{ entry.name }}
+                    @if (kind() === 'drivers') {
+                      <a
+                        class="profile-link"
+                        [routerLink]="['/drivers', entry.id]"
+                        [queryParams]="{ season: data.season }"
+                        >{{ entry.name }}</a
+                      >
+                    } @else {
+                      {{ entry.name }}
+                    }
                     @if (entry.code) {
                       <span class="standing-code">{{ entry.code }}</span>
                     }

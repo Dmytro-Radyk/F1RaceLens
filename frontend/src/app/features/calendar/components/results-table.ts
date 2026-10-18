@@ -1,5 +1,6 @@
 import { Component, computed, input } from '@angular/core';
 import { httpResource } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 import type { RaceSchedule } from '../models/calendar.types';
 import type { ResultKind, SessionResultsResponse } from '../models/results.types';
 import { SourceNote } from './source-note';
@@ -7,7 +8,7 @@ import { isPastSchedule } from '../utils/schedule-format';
 
 @Component({
   selector: 'app-results-table',
-  imports: [SourceNote],
+  imports: [SourceNote, RouterLink],
   templateUrl: './results-table.html',
   styleUrl: './results-table.css',
 })

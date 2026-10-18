@@ -1,0 +1,53 @@
+<figure class="form-chart">
+  <figcaption>
+    <h2>Форма за етапами</h2>
+    <p>Старт і фактичний фініш. Менше число — вища позиція.</p>
+  </figcaption>
+  <div class="chart-legend">
+    <span class="finish-legend">● Фініш</span><span>┄ Старт</span><span>× Схід / інший статус</span>
+  </div>
+  <div class="chart-scroll" tabindex="0" role="region" aria-label="Графік позицій за етапами">
+    <svg viewBox="0 0 800 345" role="img" aria-labelledby="form-title form-description">
+      <title id="form-title">Стартові та фінішні позиції за етапами</title>
+      <desc id="form-description">
+        Повні числові значення наведені у таблиці результатів нижче. Сходи, невідомі значення,
+        пропуски та кілька результатів одного етапу розривають лінію.
+      </desc>
+      @for (tick of chart().ticks; track tick.value) {
+        <line x1="55" x2="745" [attr.y1]="tick.y" [attr.y2]="tick.y" class="chart-grid" />
+        <text x="38" [attr.y]="tick.y + 4" text-anchor="end">{{ tick.value }}</text>
+      }
+      <path [attr.d]="chart().start" class="start-line" />
+      <path [attr.d]="chart().finish" class="finish-line" />
+      @for (point of chart().points; track point.round) {
+        @if (point.gridY !== null) {
+          <rect
+            [attr.x]="point.x - 3"
+            [attr.y]="point.gridY - 3"
+            width="6"
+            height="6"
+            class="start-dot"
+          >
+            <title>{{ point.label }}</title>
+          </rect>
+        }
+        @if (point.finished) {
+          <circle [attr.cx]="point.x" [attr.cy]="point.y" r="4" class="finish-dot">
+            <title>{{ point.label }}</title>
+          </circle>
+        } @else {
+          <text [attr.x]="point.x" [attr.y]="point.y" text-anchor="middle" class="status-marker">
+            ×
+            <title>{{ point.label }}</title>
+          </text>
+        }
+        <text [attr.x]="point.x" y="315" text-anchor="middle">{{ point.round }}</text>
+      }
+      <text x="400" y="340" text-anchor="middle">Етап</text>
+    </svg>
+  </div>
+  <p class="chart-help">
+    Хрестик під графіком не має числової позиції. Сходи не прирівнюються до останнього місця. Кілька
+    історичних записів одного етапу показано лише в таблиці. На телефоні графік можна прокручувати.
+  </p>
+</figure>
