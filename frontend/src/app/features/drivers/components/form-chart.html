@@ -40,14 +40,10 @@
             @if (point.finished) {
               <circle [attr.cx]="point.x" [attr.cy]="point.y" r="4" class="finish-dot"></circle>
             } @else {
-              <text
-                [attr.x]="point.x"
-                [attr.y]="point.y"
-                text-anchor="middle"
+              <path
+                [attr.d]="'M' + (point.x - 4) + ',' + (point.y - 4) + 'l8,8m-8,0l8,-8'"
                 class="status-marker"
-              >
-                ×
-              </text>
+              ></path>
             }
             <text [attr.x]="point.x" y="315" text-anchor="middle">{{ point.round }}</text>
           }

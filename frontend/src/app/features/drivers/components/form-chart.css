@@ -122,8 +122,10 @@ text {
   fill: var(--accent-text);
 }
 .status-marker {
-  fill: var(--accent-text);
-  font-size: 20px;
+  fill: none;
+  stroke: var(--accent-text);
+  stroke-width: 1.8;
+  stroke-linecap: round;
 }
 @media (max-width: 540px) {
   .form-chart {
