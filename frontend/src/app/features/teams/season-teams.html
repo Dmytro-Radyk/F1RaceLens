@@ -1,0 +1,154 @@
+<div class="schedule-page" [attr.aria-busy]="teams.isLoading()">
+  <app-season-picker
+    [year]="season.year()"
+    [valid]="season.valid()"
+    (yearChange)="season.select($event)"
+  />
+  @if (!valid()) {
+    <section class="feedback-panel" role="alert">
+      <h2>Сторінку не знайдено</h2>
+      <p>Перевірте адресу або виберіть інший сезон.</p>
+    </section>
+  } @else if (historical()) {
+    <app-historical-teams [year]="season.year()" [teamId]="teamId()" />
+  } @else if (teams.isLoading()) {
+    <section class="feedback-panel" role="status"><h2>Завантажуємо команди…</h2></section>
+  } @else if (teams.error()) {
+    <section class="feedback-panel" role="alert">
+      <h2>Не вдалося завантажити команди</h2>
+      <p>Спробуйте ще раз або виберіть інший сезон.</p>
+      <button type="button" class="primary-link" (click)="teams.reload()">Спробувати ще раз</button>
+    </section>
+  } @else if (teams.hasValue()) {
+    @let data = teams.value();
+    @if (teamId()) {
+      <a class="back-link" routerLink="/teams" [queryParams]="{ season: data.season }"
+        >← Усі команди сезону</a
+      >
+      @if (team(); as entry) {
+        <section class="team-hero">
+          <p class="section-eyebrow">КОМАНДА · {{ data.season }}</p>
+          <h2>{{ entry.name }}</h2>
+          <p class="team-note">Залік конструкторів · після етапу {{ data.round ?? '—' }}</p>
+          <dl class="team-stats">
+            <div>
+              <dt>Місце в заліку</dt>
+              <dd>{{ position(entry) }}</dd>
+            </div>
+            <div>
+              <dt>Очки команди</dt>
+              <dd>{{ points(entry.points) }}</dd>
+            </div>
+            <div>
+              <dt>Перемоги</dt>
+              <dd>{{ entry.wins }}</dd>
+            </div>
+          </dl>
+        </section>
+        <section
+          class="team-roster"
+          [attr.aria-busy]="drivers.isLoading()"
+          aria-labelledby="roster-heading"
+        >
+          <h2 id="roster-heading">Пілоти команди за сезон</h2>
+          <p class="team-note">
+            Усі пілоти, пов’язані з командою в заліку сезону, включно із замінами й переходами. Очки
+            пілота наведені за весь сезон, а не лише за цю команду.
+          </p>
+          @if (drivers.isLoading()) {
+            <p role="status">Завантажуємо пілотів…</p>
+          } @else if (drivers.error()) {
+            <div role="alert">
+              <p>Не вдалося завантажити пілотів. Показники команди залишаються доступними.</p>
+              <button class="primary-link" type="button" (click)="drivers.reload()">
+                Повторити завантаження пілотів
+              </button>
+            </div>
+          } @else if (drivers.hasValue()) {
+            <p class="team-note">Залік пілотів після етапу {{ drivers.value().round ?? '—' }}.</p>
+            <div class="team-grid">
+              @for (driver of roster(); track driver.id) {
+                <a
+                  class="team-card"
+                  [routerLink]="['/drivers', driver.id]"
+                  [queryParams]="{ season: data.season }"
+                >
+                  <span class="section-eyebrow"
+                    >ПРОФІЛЬ ПІЛОТА <span aria-hidden="true">↗</span></span
+                  >
+                  <h3>{{ driver.name }}</h3>
+                  <p>{{ driver.teams.join(' · ') }}</p>
+                  <span
+                    >{{ points(driver.points) }} очок за сезон · перемог: {{ driver.wins }}</span
+                  >
+                </a>
+              } @empty {
+                <p>Джерело не надало пілотів цієї команди в заліку сезону.</p>
+              }
+            </div>
+            <app-source-note
+              [metadata]="drivers.value()"
+              staleMessage="Показуємо збережений залік пілотів. Дані можуть відставати від показників команди."
+            />
+          }
+        </section>
+      } @else {
+        <section class="feedback-panel">
+          <h2>Команди немає в заліку цього сезону</h2>
+          <p>
+            Виберіть інший рік або поверніться до списку команд. Відсутність у заліку не означає
+            відсутність участі в гонках.
+          </p>
+        </section>
+      }
+    } @else {
+      <div class="season-heading">
+        <div>
+          <p class="section-eyebrow">КОМАНДИ ЗІ ЗАЛІКУ КОНСТРУКТОРІВ</p>
+          <h2>
+            Сезон <span>{{ data.season }}</span>
+          </h2>
+        </div>
+        <p class="team-note">
+          Після етапу {{ data.round ?? '—' }} · відкрийте команду, щоб переглянути її пілотів.
+        </p>
+      </div>
+      <div class="team-grid">
+        @for (entry of data.entries; track entry.id) {
+          <a
+            class="team-card"
+            [routerLink]="['/teams', entry.id]"
+            [queryParams]="{ season: data.season }"
+          >
+            <span class="section-eyebrow"
+              >{{ position(entry) }} · У ЗАЛІКУ <span aria-hidden="true">↗</span></span
+            >
+            <h2>{{ entry.name }}</h2>
+            <dl class="team-stats">
+              <div>
+                <dt>Очки</dt>
+                <dd>{{ points(entry.points) }}</dd>
+              </div>
+              <div>
+                <dt>Перемоги</dt>
+                <dd>{{ entry.wins }}</dd>
+              </div>
+            </dl>
+          </a>
+        } @empty {
+          <section class="feedback-panel">
+            <h2>Залік команд недоступний</h2>
+            <p>
+              Джерело не надало даних за цей сезон. До 1958 року Кубок конструкторів не проводився;
+              відсутній залік не означає відсутність команд.
+            </p>
+          </section>
+        }
+      </div>
+    }
+    <app-source-note
+      [metadata]="data"
+      staleMessage="Джерело тимчасово недоступне. Показуємо збережений залік команд."
+    />
+  }
+</div>

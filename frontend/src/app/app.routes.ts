@@ -35,6 +35,18 @@ export const routes: Routes = [
           import('./features/standings/season-standings').then((m) => m.SeasonStandings),
       },
       {
+        path: 'teams',
+        title: 'Команди · F1 Race Lens',
+        data: { label: 'Команди' },
+        loadComponent: () => import('./features/teams/season-teams').then((m) => m.SeasonTeams),
+      },
+      {
+        path: 'teams/:teamId',
+        title: 'Профіль команди · F1 Race Lens',
+        data: { label: 'Профіль команди' },
+        loadComponent: () => import('./features/teams/season-teams').then((m) => m.SeasonTeams),
+      },
+      {
         path: 'drivers',
         title: 'Пілоти · F1 Race Lens',
         data: { label: 'Пілоти' },
@@ -50,7 +62,6 @@ export const routes: Routes = [
       },
       ...[
         ['home', 'Головна'],
-        ['teams', 'Команди'],
         ['compare', 'Порівняння'],
         ['insights', 'Аналітика'],
       ].map(([path, label]) => ({

@@ -34,7 +34,10 @@
               class="nav-item"
               [routerLink]="'/' + item.id"
               [queryParams]="
-                item.id === 'calendar' || item.id === 'standings' || item.id === 'drivers'
+                item.id === 'calendar' ||
+                item.id === 'standings' ||
+                item.id === 'drivers' ||
+                item.id === 'teams'
                   ? seasonQuery()
                   : null
               "

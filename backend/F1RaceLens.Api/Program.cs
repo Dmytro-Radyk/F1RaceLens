@@ -2,6 +2,7 @@ using F1RaceLens.Api.Calendar;
 using F1RaceLens.Api.RaceResults;
 using F1RaceLens.Api.Standings;
 using F1RaceLens.Api.Drivers;
+using F1RaceLens.Api.Teams;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddProblemDetails();
@@ -21,6 +22,7 @@ builder.Services.AddSingleton<JolpicaStandingsClient>();
 builder.Services.AddSingleton<StandingsService>();
 builder.Services.AddSingleton<JolpicaDriverClient>();
 builder.Services.AddSingleton<DriverService>();
+builder.Services.AddSingleton<HistoricalTeams>();
 
 var app = builder.Build();
 app.UseExceptionHandler();
@@ -29,6 +31,7 @@ app.MapCalendarEndpoints();
 app.MapResultsEndpoints();
 app.MapStandingsEndpoints();
 app.MapDriverEndpoints();
+HistoricalTeams.MapEndpoints(app);
 app.Run();
 
 public partial class Program;
