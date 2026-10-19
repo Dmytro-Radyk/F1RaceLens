@@ -1,0 +1,3897 @@
+{
+  "version": "lightgbm-v4",
+  "created_at": "2026-10-19T12:26:16.154856+00:00",
+  "source_sha256": "66a1d12076b9904a57119a5406f959e57abf922516d7126afe7c8c7a4580e0b3",
+  "folds": [
+    [
+      2019,
+      2020,
+      2021
+    ],
+    [
+      2020,
+      2021,
+      2022
+    ],
+    [
+      2021,
+      2022,
+      2023
+    ],
+    [
+      2022,
+      2023,
+      2024
+    ]
+  ],
+  "candidates": [
+    {
+      "id": "rmse-d3-p0-r0",
+      "mean_mae": 3.6541516416777373,
+      "mean_brier": 0.10513330433440006,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.4272727272727272,
+          "brier": 0.10563078541066216
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8454545454545452,
+          "brier": 0.12464175566901328
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7363636363636363,
+          "brier": 0.10152683225267202
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.607515657620042,
+          "brier": 0.08873384400525279
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 166,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0,
+        "risk_baseline_weight": 0
+      }
+    },
+    {
+      "id": "rmse-d3-p0-r0.25",
+      "mean_mae": 3.649606187132283,
+      "mean_brier": 0.10528376396262737,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.4318181818181817,
+          "brier": 0.10571502919843209
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8363636363636364,
+          "brier": 0.12497613083022505
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7227272727272727,
+          "brier": 0.10158181742475524
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.607515657620042,
+          "brier": 0.08886207839709709
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 166,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0,
+        "risk_baseline_weight": 0.25
+      }
+    },
+    {
+      "id": "rmse-d3-p0-r0.5",
+      "mean_mae": 3.6632425507686466,
+      "mean_brier": 0.10593315125656308,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.477272727272727,
+          "brier": 0.10629763348449976
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.827272727272727,
+          "brier": 0.12592656959117332
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7409090909090907,
+          "brier": 0.10216494754889933
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.607515657620042,
+          "brier": 0.08934345440167993
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 166,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0,
+        "risk_baseline_weight": 0.5
+      }
+    },
+    {
+      "id": "rmse-d3-p0-r0.75",
+      "mean_mae": 3.6582083886885557,
+      "mean_brier": 0.10708146621620726,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.4727272727272727,
+          "brier": 0.10737859826886517
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8454545454545452,
+          "brier": 0.12749307195185816
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7363636363636363,
+          "brier": 0.10327622262510436
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.578288100208768,
+          "brier": 0.09017797201900137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 166,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0,
+        "risk_baseline_weight": 0.75
+      }
+    },
+    {
+      "id": "rmse-d3-p0-r1",
+      "mean_mae": 3.6634014993357376,
+      "mean_brier": 0.10872870884155988,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.5136363636363637,
+          "brier": 0.10895792355152832
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8454545454545452,
+          "brier": 0.12967563791227957
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7454545454545456,
+          "brier": 0.10491564265337025
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.549060542797495,
+          "brier": 0.09136563124906137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 166,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0,
+        "risk_baseline_weight": 1
+      }
+    },
+    {
+      "id": "rmse-d3-p0.25-r0",
+      "mean_mae": 3.626456633137218,
+      "mean_brier": 0.10513330433440006,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.4136363636363636,
+          "brier": 0.10563078541066216
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.831818181818182,
+          "brier": 0.12464175566901328
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7363636363636363,
+          "brier": 0.10152683225267202
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5240083507306887,
+          "brier": 0.08873384400525279
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 166,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.25,
+        "risk_baseline_weight": 0
+      }
+    },
+    {
+      "id": "rmse-d3-p0.25-r0.25",
+      "mean_mae": 3.621911178591763,
+      "mean_brier": 0.10528376396262737,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.4136363636363636,
+          "brier": 0.10571502919843209
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.827272727272727,
+          "brier": 0.12497613083022505
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7227272727272727,
+          "brier": 0.10158181742475524
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5240083507306887,
+          "brier": 0.08886207839709709
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 166,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.25,
+        "risk_baseline_weight": 0.25
+      }
+    },
+    {
+      "id": "rmse-d3-p0.25-r0.5",
+      "mean_mae": 3.6355475422281267,
+      "mean_brier": 0.10593315125656308,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.4454545454545453,
+          "brier": 0.10629763348449976
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.827272727272727,
+          "brier": 0.12592656959117332
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7454545454545456,
+          "brier": 0.10216494754889933
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5240083507306887,
+          "brier": 0.08934345440167993
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 166,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.25,
+        "risk_baseline_weight": 0.5
+      }
+    },
+    {
+      "id": "rmse-d3-p0.25-r0.75",
+      "mean_mae": 3.6291919719111787,
+      "mean_brier": 0.10708146621620726,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.463636363636364,
+          "brier": 0.10737859826886517
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.809090909090909,
+          "brier": 0.12749307195185816
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7409090909090907,
+          "brier": 0.10327622262510436
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5031315240083507,
+          "brier": 0.09017797201900137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 166,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.25,
+        "risk_baseline_weight": 0.75
+      }
+    },
+    {
+      "id": "rmse-d3-p0.25-r1",
+      "mean_mae": 3.6465149933573735,
+      "mean_brier": 0.10872870884155988,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.518181818181818,
+          "brier": 0.10895792355152832
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8181818181818183,
+          "brier": 0.12967563791227957
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7590909090909093,
+          "brier": 0.10491564265337025
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.490605427974948,
+          "brier": 0.09136563124906137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 166,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.25,
+        "risk_baseline_weight": 1
+      }
+    },
+    {
+      "id": "rmse-d3-p0.5-r0",
+      "mean_mae": 3.64890633896375,
+      "mean_brier": 0.10513330433440006,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.422727272727273,
+          "brier": 0.10563078541066216
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.868181818181818,
+          "brier": 0.12464175566901328
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.768181818181818,
+          "brier": 0.10152683225267202
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.536534446764092,
+          "brier": 0.08873384400525279
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 166,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.5,
+        "risk_baseline_weight": 0
+      }
+    },
+    {
+      "id": "rmse-d3-p0.5-r0.25",
+      "mean_mae": 3.6454972480546597,
+      "mean_brier": 0.10528376396262737,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.422727272727273,
+          "brier": 0.10571502919843209
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8636363636363638,
+          "brier": 0.12497613083022505
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7590909090909093,
+          "brier": 0.10158181742475524
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.536534446764092,
+          "brier": 0.08886207839709709
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 166,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.5,
+        "risk_baseline_weight": 0.25
+      }
+    },
+    {
+      "id": "rmse-d3-p0.5-r0.5",
+      "mean_mae": 3.664907952173088,
+      "mean_brier": 0.10593315125656308,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.4727272727272727,
+          "brier": 0.10629763348449976
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.868181818181818,
+          "brier": 0.12592656959117332
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.786363636363636,
+          "brier": 0.10216494754889933
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5323590814196244,
+          "brier": 0.08934345440167993
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 166,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.5,
+        "risk_baseline_weight": 0.5
+      }
+    },
+    {
+      "id": "rmse-d3-p0.5-r0.75",
+      "mean_mae": 3.65855238185614,
+      "mean_brier": 0.10708146621620726,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.481818181818182,
+          "brier": 0.10737859826886517
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.859090909090909,
+          "brier": 0.12749307195185816
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7818181818181817,
+          "brier": 0.10327622262510436
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.511482254697286,
+          "brier": 0.09017797201900137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 166,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.5,
+        "risk_baseline_weight": 0.75
+      }
+    },
+    {
+      "id": "rmse-d3-p0.5-r1",
+      "mean_mae": 3.695404725754413,
+      "mean_brier": 0.10872870884155988,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.536363636363636,
+          "brier": 0.10895792355152832
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.890909090909091,
+          "brier": 0.12967563791227957
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.8136363636363635,
+          "brier": 0.10491564265337025
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5407098121085596,
+          "brier": 0.09136563124906137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 166,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.5,
+        "risk_baseline_weight": 1
+      }
+    },
+    {
+      "id": "rmse-d3-p0.75-r0",
+      "mean_mae": 3.685481115961283,
+      "mean_brier": 0.10513330433440006,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.459090909090909,
+          "brier": 0.10563078541066216
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.9318181818181817,
+          "brier": 0.12464175566901328
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.772727272727273,
+          "brier": 0.10152683225267202
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.578288100208768,
+          "brier": 0.08873384400525279
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 166,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.75,
+        "risk_baseline_weight": 0
+      }
+    },
+    {
+      "id": "rmse-d3-p0.75-r0.25",
+      "mean_mae": 3.6797992977794647,
+      "mean_brier": 0.10528376396262737,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.459090909090909,
+          "brier": 0.10571502919843209
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.909090909090909,
+          "brier": 0.12497613083022505
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.772727272727273,
+          "brier": 0.10158181742475524
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.578288100208768,
+          "brier": 0.08886207839709709
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 166,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.75,
+        "risk_baseline_weight": 0.25
+      }
+    },
+    {
+      "id": "rmse-d3-p0.75-r0.5",
+      "mean_mae": 3.6969372746251663,
+      "mean_brier": 0.10593315125656308,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.5045454545454544,
+          "brier": 0.10629763348449976
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.922727272727273,
+          "brier": 0.12592656959117332
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.786363636363636,
+          "brier": 0.10216494754889933
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5741127348643005,
+          "brier": 0.08934345440167993
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 166,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.75,
+        "risk_baseline_weight": 0.5
+      }
+    },
+    {
+      "id": "rmse-d3-p0.75-r0.75",
+      "mean_mae": 3.683182292655153,
+      "mean_brier": 0.10708146621620726,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.5,
+          "brier": 0.10737859826886517
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.9136363636363636,
+          "brier": 0.12749307195185816
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.790909090909091,
+          "brier": 0.10327622262510436
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.528183716075157,
+          "brier": 0.09017797201900137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 166,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.75,
+        "risk_baseline_weight": 0.75
+      }
+    },
+    {
+      "id": "rmse-d3-p0.75-r1",
+      "mean_mae": 3.7200346365534256,
+      "mean_brier": 0.10872870884155988,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.536363636363636,
+          "brier": 0.10895792355152832
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.940909090909091,
+          "brier": 0.12967563791227957
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.8454545454545452,
+          "brier": 0.10491564265337025
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.55741127348643,
+          "brier": 0.09136563124906137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 166,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.75,
+        "risk_baseline_weight": 1
+      }
+    },
+    {
+      "id": "mae-d3-p0-r0",
+      "mean_mae": 3.6531742266084644,
+      "mean_brier": 0.10513330433440006,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.4681818181818183,
+          "brier": 0.10563078541066216
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8454545454545452,
+          "brier": 0.12464175566901328
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.75,
+          "brier": 0.10152683225267202
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.549060542797495,
+          "brier": 0.08873384400525279
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression_l1",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 71,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0,
+        "risk_baseline_weight": 0
+      }
+    },
+    {
+      "id": "mae-d3-p0-r0.25",
+      "mean_mae": 3.6498576579996205,
+      "mean_brier": 0.10528376396262737,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.4681818181818183,
+          "brier": 0.10571502919843209
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.840909090909091,
+          "brier": 0.12497613083022505
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7454545454545456,
+          "brier": 0.10158181742475524
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5448851774530272,
+          "brier": 0.08886207839709709
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression_l1",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 71,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0,
+        "risk_baseline_weight": 0.25
+      }
+    },
+    {
+      "id": "mae-d3-p0-r0.5",
+      "mean_mae": 3.6610362497627635,
+      "mean_brier": 0.10593315125656308,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.5090909090909093,
+          "brier": 0.10629763348449976
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8363636363636364,
+          "brier": 0.12592656959117332
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7454545454545456,
+          "brier": 0.10216494754889933
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5532359081419624,
+          "brier": 0.08934345440167993
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression_l1",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 71,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0,
+        "risk_baseline_weight": 0.5
+      }
+    },
+    {
+      "id": "mae-d3-p0-r0.75",
+      "mean_mae": 3.652315429872841,
+      "mean_brier": 0.10708146621620726,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.5,
+          "brier": 0.10737859826886517
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8227272727272728,
+          "brier": 0.12749307195185816
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.75,
+          "brier": 0.10327622262510436
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.536534446764092,
+          "brier": 0.09017797201900137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression_l1",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 71,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0,
+        "risk_baseline_weight": 0.75
+      }
+    },
+    {
+      "id": "mae-d3-p0-r1",
+      "mean_mae": 3.655143290947049,
+      "mean_brier": 0.10872870884155988,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.536363636363636,
+          "brier": 0.10895792355152832
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.809090909090909,
+          "brier": 0.12967563791227957
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7636363636363637,
+          "brier": 0.10491564265337025
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.511482254697286,
+          "brier": 0.09136563124906137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression_l1",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 71,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0,
+        "risk_baseline_weight": 1
+      }
+    },
+    {
+      "id": "mae-d3-p0.25-r0",
+      "mean_mae": 3.6324160182197764,
+      "mean_brier": 0.10513330433440006,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.422727272727273,
+          "brier": 0.10563078541066216
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8363636363636364,
+          "brier": 0.12464175566901328
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7590909090909093,
+          "brier": 0.10152683225267202
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.511482254697286,
+          "brier": 0.08873384400525279
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression_l1",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 71,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.25,
+        "risk_baseline_weight": 0
+      }
+    },
+    {
+      "id": "mae-d3-p0.25-r0.25",
+      "mean_mae": 3.629006927310685,
+      "mean_brier": 0.10528376396262737,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.422727272727273,
+          "brier": 0.10571502919843209
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.831818181818182,
+          "brier": 0.12497613083022505
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.75,
+          "brier": 0.10158181742475524
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.511482254697286,
+          "brier": 0.08886207839709709
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression_l1",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 71,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.25,
+        "risk_baseline_weight": 0.25
+      }
+    },
+    {
+      "id": "mae-d3-p0.25-r0.5",
+      "mean_mae": 3.639234200037958,
+      "mean_brier": 0.10593315125656308,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.459090909090909,
+          "brier": 0.10629763348449976
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.827272727272727,
+          "brier": 0.12592656959117332
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7590909090909093,
+          "brier": 0.10216494754889933
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.511482254697286,
+          "brier": 0.08934345440167993
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression_l1",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 71,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.25,
+        "risk_baseline_weight": 0.5
+      }
+    },
+    {
+      "id": "mae-d3-p0.25-r0.75",
+      "mean_mae": 3.6346887454925034,
+      "mean_brier": 0.10708146621620726,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.4454545454545453,
+          "brier": 0.10737859826886517
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8227272727272728,
+          "brier": 0.12749307195185816
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7590909090909093,
+          "brier": 0.10327622262510436
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.511482254697286,
+          "brier": 0.09017797201900137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression_l1",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 71,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.25,
+        "risk_baseline_weight": 0.75
+      }
+    },
+    {
+      "id": "mae-d3-p0.25-r1",
+      "mean_mae": 3.664907952173088,
+      "mean_brier": 0.10872870884155988,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.5272727272727273,
+          "brier": 0.10895792355152832
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8181818181818183,
+          "brier": 0.12967563791227957
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7818181818181817,
+          "brier": 0.10491564265337025
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5323590814196244,
+          "brier": 0.09136563124906137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression_l1",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 71,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.25,
+        "risk_baseline_weight": 1
+      }
+    },
+    {
+      "id": "mae-d3-p0.5-r0",
+      "mean_mae": 3.672214841525906,
+      "mean_brier": 0.10513330433440006,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.463636363636364,
+          "brier": 0.10563078541066216
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.881818181818182,
+          "brier": 0.12464175566901328
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7818181818181817,
+          "brier": 0.10152683225267202
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5615866388308977,
+          "brier": 0.08873384400525279
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression_l1",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 71,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.5,
+        "risk_baseline_weight": 0
+      }
+    },
+    {
+      "id": "mae-d3-p0.5-r0.25",
+      "mean_mae": 3.6688057506168152,
+      "mean_brier": 0.10528376396262737,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.463636363636364,
+          "brier": 0.10571502919843209
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.868181818181818,
+          "brier": 0.12497613083022505
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7818181818181817,
+          "brier": 0.10158181742475524
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5615866388308977,
+          "brier": 0.08886207839709709
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression_l1",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 71,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.5,
+        "risk_baseline_weight": 0.25
+      }
+    },
+    {
+      "id": "mae-d3-p0.5-r0.5",
+      "mean_mae": 3.677989182007971,
+      "mean_brier": 0.10593315125656308,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.5090909090909093,
+          "brier": 0.10629763348449976
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8545454545454545,
+          "brier": 0.12592656959117332
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.790909090909091,
+          "brier": 0.10216494754889933
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.55741127348643,
+          "brier": 0.08934345440167993
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression_l1",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 71,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.5,
+        "risk_baseline_weight": 0.5
+      }
+    },
+    {
+      "id": "mae-d3-p0.5-r0.75",
+      "mean_mae": 3.677130385272348,
+      "mean_brier": 0.10708146621620726,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.5045454545454544,
+          "brier": 0.10737859826886517
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8545454545454545,
+          "brier": 0.12749307195185816
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.8045454545454547,
+          "brier": 0.10327622262510436
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5448851774530272,
+          "brier": 0.09017797201900137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression_l1",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 71,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.5,
+        "risk_baseline_weight": 0.75
+      }
+    },
+    {
+      "id": "mae-d3-p0.5-r1",
+      "mean_mae": 3.7115249572974,
+      "mean_brier": 0.10872870884155988,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.55,
+          "brier": 0.10895792355152832
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8636363636363638,
+          "brier": 0.12967563791227957
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.85,
+          "brier": 0.10491564265337025
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5824634655532357,
+          "brier": 0.09136563124906137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression_l1",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 71,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.5,
+        "risk_baseline_weight": 1
+      }
+    },
+    {
+      "id": "mae-d3-p0.75-r0",
+      "mean_mae": 3.6972148415259065,
+      "mean_brier": 0.10513330433440006,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.5,
+          "brier": 0.10563078541066216
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.9545454545454546,
+          "brier": 0.12464175566901328
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.772727272727273,
+          "brier": 0.10152683225267202
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5615866388308977,
+          "brier": 0.08873384400525279
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression_l1",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 71,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.75,
+        "risk_baseline_weight": 0
+      }
+    },
+    {
+      "id": "mae-d3-p0.75-r0.25",
+      "mean_mae": 3.6903966597077242,
+      "mean_brier": 0.10528376396262737,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.5,
+          "brier": 0.10571502919843209
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.9318181818181817,
+          "brier": 0.12497613083022505
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.768181818181818,
+          "brier": 0.10158181742475524
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5615866388308977,
+          "brier": 0.08886207839709709
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression_l1",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 71,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.75,
+        "risk_baseline_weight": 0.25
+      }
+    },
+    {
+      "id": "mae-d3-p0.75-r0.5",
+      "mean_mae": 3.7028966597077244,
+      "mean_brier": 0.10593315125656308,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.5454545454545454,
+          "brier": 0.10629763348449976
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.940909090909091,
+          "brier": 0.12592656959117332
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7636363636363637,
+          "brier": 0.10216494754889933
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5615866388308977,
+          "brier": 0.08934345440167993
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression_l1",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 71,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.75,
+        "risk_baseline_weight": 0.5
+      }
+    },
+    {
+      "id": "mae-d3-p0.75-r0.75",
+      "mean_mae": 3.6889566331372174,
+      "mean_brier": 0.10708146621620726,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.536363636363636,
+          "brier": 0.10737859826886517
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.918181818181818,
+          "brier": 0.12749307195185816
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7772727272727273,
+          "brier": 0.10327622262510436
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5240083507306887,
+          "brier": 0.09017797201900137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression_l1",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 71,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.75,
+        "risk_baseline_weight": 0.75
+      }
+    },
+    {
+      "id": "mae-d3-p0.75-r1",
+      "mean_mae": 3.716810590244828,
+      "mean_brier": 0.10872870884155988,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.5636363636363635,
+          "brier": 0.10895792355152832
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.9272727272727272,
+          "brier": 0.12967563791227957
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.827272727272727,
+          "brier": 0.10491564265337025
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.549060542797495,
+          "brier": 0.09136563124906137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression_l1",
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 40,
+          "lambda_l2": 12
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 71,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.75,
+        "risk_baseline_weight": 1
+      }
+    },
+    {
+      "id": "rmse-conservative-p0-r0",
+      "mean_mae": 3.6912815524767506,
+      "mean_brier": 0.10513330433440006,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.4727272727272727,
+          "brier": 0.10563078541066216
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.9045454545454548,
+          "brier": 0.12464175566901328
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7636363636363637,
+          "brier": 0.10152683225267202
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.624217118997912,
+          "brier": 0.08873384400525279
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 2,
+          "num_leaves": 3,
+          "min_data_in_leaf": 80,
+          "lambda_l2": 30
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 289,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0,
+        "risk_baseline_weight": 0
+      }
+    },
+    {
+      "id": "rmse-conservative-p0-r0.25",
+      "mean_mae": 3.6833270070222053,
+      "mean_brier": 0.10528376396262737,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.459090909090909,
+          "brier": 0.10571502919843209
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8954545454545455,
+          "brier": 0.12497613083022505
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7545454545454544,
+          "brier": 0.10158181742475524
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.624217118997912,
+          "brier": 0.08886207839709709
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 2,
+          "num_leaves": 3,
+          "min_data_in_leaf": 80,
+          "lambda_l2": 30
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 289,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0,
+        "risk_baseline_weight": 0.25
+      }
+    },
+    {
+      "id": "rmse-conservative-p0-r0.5",
+      "mean_mae": 3.6892863921047634,
+      "mean_brier": 0.10593315125656308,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.477272727272727,
+          "brier": 0.10629763348449976
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.9136363636363636,
+          "brier": 0.12592656959117332
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7545454545454544,
+          "brier": 0.10216494754889933
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.6116910229645094,
+          "brier": 0.08934345440167993
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 2,
+          "num_leaves": 3,
+          "min_data_in_leaf": 80,
+          "lambda_l2": 30
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 289,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0,
+        "risk_baseline_weight": 0.5
+      }
+    },
+    {
+      "id": "rmse-conservative-p0-r0.75",
+      "mean_mae": 3.697148415259062,
+      "mean_brier": 0.10708146621620726,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.477272727272727,
+          "brier": 0.10737859826886517
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.918181818181818,
+          "brier": 0.12749307195185816
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7772727272727273,
+          "brier": 0.10327622262510436
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.615866388308977,
+          "brier": 0.09017797201900137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 2,
+          "num_leaves": 3,
+          "min_data_in_leaf": 80,
+          "lambda_l2": 30
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 289,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0,
+        "risk_baseline_weight": 0.75
+      }
+    },
+    {
+      "id": "rmse-conservative-p0-r1",
+      "mean_mae": 3.6896564813057506,
+      "mean_brier": 0.10872870884155988,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.4954545454545456,
+          "brier": 0.10895792355152832
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.890909090909091,
+          "brier": 0.12967563791227957
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7772727272727273,
+          "brier": 0.10491564265337025
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.594989561586639,
+          "brier": 0.09136563124906137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 2,
+          "num_leaves": 3,
+          "min_data_in_leaf": 80,
+          "lambda_l2": 30
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 289,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0,
+        "risk_baseline_weight": 1
+      }
+    },
+    {
+      "id": "rmse-conservative-p0.25-r0",
+      "mean_mae": 3.6377277472006075,
+      "mean_brier": 0.10513330433440006,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.418181818181818,
+          "brier": 0.10563078541066216
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.868181818181818,
+          "brier": 0.12464175566901328
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7363636363636363,
+          "brier": 0.10152683225267202
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.528183716075157,
+          "brier": 0.08873384400525279
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 2,
+          "num_leaves": 3,
+          "min_data_in_leaf": 80,
+          "lambda_l2": 30
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 289,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.25,
+        "risk_baseline_weight": 0
+      }
+    },
+    {
+      "id": "rmse-conservative-p0.25-r0.25",
+      "mean_mae": 3.6309095653824257,
+      "mean_brier": 0.10528376396262737,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.4136363636363636,
+          "brier": 0.10571502919843209
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.859090909090909,
+          "brier": 0.12497613083022505
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7227272727272727,
+          "brier": 0.10158181742475524
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.528183716075157,
+          "brier": 0.08886207839709709
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 2,
+          "num_leaves": 3,
+          "min_data_in_leaf": 80,
+          "lambda_l2": 30
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 289,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.25,
+        "risk_baseline_weight": 0.25
+      }
+    },
+    {
+      "id": "rmse-conservative-p0.25-r0.5",
+      "mean_mae": 3.6423657240463085,
+      "mean_brier": 0.10593315125656308,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.4363636363636365,
+          "brier": 0.10629763348449976
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.868181818181818,
+          "brier": 0.12592656959117332
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7409090909090907,
+          "brier": 0.10216494754889933
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5240083507306887,
+          "brier": 0.08934345440167993
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 2,
+          "num_leaves": 3,
+          "min_data_in_leaf": 80,
+          "lambda_l2": 30
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 289,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.25,
+        "risk_baseline_weight": 0.5
+      }
+    },
+    {
+      "id": "rmse-conservative-p0.25-r0.75",
+      "mean_mae": 3.6481400645283735,
+      "mean_brier": 0.10708146621620726,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.440909090909091,
+          "brier": 0.10737859826886517
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8863636363636362,
+          "brier": 0.12749307195185816
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7454545454545456,
+          "brier": 0.10327622262510436
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.519832985386221,
+          "brier": 0.09017797201900137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 2,
+          "num_leaves": 3,
+          "min_data_in_leaf": 80,
+          "lambda_l2": 30
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 289,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.25,
+        "risk_baseline_weight": 0.75
+      }
+    },
+    {
+      "id": "rmse-conservative-p0.25-r1",
+      "mean_mae": 3.6671806794458153,
+      "mean_brier": 0.10872870884155988,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.4954545454545456,
+          "brier": 0.10895792355152832
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.868181818181818,
+          "brier": 0.12967563791227957
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.772727272727273,
+          "brier": 0.10491564265337025
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5323590814196244,
+          "brier": 0.09136563124906137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 2,
+          "num_leaves": 3,
+          "min_data_in_leaf": 80,
+          "lambda_l2": 30
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 289,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.25,
+        "risk_baseline_weight": 1
+      }
+    },
+    {
+      "id": "rmse-conservative-p0.5-r0",
+      "mean_mae": 3.6501352249003607,
+      "mean_brier": 0.10513330433440006,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.4318181818181817,
+          "brier": 0.10563078541066216
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8545454545454545,
+          "brier": 0.12464175566901328
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7818181818181817,
+          "brier": 0.10152683225267202
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5323590814196244,
+          "brier": 0.08873384400525279
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 2,
+          "num_leaves": 3,
+          "min_data_in_leaf": 80,
+          "lambda_l2": 30
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 289,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.5,
+        "risk_baseline_weight": 0
+      }
+    },
+    {
+      "id": "rmse-conservative-p0.5-r0.25",
+      "mean_mae": 3.6421806794458154,
+      "mean_brier": 0.10528376396262737,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.4318181818181817,
+          "brier": 0.10571502919843209
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.831818181818182,
+          "brier": 0.12497613083022505
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.772727272727273,
+          "brier": 0.10158181742475524
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5323590814196244,
+          "brier": 0.08886207839709709
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 2,
+          "num_leaves": 3,
+          "min_data_in_leaf": 80,
+          "lambda_l2": 30
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 289,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.5,
+        "risk_baseline_weight": 0.25
+      }
+    },
+    {
+      "id": "rmse-conservative-p0.5-r0.5",
+      "mean_mae": 3.6637715885367244,
+      "mean_brier": 0.10593315125656308,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.477272727272727,
+          "brier": 0.10629763348449976
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8545454545454545,
+          "brier": 0.12592656959117332
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.790909090909091,
+          "brier": 0.10216494754889933
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5323590814196244,
+          "brier": 0.08934345440167993
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 2,
+          "num_leaves": 3,
+          "min_data_in_leaf": 80,
+          "lambda_l2": 30
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 289,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.5,
+        "risk_baseline_weight": 0.5
+      }
+    },
+    {
+      "id": "rmse-conservative-p0.5-r0.75",
+      "mean_mae": 3.6538218827101914,
+      "mean_brier": 0.10708146621620726,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.4727272727272727,
+          "brier": 0.10737859826886517
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8363636363636364,
+          "brier": 0.12749307195185816
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.786363636363636,
+          "brier": 0.10327622262510436
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.519832985386221,
+          "brier": 0.09017797201900137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 2,
+          "num_leaves": 3,
+          "min_data_in_leaf": 80,
+          "lambda_l2": 30
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 289,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.5,
+        "risk_baseline_weight": 0.75
+      }
+    },
+    {
+      "id": "rmse-conservative-p0.5-r1",
+      "mean_mae": 3.6825346365534255,
+      "mean_brier": 0.10872870884155988,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.518181818181818,
+          "brier": 0.10895792355152832
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8363636363636364,
+          "brier": 0.12967563791227957
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.8181818181818183,
+          "brier": 0.10491564265337025
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.55741127348643,
+          "brier": 0.09136563124906137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 2,
+          "num_leaves": 3,
+          "min_data_in_leaf": 80,
+          "lambda_l2": 30
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 289,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.5,
+        "risk_baseline_weight": 1
+      }
+    },
+    {
+      "id": "rmse-conservative-p0.75-r0",
+      "mean_mae": 3.695153254887075,
+      "mean_brier": 0.10513330433440006,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.477272727272727,
+          "brier": 0.10563078541066216
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.9318181818181817,
+          "brier": 0.12464175566901328
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.768181818181818,
+          "brier": 0.10152683225267202
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.603340292275574,
+          "brier": 0.08873384400525279
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 2,
+          "num_leaves": 3,
+          "min_data_in_leaf": 80,
+          "lambda_l2": 30
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 289,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.75,
+        "risk_baseline_weight": 0
+      }
+    },
+    {
+      "id": "rmse-conservative-p0.75-r0.25",
+      "mean_mae": 3.6883350730688935,
+      "mean_brier": 0.10528376396262737,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.477272727272727,
+          "brier": 0.10571502919843209
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.9045454545454548,
+          "brier": 0.12497613083022505
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.768181818181818,
+          "brier": 0.10158181742475524
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.603340292275574,
+          "brier": 0.08886207839709709
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 2,
+          "num_leaves": 3,
+          "min_data_in_leaf": 80,
+          "lambda_l2": 30
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 289,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.75,
+        "risk_baseline_weight": 0.25
+      }
+    },
+    {
+      "id": "rmse-conservative-p0.75-r0.5",
+      "mean_mae": 3.698654868096413,
+      "mean_brier": 0.10593315125656308,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.522727272727273,
+          "brier": 0.10629763348449976
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8954545454545455,
+          "brier": 0.12592656959117332
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.7772727272727273,
+          "brier": 0.10216494754889933
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5991649269311066,
+          "brier": 0.08934345440167993
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 2,
+          "num_leaves": 3,
+          "min_data_in_leaf": 80,
+          "lambda_l2": 30
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 289,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.75,
+        "risk_baseline_weight": 0.5
+      }
+    },
+    {
+      "id": "rmse-conservative-p0.75-r0.75",
+      "mean_mae": 3.690674226608465,
+      "mean_brier": 0.10708146621620726,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.518181818181818,
+          "brier": 0.10737859826886517
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.8954545454545455,
+          "brier": 0.12749307195185816
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.8,
+          "brier": 0.10327622262510436
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.549060542797495,
+          "brier": 0.09017797201900137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 2,
+          "num_leaves": 3,
+          "min_data_in_leaf": 80,
+          "lambda_l2": 30
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 289,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.75,
+        "risk_baseline_weight": 0.75
+      }
+    },
+    {
+      "id": "rmse-conservative-p0.75-r1",
+      "mean_mae": 3.7183431391155817,
+      "mean_brier": 0.10872870884155988,
+      "folds": [
+        {
+          "years": [
+            2019,
+            2020,
+            2021
+          ],
+          "mae": 3.540909090909091,
+          "brier": 0.10895792355152832
+        },
+        {
+          "years": [
+            2020,
+            2021,
+            2022
+          ],
+          "mae": 3.922727272727273,
+          "brier": 0.12967563791227957
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "mae": 3.827272727272727,
+          "brier": 0.10491564265337025
+        },
+        {
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "mae": 3.5824634655532357,
+          "brier": 0.09136563124906137
+        }
+      ],
+      "settings": {
+        "pace": {
+          "objective": "regression",
+          "max_depth": 2,
+          "num_leaves": 3,
+          "min_data_in_leaf": 80,
+          "lambda_l2": 30
+        },
+        "risk": {
+          "max_depth": 3,
+          "num_leaves": 7,
+          "min_data_in_leaf": 30,
+          "lambda_l2": 8
+        },
+        "pace_rounds": 289,
+        "risk_rounds": 12,
+        "year_decay": 1.0,
+        "risk_year_decay": 0.9,
+        "pace_baseline_weight": 0.75,
+        "risk_baseline_weight": 1
+      }
+    }
+  ],
+  "selected": {
+    "pace": {
+      "objective": "regression",
+      "max_depth": 3,
+      "num_leaves": 7,
+      "min_data_in_leaf": 40,
+      "lambda_l2": 12
+    },
+    "risk": {
+      "max_depth": 3,
+      "num_leaves": 7,
+      "min_data_in_leaf": 30,
+      "lambda_l2": 8
+    },
+    "pace_rounds": 166,
+    "risk_rounds": 12,
+    "year_decay": 1.0,
+    "risk_year_decay": 0.9,
+    "pace_baseline_weight": 0.25,
+    "risk_baseline_weight": 0.25
+  },
+  "audit_used_for_selection": false,
+  "criterion": "Mean fold rank MAE; then Brier; then ID",
+  "limitations": [
+    "Repeated development on these earlier years is not independent validation.",
+    "Pace blend uses at least 25% learned model; no pure baseline candidate.",
+    "Classification rank MAE is distinct from season simulation calibration."
+  ]
+}

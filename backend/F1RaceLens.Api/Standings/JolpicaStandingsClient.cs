@@ -5,7 +5,7 @@ namespace F1RaceLens.Api.Standings;
 
 public sealed class JolpicaStandingsClient(IHttpClientFactory clients)
 {
-    public async Task<SeasonStandings> FetchAsync(string season, string kind, CancellationToken cancellationToken)
+    public async Task<SeasonStandings> FetchAsync(string season, string kind, CancellationToken cancellationToken, int? snapshotRound = null)
     {
         var (path, field) = kind switch
         {
@@ -22,7 +22,8 @@ public sealed class JolpicaStandingsClient(IHttpClientFactory clients)
             int? resultRound = null;
             while (true)
             {
-                using var response = await client.GetAsync($"{season}/{path}.json?limit=100&offset={rows.Count}", cancellationToken);
+                var prefix = snapshotRound is null ? season : $"{season}/{snapshotRound}";
+                using var response = await client.GetAsync($"{prefix}/{path}.json?limit=100&offset={rows.Count}", cancellationToken);
                 response.EnsureSuccessStatusCode();
                 using var document = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync(cancellationToken), cancellationToken: cancellationToken);
                 var data = document.RootElement.GetProperty("MRData");
@@ -33,6 +34,7 @@ public sealed class JolpicaStandingsClient(IHttpClientFactory clients)
                 var table = data.GetProperty("StandingsTable");
                 var year = Number(table, "season");
                 var round = OptionalNumber(table, "round");
+                if (snapshotRound is not null && round != snapshotRound) throw new FormatException("Unexpected snapshot round.");
                 if (year < 1950 || (season != "current" && year.ToString(CultureInfo.InvariantCulture) != season)
                     || (resultSeason is not null && (year != resultSeason || round != resultRound)))
                     throw new FormatException("Unexpected standings season or round.");

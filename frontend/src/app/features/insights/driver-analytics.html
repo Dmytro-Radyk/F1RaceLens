@@ -1,0 +1,336 @@
+<div class="schedule-page">
+  <app-season-picker
+    [year]="season.year()"
+    [valid]="season.valid()"
+    (yearChange)="season.select($event)"
+  />
+  @if (!season.valid()) {
+    <section class="feedback-panel" role="alert">
+      <h2>Сезон не знайдено</h2>
+      <p>Виберіть рік зі списку.</p>
+    </section>
+  } @else if (drivers.isLoading()) {
+    <p role="status">Завантажуємо пілотів сезону…</p>
+  } @else if (drivers.error()) {
+    <section class="feedback-panel" role="alert">
+      <h2>Не вдалося завантажити пілотів</h2>
+      <button class="primary-link" type="button" (click)="drivers.reload()">
+        Спробувати ще раз
+      </button>
+    </section>
+  } @else if (drivers.hasValue()) {
+    @let list = drivers.value();
+    <div class="season-heading">
+      <div>
+        <p class="section-eyebrow">ФОРМА · ФІНІШІ · ЗМІНА ПОЗИЦІЙ</p>
+        <h2>
+          Аналітика <span>{{ list.season }}</span>
+        </h2>
+      </div>
+      <p class="note">Статистика гонок без прогнозів і вигаданих результатів.</p>
+    </div>
+    @if (list.entries.length) {
+      <section class="analytics-picker" aria-label="Параметри аналітики">
+        <label for="analytics-driver"
+          >Пілот<select
+            id="analytics-driver"
+            [value]="driverId()"
+            (change)="select('driver', $event)"
+          >
+            <option value="">Виберіть пілота</option>
+            @for (driver of list.entries; track driver.id) {
+              <option [value]="driver.id" [selected]="driver.id === driverId()">
+                {{ driver.name }}
+              </option>
+            }
+          </select></label
+        >
+        <label for="analytics-window"
+          >Відрізок<select
+            id="analytics-window"
+            [value]="window()"
+            (change)="select('window', $event)"
+          >
+            <option value="5" [selected]="window() === 5">Останні 5 етапів участі</option>
+            <option value="10" [selected]="window() === 10">Останні 10 етапів участі</option>
+          </select></label
+        >
+      </section>
+      @if (!driverId()) {
+        <section class="feedback-panel" role="status">
+          <h2>Виберіть пілота цього сезону</h2>
+          <p>Попереднього пілота може не бути в заліку вибраного року.</p>
+        </section>
+      } @else if (profile.isLoading()) {
+        <p role="status">Розраховуємо показники за результатами гонок…</p>
+      } @else if (profile.error()) {
+        <section class="feedback-panel" role="alert">
+          <h2>Не вдалося завантажити аналітику</h2>
+          <button class="primary-link" type="button" (click)="profile.reload()">
+            Повторити завантаження профілю
+          </button>
+        </section>
+      } @else if (profile.hasValue()) {
+        @let pilot = profile.value();
+        @if (analytics(); as data) {
+          <section class="panel driver-heading">
+            <div>
+              <p class="section-eyebrow">ОБРАНИЙ ПІЛОТ</p>
+              <h2>{{ pilot.driver.name }}</h2>
+              <p class="note">{{ pilot.standing?.teams?.join(' · ') || 'Команда не вказана' }}</p>
+            </div>
+            <a
+              class="primary-link"
+              [routerLink]="['/drivers', pilot.driver.id]"
+              [queryParams]="{ season: list.season }"
+              >Профіль пілота ↗</a
+            >
+          </section>
+          @if (data.recent.recorded) {
+            <p class="note period-note">
+              Останні {{ data.recent.recorded }} із {{ window() }} запитаних етапів участі, де
+              джерело має записи. Пропущені гонки календаря не додаються як нульові результати.
+            </p>
+            <dl class="metric-grid">
+              <div>
+                <dt>Середній фактичний фініш</dt>
+                <dd>
+                  {{ number(data.recent.average) }}
+                  <p>За {{ data.recent.finishes }} фінішами · менше — краще</p>
+                </dd>
+              </div>
+              <div>
+                <dt>Фактичні фініші</dt>
+                <dd>
+                  {{ data.recent.finishes }} / {{ data.recent.eligible }}
+                  <p>Серед етапів з одним записом</p>
+                </dd>
+              </div>
+              <div>
+                <dt>Середня зміна позиції</dt>
+                <dd>
+                  {{ signed(data.recent.averageGain) }}
+                  <p>За {{ data.recent.gainSample }} фінішами з відомим стартом</p>
+                </dd>
+              </div>
+              <div>
+                <dt>Найкращий фініш відрізка</dt>
+                <dd>
+                  {{ number(data.recent.best) }}
+                  <p>Місце за фактичним фінішем</p>
+                </dd>
+              </div>
+            </dl>
+            <section class="panel" aria-labelledby="insights-heading">
+              <p class="section-eyebrow">ЩО ПОКАЗУЮТЬ ДАНІ</p>
+              <h2 id="insights-heading">Короткі висновки</h2>
+              <ul class="insight-list">
+                <li>
+                  На цьому відрізку: {{ data.recent.finishes }} фактичних фінішів;
+                  {{ data.recent.otherStatuses }} записів з іншими або невідомими статусами. Не
+                  кожен такий статус означає технічний схід.
+                </li>
+                @if (data.recent.averageGain !== null) {
+                  <li>
+                    @if (data.recent.averageGain > 0) {
+                      На фініші пілот у середньому відігравав
+                      {{ number(data.recent.averageGain) }} позиції від старту.
+                    } @else if (data.recent.averageGain < 0) {
+                      На фініші пілот у середньому втрачав
+                      {{ number(-data.recent.averageGain) }} позиції від старту.
+                    } @else {
+                      Середня зміна позиції від старту до фінішу — нуль.
+                    }
+                    Це зміна позиції, а не кількість обгонів.
+                  </li>
+                } @else {
+                  <li>
+                    Для зміни позицій бракує фактичних фінішів із відомою додатною стартовою
+                    позицією.
+                  </li>
+                }
+                @if (data.improvement !== null) {
+                  <li>
+                    @if (data.improvement > 0) {
+                      Середній фініш кращий за попередні {{ window() }} етапів участі на
+                      {{ number(data.improvement) }} позиції.
+                    } @else if (data.improvement < 0) {
+                      Середній фініш гірший за попередні {{ window() }} етапів участі на
+                      {{ number(-data.improvement) }} позиції.
+                    } @else {
+                      Середній фініш збігається з попереднім відрізком.
+                    }
+                    Різні траси та кількість фінішів впливають на порівняння; це не оцінка швидкості
+                    машини.
+                  </li>
+                } @else {
+                  <li>
+                    Висновок про зміну середнього фінішу недоступний: потрібні два повні відрізки по
+                    {{ window() }} етапів із щонайменше трьома фактичними фінішами в кожному.
+                  </li>
+                }
+                @if (data.recent.ambiguous) {
+                  <li>
+                    {{ data.recent.ambiguous }} етапів мають кілька історичних записів. Їх виключено
+                    з агрегатів; усі результати залишені в таблиці.
+                  </li>
+                }
+              </ul>
+            </section>
+            <section class="panel">
+              <h2>Поточний і попередній відрізки</h2>
+              <div
+                class="table-scroll"
+                role="region"
+                tabindex="0"
+                aria-label="Порівняння відрізків форми"
+              >
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Показник</th>
+                      <th scope="col">Останній відрізок</th>
+                      <th scope="col">Попередній відрізок</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Етапів із записами</th>
+                      <td>{{ data.recent.recorded }}</td>
+                      <td>{{ data.previous.recorded }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Фактичні фініші / однозначні етапи</th>
+                      <td>{{ data.recent.finishes }} / {{ data.recent.eligible }}</td>
+                      <td>{{ data.previous.finishes }} / {{ data.previous.eligible }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Середня фінішна позиція</th>
+                      <td>{{ number(data.recent.average) }}</td>
+                      <td>{{ number(data.previous.average) }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Середня зміна позиції</th>
+                      <td>
+                        {{ signed(data.recent.averageGain) }} ({{ data.recent.gainSample }} записів)
+                      </td>
+                      <td>
+                        {{ signed(data.previous.averageGain) }} ({{ data.previous.gainSample }}
+                        записів)
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+            <section class="panel" aria-labelledby="gain-heading">
+              <h2 id="gain-heading">Від старту до фінішу</h2>
+              <p class="note">
+                Праворуч — відіграні позиції, ліворуч — втрачені. «—» означає, що зміна не
+                розраховується. Етапи наведені від найновішого.
+              </p>
+              <div class="gain-chart" role="list" aria-label="Зміна позицій за останніми етапами">
+                @for (row of data.recent.events; track row.round) {
+                  <div class="gain-row" role="listitem">
+                    <span>Етап {{ row.round }}</span>
+                    <div class="gain-track" aria-hidden="true">
+                      <span class="zero-line"></span>
+                      @if (row.gain !== null) {
+                        <span
+                          class="gain-bar"
+                          [class.loss]="row.gain < 0"
+                          [style.width.%]="
+                            (50 * (row.gain < 0 ? -row.gain : row.gain)) / data.scale
+                          "
+                        ></span>
+                      }
+                    </div>
+                    <strong>{{ signed(row.gain) }}</strong>
+                  </div>
+                }
+              </div>
+            </section>
+            <section class="panel">
+              <h2>Результати останнього відрізка</h2>
+              <div
+                class="table-scroll"
+                role="region"
+                tabindex="0"
+                aria-label="Результати аналітичного відрізка"
+              >
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Гран-прі</th>
+                      <th scope="col">Старт</th>
+                      <th scope="col">Результат і статус</th>
+                      <th scope="col">Зміна позиції</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (row of data.recent.events; track row.round) {
+                      <tr>
+                        <th scope="row">
+                          <a
+                            [routerLink]="['/calendar', list.season, row.round]"
+                            [queryParams]="{ session: 'race' }"
+                            >{{ row.round }} · {{ row.name }}</a
+                          >
+                        </th>
+                        <td>
+                          @for (race of row.entries; track $index) {
+                            <span class="entry-line">{{
+                              race.result.grid === 0 ? '0*' : number(race.result.grid)
+                            }}</span>
+                          }
+                        </td>
+                        <td>
+                          {{ resultLabel(row.entries) }}
+                          @if (!row.unique) {
+                            <span class="entry-line note">Кілька записів — поза агрегатами</span>
+                          }
+                        </td>
+                        <td>{{ signed(row.gain) }}</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+              <p class="note">
+                0* — старт із піт-лейну або невизначений старт за даними джерела. Для зміни позицій
+                він не використовується.
+              </p>
+            </section>
+            <section class="panel methodology">
+              <h2>Як рахуємо</h2>
+              <p class="note">
+                Фініш — статус Finished або відставання на кола. Сходи, дискваліфікації та невідомі
+                статуси не перетворюються на останнє місце. Зміна позиції = старт мінус фініш, лише
+                для фактичного фінішу з відомим стартом понад нуль. Кілька записів одного етапу
+                виключаються з агрегатів. Спринти та кваліфікації в ці розрахунки не входять.
+              </p>
+            </section>
+          } @else {
+            <section class="feedback-panel">
+              <h2>Немає результатів для аналітики</h2>
+              <p>Джерело ще не надало гонок цього пілота за вибраний сезон.</p>
+            </section>
+          }
+          <app-source-note
+            [metadata]="pilot"
+            staleMessage="Аналітика розрахована зі збереженого профілю. Дані можуть бути застарілими."
+          />
+        }
+      }
+    } @else {
+      <section class="feedback-panel">
+        <h2>Список пілотів недоступний</h2>
+        <p>Виберіть інший сезон.</p>
+      </section>
+    }
+    <app-source-note
+      [metadata]="list"
+      staleMessage="Показуємо збережений список для вибору пілота."
+    />
+  }
+</div>

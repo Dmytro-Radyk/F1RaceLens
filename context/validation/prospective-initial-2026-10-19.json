@@ -1,0 +1,74 @@
+{
+  "generated": "2026-10-19T12:39:29.101375+00:00",
+  "rows": [
+    {
+      "season": 2026,
+      "round": 18,
+      "name": "United States Grand Prix",
+      "model": "lightgbm-race-v4",
+      "stage": "pre-weekend",
+      "frozen_at": "2026-10-19T12:35:43.490195+00:00",
+      "status": "pending"
+    },
+    {
+      "season": 2026,
+      "round": 19,
+      "name": "Mexico City Grand Prix",
+      "model": "lightgbm-race-v4",
+      "stage": "pre-weekend",
+      "frozen_at": "2026-10-19T12:35:43.490195+00:00",
+      "status": "pending"
+    },
+    {
+      "season": 2026,
+      "round": 20,
+      "name": "Brazilian Grand Prix",
+      "model": "lightgbm-race-v4",
+      "stage": "pre-weekend",
+      "frozen_at": "2026-10-19T12:35:43.490195+00:00",
+      "status": "pending"
+    },
+    {
+      "season": 2026,
+      "round": 21,
+      "name": "Las Vegas Grand Prix",
+      "model": "lightgbm-race-v4",
+      "stage": "pre-weekend",
+      "frozen_at": "2026-10-19T12:35:43.490195+00:00",
+      "status": "pending"
+    },
+    {
+      "season": 2026,
+      "round": 22,
+      "name": "Qatar Grand Prix",
+      "model": "lightgbm-race-v4",
+      "stage": "pre-weekend",
+      "frozen_at": "2026-10-19T12:35:43.490195+00:00",
+      "status": "pending"
+    },
+    {
+      "season": 2026,
+      "round": 23,
+      "name": "Abu Dhabi Grand Prix",
+      "model": "lightgbm-race-v4",
+      "stage": "pre-weekend",
+      "frozen_at": "2026-10-19T12:35:43.490195+00:00",
+      "status": "pending"
+    }
+  ],
+  "groups": [
+    {
+      "model": "lightgbm-race-v4",
+      "stage": "pre-weekend",
+      "races": 0,
+      "calibration_bins": [],
+      "winner_accuracy": null,
+      "rank_mae": null
+    }
+  ],
+  "limitations": [
+    "Local timestamps/hash checks detect accidental changes, not external notarization.",
+    "Scores use current official results and can change after revisions.",
+    "Calibration needs many future races; pending forecasts do not establish accuracy."
+  ]
+}

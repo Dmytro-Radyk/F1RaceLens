@@ -1,0 +1,59 @@
+{
+  "2025": {
+    "v1": {
+      "entries": 479,
+      "races": 24,
+      "rank_mae": 4.062630480167015,
+      "baseline_rank_mae": 4.137787056367432,
+      "winner_accuracy": 0.3333333333333333,
+      "baseline_winner_accuracy": 0.20833333333333334,
+      "nonclass_brier": 0.10130226395777603,
+      "baseline_nonclass_brier": 0.10679399401724805,
+      "nonclass_logloss": 0.3548479288056461,
+      "nonclass_observed_rate": 0.11482254697286012,
+      "nonclass_predicted_rate": 0.10708826120445182
+    },
+    "v2": {
+      "entries": 479,
+      "races": 24,
+      "rank_mae": 3.991649269311065,
+      "baseline_rank_mae": 4.137787056367432,
+      "winner_accuracy": 0.3333333333333333,
+      "baseline_winner_accuracy": 0.20833333333333334,
+      "nonclass_brier": 0.10127510407224641,
+      "baseline_nonclass_brier": 0.10679399401724805,
+      "nonclass_logloss": 0.3545978582789756,
+      "nonclass_observed_rate": 0.11482254697286012,
+      "nonclass_predicted_rate": 0.09959497478894008
+    }
+  },
+  "2026_partial": {
+    "v1": {
+      "entries": 374,
+      "races": 17,
+      "rank_mae": 4.016042780748663,
+      "baseline_rank_mae": 4.053475935828877,
+      "winner_accuracy": 0.11764705882352941,
+      "baseline_winner_accuracy": 0.17647058823529413,
+      "nonclass_brier": 0.16051508225976535,
+      "baseline_nonclass_brier": 0.14832495537741458,
+      "nonclass_logloss": 0.5154870470835308,
+      "nonclass_observed_rate": 0.18983957219251338,
+      "nonclass_predicted_rate": 0.10754797908469658
+    },
+    "v2": {
+      "entries": 374,
+      "races": 17,
+      "rank_mae": 4.080213903743315,
+      "baseline_rank_mae": 4.053475935828877,
+      "winner_accuracy": 0.11764705882352941,
+      "baseline_winner_accuracy": 0.17647058823529413,
+      "nonclass_brier": 0.1614434125328381,
+      "baseline_nonclass_brier": 0.14832495537741458,
+      "nonclass_logloss": 0.5204547552387095,
+      "nonclass_observed_rate": 0.18983957219251338,
+      "nonclass_predicted_rate": 0.10075172879883476
+    }
+  },
+  "note": "Same entrants and race-level task. Comparison made after fixed v2 selection; no model promotion or retuning from audits."
+}

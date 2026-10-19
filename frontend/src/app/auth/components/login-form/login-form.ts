@@ -32,7 +32,7 @@ export class LoginForm {
     if (this.auth.login(this.model())) {
       const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
       void this.router.navigateByUrl(
-        returnUrl?.startsWith('/') && !returnUrl.startsWith('//') ? returnUrl : '/calendar',
+        returnUrl?.startsWith('/') && !returnUrl.startsWith('//') ? returnUrl : '/home',
       );
     } else {
       this.error.set('Невірний логін або пароль.');

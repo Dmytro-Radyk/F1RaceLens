@@ -1,0 +1,130 @@
+{
+  "event": {
+    "season": 2026,
+    "round": 18,
+    "name": "United States Grand Prix",
+    "race_date": "2026-10-25"
+  },
+  "retrieved_at": "2026-10-19T09:55:28.688856+00:00",
+  "used_for_training": false,
+  "sources": [
+    {
+      "name": "Pit Lane Data",
+      "url": "https://pitlanedata.com/meetings/united-states-grand-prix-2026/",
+      "published_at": null,
+      "cutoff": "Not stated; described as six recent race/qualifying sessions with lap data",
+      "probabilities": {
+        "hamilton": 29.9,
+        "max_verstappen": 12.0,
+        "leclerc": 11.1,
+        "antonelli": 8.7,
+        "norris": 6.2,
+        "russell": 2.8
+      }
+    },
+    {
+      "name": "GrandPrixSim locked call",
+      "url": "https://grandprixsim.com/f1-race-predictor/",
+      "published_at": "2026-10-05",
+      "cutoff": "Before the latest Singapore race; earlier than our input cutoff",
+      "probabilities": {
+        "antonelli": 30.0,
+        "russell": 16.0,
+        "max_verstappen": 15.0
+      }
+    }
+  ],
+  "our_versions": {
+    "v1": {
+      "through_round": 17,
+      "generated": "2026-10-19T09:35:19.755414+00:00",
+      "probabilities": {
+        "hamilton": 31.825,
+        "max_verstappen": 25.224999999999998,
+        "antonelli": 18.775,
+        "leclerc": 6.15,
+        "norris": 8.15,
+        "hadjar": 2.725,
+        "russell": 1.5,
+        "piastri": 1.6,
+        "lawson": 1.375,
+        "arvid_lindblad": 0.8750000000000001,
+        "hulkenberg": 0.75,
+        "bortoleto": 0.42500000000000004,
+        "gasly": 0.22499999999999998,
+        "colapinto": 0.125,
+        "bearman": 0.125,
+        "ocon": 0.05,
+        "alonso": 0.025,
+        "stroll": 0.025,
+        "sainz": 0.05,
+        "albon": 0.0,
+        "perez": 0.0,
+        "bottas": 0.0
+      }
+    },
+    "v2": {
+      "through_round": 17,
+      "generated": "2026-10-19T09:35:10.737825+00:00",
+      "probabilities": {
+        "max_verstappen": 28.599999999999998,
+        "leclerc": 17.125,
+        "antonelli": 12.25,
+        "norris": 12.275,
+        "russell": 10.15,
+        "hamilton": 6.950000000000001,
+        "hadjar": 4.05,
+        "piastri": 2.65,
+        "lawson": 1.6500000000000001,
+        "arvid_lindblad": 1.075,
+        "hulkenberg": 0.5499999999999999,
+        "gasly": 0.5,
+        "bortoleto": 0.375,
+        "colapinto": 0.42500000000000004,
+        "ocon": 0.17500000000000002,
+        "sainz": 0.4,
+        "alonso": 0.075,
+        "stroll": 0.125,
+        "bearman": 0.3,
+        "perez": 0.15,
+        "bottas": 0.075,
+        "albon": 0.075
+      }
+    },
+    "v3": {
+      "through_round": 17,
+      "generated": "2026-10-19T09:51:30.402057+00:00",
+      "probabilities": {
+        "max_verstappen": 20.674999999999997,
+        "antonelli": 17.575,
+        "hamilton": 14.524999999999999,
+        "norris": 14.000000000000002,
+        "russell": 9.15,
+        "leclerc": 8.75,
+        "hadjar": 5.925,
+        "piastri": 5.025,
+        "lawson": 1.825,
+        "arvid_lindblad": 0.8999999999999999,
+        "gasly": 0.4,
+        "colapinto": 0.25,
+        "hulkenberg": 0.27499999999999997,
+        "bortoleto": 0.27499999999999997,
+        "bearman": 0.125,
+        "ocon": 0.125,
+        "sainz": 0.1,
+        "alonso": 0.075,
+        "albon": 0.025,
+        "stroll": 0.0,
+        "perez": 0.0,
+        "bottas": 0.0
+      }
+    }
+  },
+  "limitations": [
+    "No outcome yet: divergence is not forecast accuracy.",
+    "Time cutoffs and methods differ; no equal-information benchmark claimed.",
+    "Independence means separately operated publishers; no independent audit of their calibration or track record.",
+    "Partial external fields are not normalized and do not form complete winner distributions.",
+    "External forecasts were not fed into training or used for candidate selection."
+  ]
+}

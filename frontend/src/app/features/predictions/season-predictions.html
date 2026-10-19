@@ -1,0 +1,269 @@
+<div class="schedule-page">
+  <div class="season-heading">
+    <div>
+      <p class="section-eyebrow">ПРОГНОЗ ЗАВЕРШЕННЯ ЧЕМПІОНАТУ</p>
+      <h2>Прогнози сезону</h2>
+    </div>
+    <span class="model-badge">Статистичний скрипт</span>
+  </div>
+  @if (prediction.isLoading()) {
+    <section class="feedback-panel" role="status">
+      <h2>Збираємо дані та симулюємо решту сезону…</h2>
+      <p>
+        Перше завантаження потребує повних результатів гонок і спринтів. Зачекайте кілька секунд.
+      </p>
+    </section>
+  } @else if (prediction.error()) {
+    <section class="feedback-panel" role="alert">
+      <h2>Прогноз тимчасово недоступний</h2>
+      <p>Не вдалося отримати всі потрібні дані. Спробуйте ще раз.</p>
+      <button type="button" class="primary-link" (click)="prediction.reload()">
+        Спробувати ще раз
+      </button>
+      @if (scenario()) {
+        <button class="secondary-action" type="button" (click)="scenario.set(null)">
+          Повернути базовий прогноз
+        </button>
+      }
+    </section>
+  } @else if (prediction.hasValue()) {
+    @let data = prediction.value();
+    <p class="season-context">
+      Актуальний сезон {{ data.season }} ·
+      @if (data.throughRound > 0) {
+        зріз після етапу {{ data.throughRound }}.
+      } @else {
+        до першого завершеного етапу.
+      }
+      @if (!completed() && data.factors) {
+        <button class="secondary-action" type="button" (click)="focusScenario()">
+          Чинники та сценарії ↓
+        </button>
+      }
+    </p>
+    @if (data.status !== 'ready' && data.status !== 'completed') {
+      <section class="feedback-panel" role="status">
+        <h2>Прогноз ще не готовий</h2>
+        <p>{{ data.message }}</p>
+        <button type="button" class="primary-link" (click)="prediction.reload()">
+          Перевірити оновлення
+        </button>
+      </section>
+    } @else {
+      @if (data.factors?.isScenario) {
+        <section class="notice scenario-notice" role="status">
+          <h2>Результат заданого сценарію</h2>
+          <p>
+            Погода, оновлення та заміна нижче — ваші припущення. Це не базовий прогноз і не
+            підтверджені зміни складу.
+          </p>
+          <button class="secondary-action" type="button" (click)="scenario.set(null)">
+            Повернути базовий прогноз
+          </button>
+        </section>
+      }
+      @if (completed()) {
+        <section class="notice">
+          <h2>У календарі не залишилося гонок</h2>
+          <p>
+            Майбутніх сесій немає, прогноз не розраховується. Підсумкові результати доступні у
+            розділі турнірної таблиці.
+          </p>
+        </section>
+      } @else {
+        <section class="notice">
+          <h2>Модельні шанси — не гарантія</h2>
+          <p>
+            Це частоти результатів у {{ data.simulations }} симуляціях за припущеннями моделі.
+            Історична перевірка не довела стабільної переваги над простим прогнозом. Відсотки ще не
+            відкалібровані.
+          </p>
+        </section>
+      }
+      @if (!completed()) {
+        <div class="forecast-views" role="group" aria-label="Вид прогнозу">
+          <button
+            class="secondary-action"
+            type="button"
+            [attr.aria-pressed]="view() === 'season'"
+            (click)="view.set('season')"
+          >
+            Підсумок сезону
+          </button>
+          <button
+            class="secondary-action"
+            type="button"
+            [attr.aria-pressed]="view() === 'race'"
+            (click)="view.set('race')"
+          >
+            Майбутні Гран-прі
+          </button>
+        </div>
+        @if (view() === 'race') {
+          <section class="panel">
+            <h2>Прогноз майбутніх Гран-прі</h2>
+            @if (races().length) {
+              <div class="scenario-grid">
+                <label for="forecast-race"
+                  >Гран-прі
+                  <select id="forecast-race" [value]="round()" (change)="selectRound($event)">
+                    @for (race of races(); track race.round) {
+                      <option [value]="race.round">Етап {{ race.round }} · {{ race.name }}</option>
+                    }
+                  </select>
+                </label>
+              </div>
+              @if (selectedRace(); as race) {
+                <h3>{{ race.name }} · {{ race.date }}</h3>
+                <div
+                  class="table-scroll"
+                  role="region"
+                  tabindex="0"
+                  aria-label="Прогноз результатів майбутньої гонки"
+                >
+                  <table>
+                    <caption>
+                      Порядок за очікуваними очками гонки; відсотки — частки симуляцій
+                    </caption>
+                    <thead>
+                      <tr>
+                        <th scope="col">Пілот</th>
+                        <th scope="col">Очікувані очки</th>
+                        <th scope="col">Середнє місце</th>
+                        <th scope="col">Перемога</th>
+                        <th scope="col">Подіум</th>
+                        <th scope="col">Некласифікація</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (row of race.drivers; track row.id) {
+                        <tr>
+                          <th scope="row">
+                            <a
+                              [routerLink]="['/drivers', row.id]"
+                              [queryParams]="{ season: data.season }"
+                              >{{ row.name }}</a
+                            >
+                          </th>
+                          <td>{{ points(row.expectedPoints) }}</td>
+                          <td>{{ number(row.averagePosition) }}</td>
+                          <td>{{ chance(row.winChance) }}</td>
+                          <td>{{ chance(row.podiumChance) }}</td>
+                          <td>{{ chance(row.nonClassificationChance) }}</td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              }
+            } @else {
+              <p>Дані майбутніх гонок ще завантажуються. Оновіть прогноз.</p>
+            }
+          </section>
+        } @else {
+          <div class="favourite-grid">
+            @for (item of favourites(); track item.kind) {
+              <section class="favourite-card">
+                <p class="section-eyebrow">{{ item.label }}</p>
+                <h2>
+                  <a
+                    [routerLink]="['/' + item.kind, item.entry.id]"
+                    [queryParams]="{ season: data.season }"
+                    >{{ item.entry.name }}</a
+                  >
+                </h2>
+                <p class="hero-chance">{{ chance(item.entry.titleChance) }}</p>
+                <p class="note">
+                  {{ completed() ? 'Перше місце у заліку джерела' : 'Частка симуляцій із титулом' }}
+                </p>
+              </section>
+            }
+          </div>
+          <div class="summary-grid">
+            <div>
+              <strong>{{ data.remainingRaces }}</strong
+              ><span>гонок залишилося</span>
+            </div>
+            <div>
+              <strong>{{ data.remainingSprints }}</strong
+              ><span>спринтів у залишку календаря</span>
+            </div>
+            <div>
+              <strong>{{ completed() ? '—' : data.simulations }}</strong
+              ><span>симуляцій завершення</span>
+            </div>
+          </div>
+          <section class="panel">
+            <h2>Прогнозований залік пілотів</h2>
+            <app-prediction-table
+              [rows]="data.drivers"
+              kind="drivers"
+              [season]="data.season"
+              [completed]="completed()"
+            />
+          </section>
+          <section class="panel">
+            <h2>Прогнозований залік команд</h2>
+            <app-prediction-table
+              [rows]="data.teams"
+              kind="teams"
+              [season]="data.season"
+              [completed]="completed()"
+            />
+          </section>
+          <p class="note">
+            * Центральні 80% результатів моделі: від 10-го до 90-го процентиля. Це розкид симуляцій,
+            а не перевірений довірчий інтервал. ** Титул і топ-3 — частоти у симуляціях. Нуль або
+            всі перемоги в симуляціях не доводять математичної неможливості чи гарантованого титулу.
+          </p>
+        }
+      }
+      <section class="panel">
+        <h2>Що враховує статистичний скрипт</h2>
+        <ul class="method-list">
+          <li>
+            Офіційні очки пілотів і команд — стартова точка. Вже проведені сесії не симулюються
+            повторно.
+          </li>
+          <li>
+            Класифікації всіх гонок поточного сезону, включно зі сходами й дискваліфікаціями.
+            Половина вибірки результатів — сезонна форма за поточну команду (якщо виступів
+            достатньо), половина — останні п’ять виступів. Для малої вибірки використовується
+            поправка на команду.
+          </li>
+          <li>
+            Майбутні гонки та спринти з календаря, окремі шкали очок, спільне випадкове відхилення
+            напарників і власне відхилення кожного пілота.
+          </li>
+          <li>
+            Враховуються історичні результати на конкретній трасі зі зменшенням ваги малої вибірки,
+            розкид зміни позицій і частка некласифікацій. Склад незмінний у базовому прогнозі;
+            майбутня заміна й розвиток команди задаються сценарієм.
+          </li>
+        </ul>
+        <p class="note">
+          Припускаємо повну дистанцію решти сесій. Непідтверджені оновлення й заміни не додаються
+          автоматично. Погода за межами горизонту невідома; її можна задати сценарієм. Штрафи,
+          скасування, геометрія трас та індивідуальна майстерність у дощ не моделюються. Якщо очки й
+          усі гоночні показники для розв’язання нічиєї збігаються, решта нічиїх розподіляється
+          випадково; кваліфікаційний критерій поки не моделюється. Правила очок:
+          <a
+            href="https://www.fia.com/system/files/documents/fia_2026_f1_regulations_-_section_a_general_provisions_-_iss_03_-_2026-06-25.pdf"
+            >FIA 2026, Section A</a
+          >. Версія: {{ data.modelVersion }}.
+        </p>
+      </section>
+      @if (!completed() && data.factors) {
+        <app-prediction-context
+          [data]="data"
+          (apply)="scenario.set($event)"
+          (reset)="scenario.set(null)"
+        />
+      }
+    }
+    <app-source-note
+      [metadata]="data"
+      staleMessage="Показуємо збережений прогноз. Джерело тимчасово недоступне або частина даних застаріла."
+    />
+  }
+</div>

@@ -1,0 +1,92 @@
+{
+  "model": "classification-bootstrap-v1",
+  "simulations": 4000,
+  "seed": 260019,
+  "note": "Three retrospective snapshots of one season; overlapping samples, no probability calibration. Baseline: current rank and season points per completed round. Future roster changes unknown at snapshot are not supplied to the engine.",
+  "snapshots": [
+    {
+      "year": 2025,
+      "throughRound": 8,
+      "drivers": {
+        "evaluatedParticipants": 21,
+        "finalParticipants": 21,
+        "rankMae": 2.2857142857142856,
+        "baselineRankMae": 2.380952380952381,
+        "pointsMae": 24.46830952380952,
+        "baselinePointsMae": 22.952380952380953,
+        "positionIntervalCoverage": 0.6190476190476191,
+        "actualChampion": "norris",
+        "modelFavourite": "piastri",
+        "championChance": 36.3
+      },
+      "teams": {
+        "evaluatedParticipants": 10,
+        "finalParticipants": 10,
+        "rankMae": 0.8,
+        "baselineRankMae": 0.6,
+        "pointsMae": 42.345,
+        "baselinePointsMae": 35.4,
+        "positionIntervalCoverage": 0.7,
+        "actualChampion": "mclaren",
+        "modelFavourite": "mclaren",
+        "championChance": 100
+      }
+    },
+    {
+      "year": 2025,
+      "throughRound": 12,
+      "drivers": {
+        "evaluatedParticipants": 21,
+        "finalParticipants": 21,
+        "rankMae": 1.7142857142857142,
+        "baselineRankMae": 1.8095238095238095,
+        "pointsMae": 25.702619047619052,
+        "baselinePointsMae": 23.428571428571427,
+        "positionIntervalCoverage": 0.6666666666666666,
+        "actualChampion": "norris",
+        "modelFavourite": "piastri",
+        "championChance": 38.6
+      },
+      "teams": {
+        "evaluatedParticipants": 10,
+        "finalParticipants": 10,
+        "rankMae": 1.2,
+        "baselineRankMae": 1,
+        "pointsMae": 46.88410000000001,
+        "baselinePointsMae": 39.4,
+        "positionIntervalCoverage": 0.6,
+        "actualChampion": "mclaren",
+        "modelFavourite": "mclaren",
+        "championChance": 100
+      }
+    },
+    {
+      "year": 2025,
+      "throughRound": 18,
+      "drivers": {
+        "evaluatedParticipants": 21,
+        "finalParticipants": 21,
+        "rankMae": 1.1428571428571428,
+        "baselineRankMae": 1.1428571428571428,
+        "pointsMae": 12.09978571428571,
+        "baselinePointsMae": 12.126984126984125,
+        "positionIntervalCoverage": 0.9047619047619048,
+        "actualChampion": "norris",
+        "modelFavourite": "piastri",
+        "championChance": 13.825
+      },
+      "teams": {
+        "evaluatedParticipants": 10,
+        "finalParticipants": 10,
+        "rankMae": 0.2,
+        "baselineRankMae": 0.4,
+        "pointsMae": 13.551000000000005,
+        "baselinePointsMae": 16.666666666666664,
+        "positionIntervalCoverage": 1,
+        "actualChampion": "mclaren",
+        "modelFavourite": "mclaren",
+        "championChance": 100
+      }
+    }
+  ]
+}

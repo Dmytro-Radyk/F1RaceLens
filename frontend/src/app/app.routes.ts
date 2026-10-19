@@ -10,7 +10,7 @@ export const routes: Routes = [
     path: '',
     loadComponent: () => import('./layout/app-shell/app-shell').then((m) => m.AppShell),
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'calendar' },
+      { path: '', pathMatch: 'full', redirectTo: 'home' },
       {
         path: 'calendar',
         title: 'Календар сезону · F1 Race Lens',
@@ -60,17 +60,33 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/drivers/pages/driver-profile').then((m) => m.DriverProfile),
       },
-      ...[
-        ['home', 'Головна'],
-        ['compare', 'Порівняння'],
-        ['insights', 'Аналітика'],
-      ].map(([path, label]) => ({
-        path,
-        title: `${label} · F1 Race Lens`,
-        data: { label },
+      {
+        path: 'home',
+        title: 'Головна · F1 Race Lens',
+        data: { label: 'Головна' },
+        loadComponent: () => import('./features/home/home-overview').then((m) => m.HomeOverview),
+      },
+      {
+        path: 'compare',
+        title: 'Порівняння пілотів · F1 Race Lens',
+        data: { label: 'Порівняння пілотів' },
         loadComponent: () =>
-          import('./shared/pages/section-placeholder').then((m) => m.SectionPlaceholder),
-      })),
+          import('./features/compare/driver-comparison').then((m) => m.DriverComparison),
+      },
+      {
+        path: 'insights',
+        title: 'Аналітика пілота · F1 Race Lens',
+        data: { label: 'Аналітика пілота' },
+        loadComponent: () =>
+          import('./features/insights/driver-analytics').then((m) => m.DriverAnalytics),
+      },
+      {
+        path: 'predictions',
+        title: 'Прогнози сезону · F1 Race Lens',
+        data: { label: 'Прогнози сезону' },
+        loadComponent: () =>
+          import('./features/predictions/season-predictions').then((m) => m.SeasonPredictions),
+      },
       {
         path: '**',
         title: 'Сторінку не знайдено · F1 Race Lens',

@@ -1,0 +1,270 @@
+:host {
+  display: block;
+  color: var(--text);
+}
+.home-page {
+  display: grid;
+  gap: 24px;
+}
+.home-heading,
+.card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.home-heading h2 {
+  margin: 0;
+  font-size: 32px;
+  letter-spacing: -0.04em;
+}
+.home-heading h2 span {
+  color: var(--accent-text);
+}
+.text-link {
+  color: var(--accent-text);
+  text-underline-offset: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+.text-link:focus-visible,
+.leaders-list a:focus-visible,
+.explore-card:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+.home-card {
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 26px;
+  min-width: 0;
+}
+.home-card h3,
+.card-heading h3 {
+  margin: 0;
+  font-size: 19px;
+  letter-spacing: -0.02em;
+}
+.race-hero {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--panel-bg);
+}
+.race-intro {
+  padding: 32px;
+  border-top: 4px solid var(--accent);
+  background: linear-gradient(115deg, var(--accent-soft), transparent 75%);
+}
+.round-label {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin: 24px 0 12px;
+}
+.round-label span {
+  margin: 0 8px;
+  color: var(--accent-text);
+}
+.race-intro h3 {
+  font-size: clamp(25px, 3vw, 42px);
+  line-height: 1.15;
+  letter-spacing: -0.045em;
+  max-width: 600px;
+  margin: 0 0 12px;
+}
+.circuit-name,
+.home-note {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+.race-start {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin: 28px 0;
+  font-size: 18px;
+}
+.race-start strong {
+  font-size: 30px;
+  font-variant-numeric: tabular-nums;
+}
+.race-intro .primary-link {
+  gap: 24px;
+}
+.weekend-schedule {
+  padding: 28px 32px;
+  border-left: 1px solid var(--border);
+}
+.weekend-schedule h4 {
+  margin: 0;
+  font-size: 14px;
+}
+.weekend-schedule > p {
+  margin: 6px 0 12px;
+}
+.session-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.session-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.session-list li:last-child {
+  border: 0;
+}
+.session-list small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 5px;
+  line-height: 1.5;
+}
+.session-list time {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.season-progress {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.season-progress > div {
+  padding: 18px 22px;
+  border-left: 2px solid var(--accent);
+  background: var(--panel-bg);
+}
+.season-progress strong {
+  display: block;
+  font-size: 28px;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.season-progress span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 6px;
+  line-height: 1.6;
+}
+.standings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.card-heading .section-eyebrow {
+  margin: 0;
+}
+.explore-heading {
+  margin-bottom: 18px;
+}
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.explore-card {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 22px;
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+.explore-card:hover {
+  border-color: var(--accent-text);
+  background: var(--hover);
+}
+.explore-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-weight: 700;
+  color: var(--text);
+  font-size: 15px;
+}
+.explore-title > span {
+  color: var(--accent-text);
+}
+@media (max-width: 1100px) {
+  .explore-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 800px) {
+  .race-hero,
+  .standings-grid {
+    grid-template-columns: 1fr;
+  }
+  .weekend-schedule {
+    border-left: 0;
+    border-top: 1px solid var(--border);
+  }
+  .home-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+@media (max-width: 540px) {
+  .home-page {
+    padding: 22px 16px;
+    gap: 20px;
+  }
+  .home-heading h2 {
+    font-size: 28px;
+  }
+  .race-intro,
+  .weekend-schedule,
+  .home-card {
+    padding: 22px;
+  }
+  .season-progress {
+    gap: 10px;
+  }
+  .season-progress > div {
+    padding: 12px;
+  }
+  .season-progress strong {
+    font-size: 23px;
+  }
+  .season-progress span {
+    font-size: 11px;
+  }
+  .explore-grid {
+    grid-template-columns: 1fr;
+  }
+  .explore-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .card-heading {
+    gap: 10px;
+  }
+  .card-heading h3 {
+    font-size: 17px;
+  }
+  .session-list li {
+    gap: 12px;
+  }
+}

@@ -1,0 +1,392 @@
+{
+  "version": "lightgbm-v2",
+  "created_at": "2026-10-19T12:11:26.064826+00:00",
+  "source_sha256": "66a1d12076b9904a57119a5406f959e57abf922516d7126afe7c8c7a4580e0b3",
+  "folds": [
+    [
+      2019,
+      2020,
+      2021
+    ],
+    [
+      2020,
+      2021,
+      2022
+    ],
+    [
+      2021,
+      2022,
+      2023
+    ]
+  ],
+  "candidates": {
+    "pace": [
+      {
+        "id": "standard",
+        "depth": 4,
+        "leaf": 30,
+        "l2": 8,
+        "decay": 0.9,
+        "folds": [
+          {
+            "years": [
+              2019,
+              2020,
+              2021
+            ],
+            "metric": 3.5090909090909093,
+            "trees": 64
+          },
+          {
+            "years": [
+              2020,
+              2021,
+              2022
+            ],
+            "metric": 3.8863636363636362,
+            "trees": 135
+          },
+          {
+            "years": [
+              2021,
+              2022,
+              2023
+            ],
+            "metric": 3.7409090909090907,
+            "trees": 92
+          }
+        ],
+        "mean_metric": 3.7121212121212124,
+        "rounds": 92
+      },
+      {
+        "id": "shallow",
+        "depth": 3,
+        "leaf": 50,
+        "l2": 12,
+        "decay": 0.9,
+        "folds": [
+          {
+            "years": [
+              2019,
+              2020,
+              2021
+            ],
+            "metric": 3.522727272727273,
+            "trees": 160
+          },
+          {
+            "years": [
+              2020,
+              2021,
+              2022
+            ],
+            "metric": 3.881818181818182,
+            "trees": 249
+          },
+          {
+            "years": [
+              2021,
+              2022,
+              2023
+            ],
+            "metric": 3.713636363636364,
+            "trees": 84
+          }
+        ],
+        "mean_metric": 3.7060606060606056,
+        "rounds": 160
+      },
+      {
+        "id": "regularized",
+        "depth": 4,
+        "leaf": 70,
+        "l2": 20,
+        "decay": 0.9,
+        "folds": [
+          {
+            "years": [
+              2019,
+              2020,
+              2021
+            ],
+            "metric": 3.55,
+            "trees": 180
+          },
+          {
+            "years": [
+              2020,
+              2021,
+              2022
+            ],
+            "metric": 3.940909090909091,
+            "trees": 146
+          },
+          {
+            "years": [
+              2021,
+              2022,
+              2023
+            ],
+            "metric": 3.7636363636363637,
+            "trees": 87
+          }
+        ],
+        "mean_metric": 3.7515151515151515,
+        "rounds": 146
+      },
+      {
+        "id": "recent",
+        "depth": 4,
+        "leaf": 30,
+        "l2": 8,
+        "decay": 0.75,
+        "folds": [
+          {
+            "years": [
+              2019,
+              2020,
+              2021
+            ],
+            "metric": 3.463636363636364,
+            "trees": 73
+          },
+          {
+            "years": [
+              2020,
+              2021,
+              2022
+            ],
+            "metric": 3.868181818181818,
+            "trees": 111
+          },
+          {
+            "years": [
+              2021,
+              2022,
+              2023
+            ],
+            "metric": 3.8454545454545452,
+            "trees": 89
+          }
+        ],
+        "mean_metric": 3.725757575757576,
+        "rounds": 89
+      },
+      {
+        "id": "deeper",
+        "depth": 5,
+        "leaf": 40,
+        "l2": 12,
+        "decay": 0.9,
+        "folds": [
+          {
+            "years": [
+              2019,
+              2020,
+              2021
+            ],
+            "metric": 3.5045454545454544,
+            "trees": 67
+          },
+          {
+            "years": [
+              2020,
+              2021,
+              2022
+            ],
+            "metric": 3.859090909090909,
+            "trees": 132
+          },
+          {
+            "years": [
+              2021,
+              2022,
+              2023
+            ],
+            "metric": 3.7954545454545454,
+            "trees": 73
+          }
+        ],
+        "mean_metric": 3.7196969696969693,
+        "rounds": 73
+      },
+      {
+        "id": "long-history",
+        "depth": 3,
+        "leaf": 40,
+        "l2": 12,
+        "decay": 1.0,
+        "folds": [
+          {
+            "years": [
+              2019,
+              2020,
+              2021
+            ],
+            "metric": 3.5136363636363637,
+            "trees": 163
+          },
+          {
+            "years": [
+              2020,
+              2021,
+              2022
+            ],
+            "metric": 3.8454545454545452,
+            "trees": 247
+          },
+          {
+            "years": [
+              2021,
+              2022,
+              2023
+            ],
+            "metric": 3.7454545454545456,
+            "trees": 82
+          }
+        ],
+        "mean_metric": 3.7015151515151516,
+        "rounds": 163
+      }
+    ],
+    "risk": [
+      {
+        "id": "risk-shallow",
+        "depth": 2,
+        "leaf": 60,
+        "l2": 12,
+        "decay": 0.9,
+        "folds": [
+          {
+            "years": [
+              2019,
+              2020,
+              2021
+            ],
+            "metric": 0.10564489218232534,
+            "trees": 4
+          },
+          {
+            "years": [
+              2020,
+              2021,
+              2022
+            ],
+            "metric": 0.12483002332364841,
+            "trees": 27
+          },
+          {
+            "years": [
+              2021,
+              2022,
+              2023
+            ],
+            "metric": 0.10210716023603449,
+            "trees": 47
+          }
+        ],
+        "mean_metric": 0.11086069191400276,
+        "rounds": 27
+      },
+      {
+        "id": "risk-standard",
+        "depth": 3,
+        "leaf": 30,
+        "l2": 8,
+        "decay": 0.9,
+        "folds": [
+          {
+            "years": [
+              2019,
+              2020,
+              2021
+            ],
+            "metric": 0.10563078541066216,
+            "trees": 1
+          },
+          {
+            "years": [
+              2020,
+              2021,
+              2022
+            ],
+            "metric": 0.12464175566901328,
+            "trees": 24
+          },
+          {
+            "years": [
+              2021,
+              2022,
+              2023
+            ],
+            "metric": 0.10152683225267202,
+            "trees": 27
+          }
+        ],
+        "mean_metric": 0.11059979111078248,
+        "rounds": 24
+      },
+      {
+        "id": "risk-regularized",
+        "depth": 4,
+        "leaf": 70,
+        "l2": 20,
+        "decay": 0.9,
+        "folds": [
+          {
+            "years": [
+              2019,
+              2020,
+              2021
+            ],
+            "metric": 0.10563441230920877,
+            "trees": 1
+          },
+          {
+            "years": [
+              2020,
+              2021,
+              2022
+            ],
+            "metric": 0.12460583721851635,
+            "trees": 36
+          },
+          {
+            "years": [
+              2021,
+              2022,
+              2023
+            ],
+            "metric": 0.10168914178552545,
+            "trees": 39
+          }
+        ],
+        "mean_metric": 0.11064313043775019,
+        "rounds": 36
+      }
+    ]
+  },
+  "selected": {
+    "pace": {
+      "max_depth": 3,
+      "num_leaves": 7,
+      "min_data_in_leaf": 40,
+      "lambda_l2": 12
+    },
+    "risk": {
+      "max_depth": 3,
+      "num_leaves": 7,
+      "min_data_in_leaf": 30,
+      "lambda_l2": 8
+    },
+    "pace_rounds": 163,
+    "risk_rounds": 24,
+    "year_decay": 1.0,
+    "risk_year_decay": 0.9
+  },
+  "audit_used_for_selection": false,
+  "pace_metric": "Mean fold classification rank MAE with fixed baseline nonclassification risk",
+  "risk_metric": "Mean fold Brier with validation-only sigmoid calibration",
+  "rounds_rule": "Median early-stopped trees across chronological folds; no 2025/2026 selection"
+}

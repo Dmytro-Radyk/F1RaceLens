@@ -1,0 +1,446 @@
+{
+  "version": "catboost-race-v1",
+  "created_at": "2026-10-19T08:12:23.452774+00:00",
+  "python": "3.13.14",
+  "catboost": "1.2.10",
+  "seed": 260019,
+  "threads": 4,
+  "source_sha256": "66a1d12076b9904a57119a5406f959e57abf922516d7126afe7c8c7a4580e0b3",
+  "split": {
+    "train": [
+      2010,
+      2022
+    ],
+    "validation_and_calibration": [
+      2023,
+      2024
+    ],
+    "test": [
+      2025,
+      2025
+    ]
+  },
+  "training_rows": 5513,
+  "validation_rows": 919,
+  "ranker_trees": 18,
+  "classifier_trees": 166,
+  "calibration": {
+    "slope": 0.4201128413024148,
+    "intercept": -1.3732222357897113
+  },
+  "features": [
+    "driver",
+    "team",
+    "circuit",
+    "rules_era",
+    "round",
+    "field_size",
+    "driver_starts",
+    "driver_recent_pace",
+    "driver_season_pace",
+    "driver_recent_nonclass",
+    "driver_season_nonclass",
+    "team_recent_pace",
+    "team_recent_nonclass",
+    "driver_team_pace",
+    "driver_team_starts",
+    "season_starts",
+    "track_nonclass",
+    "track_samples",
+    "driver_track_residual",
+    "driver_track_samples",
+    "form_change",
+    "previous_season_pace"
+  ],
+  "categorical_features": [
+    "driver",
+    "team",
+    "circuit",
+    "rules_era"
+  ],
+  "evaluation": {
+    "entries": 479,
+    "races": 24,
+    "rank_mae": 4.062630480167015,
+    "baseline_rank_mae": 4.137787056367432,
+    "winner_accuracy": 0.3333333333333333,
+    "baseline_winner_accuracy": 0.20833333333333334,
+    "nonclass_brier": 0.10130226395777603,
+    "baseline_nonclass_brier": 0.10679399401724805,
+    "nonclass_logloss": 0.3548479288056461,
+    "nonclass_observed_rate": 0.11482254697286012,
+    "nonclass_predicted_rate": 0.10708826120445182,
+    "per_race": [
+      {
+        "season": 2025,
+        "round": 1,
+        "race": "Australian Grand Prix",
+        "participants": 20,
+        "rank_mae": 3.6,
+        "baseline_rank_mae": 4.2,
+        "predicted_winner": "leclerc",
+        "baseline_winner": "leclerc",
+        "actual_winner": "norris"
+      },
+      {
+        "season": 2025,
+        "round": 2,
+        "race": "Chinese Grand Prix",
+        "participants": 20,
+        "rank_mae": 5.3,
+        "baseline_rank_mae": 5.4,
+        "predicted_winner": "russell",
+        "baseline_winner": "max_verstappen",
+        "actual_winner": "piastri"
+      },
+      {
+        "season": 2025,
+        "round": 3,
+        "race": "Japanese Grand Prix",
+        "participants": 20,
+        "rank_mae": 2.9,
+        "baseline_rank_mae": 3.6,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "norris",
+        "actual_winner": "max_verstappen"
+      },
+      {
+        "season": 2025,
+        "round": 4,
+        "race": "Bahrain Grand Prix",
+        "participants": 20,
+        "rank_mae": 3.3,
+        "baseline_rank_mae": 3.9,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "norris",
+        "actual_winner": "piastri"
+      },
+      {
+        "season": 2025,
+        "round": 5,
+        "race": "Saudi Arabian Grand Prix",
+        "participants": 20,
+        "rank_mae": 3.4,
+        "baseline_rank_mae": 3.3,
+        "predicted_winner": "russell",
+        "baseline_winner": "norris",
+        "actual_winner": "piastri"
+      },
+      {
+        "season": 2025,
+        "round": 6,
+        "race": "Miami Grand Prix",
+        "participants": 20,
+        "rank_mae": 2.3,
+        "baseline_rank_mae": 2.0,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "norris",
+        "actual_winner": "piastri"
+      },
+      {
+        "season": 2025,
+        "round": 7,
+        "race": "Emilia Romagna Grand Prix",
+        "participants": 20,
+        "rank_mae": 3.6,
+        "baseline_rank_mae": 3.5,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "piastri",
+        "actual_winner": "max_verstappen"
+      },
+      {
+        "season": 2025,
+        "round": 8,
+        "race": "Monaco Grand Prix",
+        "participants": 20,
+        "rank_mae": 4.6,
+        "baseline_rank_mae": 4.0,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "piastri",
+        "actual_winner": "norris"
+      },
+      {
+        "season": 2025,
+        "round": 9,
+        "race": "Spanish Grand Prix",
+        "participants": 19,
+        "rank_mae": 4.7368421052631575,
+        "baseline_rank_mae": 4.526315789473684,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "norris",
+        "actual_winner": "piastri"
+      },
+      {
+        "season": 2025,
+        "round": 10,
+        "race": "Canadian Grand Prix",
+        "participants": 20,
+        "rank_mae": 4.5,
+        "baseline_rank_mae": 4.7,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "norris",
+        "actual_winner": "russell"
+      },
+      {
+        "season": 2025,
+        "round": 11,
+        "race": "Austrian Grand Prix",
+        "participants": 20,
+        "rank_mae": 5.8,
+        "baseline_rank_mae": 5.4,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "piastri",
+        "actual_winner": "norris"
+      },
+      {
+        "season": 2025,
+        "round": 12,
+        "race": "British Grand Prix",
+        "participants": 20,
+        "rank_mae": 4.5,
+        "baseline_rank_mae": 4.0,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "piastri",
+        "actual_winner": "norris"
+      },
+      {
+        "season": 2025,
+        "round": 13,
+        "race": "Belgian Grand Prix",
+        "participants": 20,
+        "rank_mae": 3.9,
+        "baseline_rank_mae": 3.7,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "piastri",
+        "actual_winner": "piastri"
+      },
+      {
+        "season": 2025,
+        "round": 14,
+        "race": "Hungarian Grand Prix",
+        "participants": 20,
+        "rank_mae": 4.0,
+        "baseline_rank_mae": 4.6,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "piastri",
+        "actual_winner": "norris"
+      },
+      {
+        "season": 2025,
+        "round": 15,
+        "race": "Dutch Grand Prix",
+        "participants": 20,
+        "rank_mae": 6.2,
+        "baseline_rank_mae": 6.1,
+        "predicted_winner": "norris",
+        "baseline_winner": "piastri",
+        "actual_winner": "piastri"
+      },
+      {
+        "season": 2025,
+        "round": 16,
+        "race": "Italian Grand Prix",
+        "participants": 20,
+        "rank_mae": 2.5,
+        "baseline_rank_mae": 3.8,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "piastri",
+        "actual_winner": "max_verstappen"
+      },
+      {
+        "season": 2025,
+        "round": 17,
+        "race": "Azerbaijan Grand Prix",
+        "participants": 20,
+        "rank_mae": 4.5,
+        "baseline_rank_mae": 5.6,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "piastri",
+        "actual_winner": "max_verstappen"
+      },
+      {
+        "season": 2025,
+        "round": 18,
+        "race": "Singapore Grand Prix",
+        "participants": 20,
+        "rank_mae": 2.7,
+        "baseline_rank_mae": 2.7,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "piastri",
+        "actual_winner": "russell"
+      },
+      {
+        "season": 2025,
+        "round": 19,
+        "race": "United States Grand Prix",
+        "participants": 20,
+        "rank_mae": 3.7,
+        "baseline_rank_mae": 3.8,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "russell",
+        "actual_winner": "max_verstappen"
+      },
+      {
+        "season": 2025,
+        "round": 20,
+        "race": "Mexico City Grand Prix",
+        "participants": 20,
+        "rank_mae": 4.3,
+        "baseline_rank_mae": 3.7,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "max_verstappen",
+        "actual_winner": "norris"
+      },
+      {
+        "season": 2025,
+        "round": 21,
+        "race": "São Paulo Grand Prix",
+        "participants": 20,
+        "rank_mae": 4.6,
+        "baseline_rank_mae": 4.4,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "max_verstappen",
+        "actual_winner": "norris"
+      },
+      {
+        "season": 2025,
+        "round": 22,
+        "race": "Las Vegas Grand Prix",
+        "participants": 20,
+        "rank_mae": 4.8,
+        "baseline_rank_mae": 4.6,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "max_verstappen",
+        "actual_winner": "max_verstappen"
+      },
+      {
+        "season": 2025,
+        "round": 23,
+        "race": "Qatar Grand Prix",
+        "participants": 20,
+        "rank_mae": 3.8,
+        "baseline_rank_mae": 4.0,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "max_verstappen",
+        "actual_winner": "max_verstappen"
+      },
+      {
+        "season": 2025,
+        "round": 24,
+        "race": "Abu Dhabi Grand Prix",
+        "participants": 20,
+        "rank_mae": 4.0,
+        "baseline_rank_mae": 3.8,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "max_verstappen",
+        "actual_winner": "max_verstappen"
+      }
+    ]
+  },
+  "limitations": [
+    "Retrospective one-race-ahead evaluation; previous 2025 results become available after each event, models remain frozen.",
+    "Entrants and constructor assignments for each test race are supplied from its result sheet: conditional on known entry list.",
+    "No current-race grid, qualifying, weather, lap data, upgrades, points or result labels in input features.",
+    "Classification target is numeric positionText, not a specific mechanical-retirement cause.",
+    "Risk sigmoid fitted on 2023-2024; probabilities remain experimental, not proven calibrated across seasons.",
+    "Baseline is a deterministic 50/50 season/recent-five pace and nonclassification recipe, not the full context-bootstrap-v2 season simulator.",
+    "Race-rank metrics cannot be compared numerically to season-final-rank metrics in the existing simulator report.",
+    "Historical training data can revise over time; raw snapshots are hashed and retained locally.",
+    "No automatic selection or promotion using held-out 2025 performance; no model refit after this test."
+  ],
+  "pace_feature_importance": [
+    {
+      "feature": "driver_team_pace",
+      "importance": 38.52557144772498
+    },
+    {
+      "feature": "driver_season_pace",
+      "importance": 27.341554249228157
+    },
+    {
+      "feature": "driver_recent_pace",
+      "importance": 11.995807404788138
+    },
+    {
+      "feature": "team_recent_pace",
+      "importance": 8.116371409749423
+    },
+    {
+      "feature": "team",
+      "importance": 6.436425587481796
+    },
+    {
+      "feature": "previous_season_pace",
+      "importance": 3.7850521662479335
+    },
+    {
+      "feature": "driver_team_starts",
+      "importance": 1.0303158350537927
+    },
+    {
+      "feature": "driver_starts",
+      "importance": 0.5819093476181553
+    },
+    {
+      "feature": "rules_era",
+      "importance": 0.5112118229672108
+    },
+    {
+      "feature": "form_change",
+      "importance": 0.3265202576275574
+    },
+    {
+      "feature": "driver_recent_nonclass",
+      "importance": 0.2664843342195715
+    },
+    {
+      "feature": "driver_track_samples",
+      "importance": 0.2518690631591671
+    },
+    {
+      "feature": "driver_track_residual",
+      "importance": 0.21214819844366295
+    },
+    {
+      "feature": "track_samples",
+      "importance": 0.17798470765830937
+    },
+    {
+      "feature": "field_size",
+      "importance": 0.15252315275714826
+    },
+    {
+      "feature": "driver_season_nonclass",
+      "importance": 0.14459127553710777
+    },
+    {
+      "feature": "team_recent_nonclass",
+      "importance": 0.08833347405270568
+    },
+    {
+      "feature": "track_nonclass",
+      "importance": 0.03359351565426759
+    },
+    {
+      "feature": "round",
+      "importance": 0.021732750030911987
+    },
+    {
+      "feature": "driver",
+      "importance": 0.0
+    },
+    {
+      "feature": "circuit",
+      "importance": 0.0
+    },
+    {
+      "feature": "season_starts",
+      "importance": 0.0
+    }
+  ],
+  "training_seconds": 8.15,
+  "artifact_sha256": {
+    "nonclassification.cbm": "4360490a40c89d070e97a06b50cdc67668acb042a0759e3befabde78fd4acd15",
+    "pace.cbm": "14a293df8b7d940720bb29773df357d60f9a2c798b04eefa7807bdf2c0edfc7b"
+  }
+}

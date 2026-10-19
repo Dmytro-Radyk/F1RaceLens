@@ -1,6 +1,7 @@
 namespace F1RaceLens.Api.Calendar;
 
-public sealed record CircuitInfo(string Id, string Name, string Locality, string Country);
+public sealed record CircuitInfo(string Id, string Name, string Locality, string Country,
+    double? Latitude = null, double? Longitude = null);
 
 public sealed record SessionSchedule(string Kind, string Name, DateOnly Date, DateTimeOffset? StartsAt);
 

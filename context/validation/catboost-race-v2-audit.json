@@ -1,0 +1,886 @@
+{
+  "version": "catboost-race-v2",
+  "created_at": "2026-10-19T08:25:59.869088+00:00",
+  "python": "3.13.14",
+  "catboost": "1.2.10",
+  "seed": 260019,
+  "threads": 4,
+  "features": [
+    "driver",
+    "team",
+    "circuit",
+    "rules_era",
+    "round",
+    "field_size",
+    "driver_starts",
+    "driver_recent_pace",
+    "driver_season_pace",
+    "driver_recent_nonclass",
+    "driver_season_nonclass",
+    "team_recent_pace",
+    "team_recent_nonclass",
+    "driver_team_pace",
+    "driver_team_starts",
+    "season_starts",
+    "track_nonclass",
+    "track_samples",
+    "driver_track_residual",
+    "driver_track_samples",
+    "form_change",
+    "previous_season_pace"
+  ],
+  "categorical_features": [
+    "driver",
+    "team",
+    "circuit",
+    "rules_era"
+  ],
+  "pace_kind": "regressor",
+  "source_sha256": "66a1d12076b9904a57119a5406f959e57abf922516d7126afe7c8c7a4580e0b3",
+  "selection": {
+    "pace_candidates": [
+      {
+        "id": "rank-d4",
+        "kind": "ranker",
+        "depth": 4,
+        "start": 2010,
+        "decay": 1.0,
+        "folds": [
+          {
+            "train_through": 2019,
+            "early_stop_year": 2020,
+            "score_year": 2021,
+            "race_mean_mae": 3.5454545454545454,
+            "trees": 89
+          },
+          {
+            "train_through": 2020,
+            "early_stop_year": 2021,
+            "score_year": 2022,
+            "race_mean_mae": 3.7954545454545454,
+            "trees": 215
+          },
+          {
+            "train_through": 2021,
+            "early_stop_year": 2022,
+            "score_year": 2023,
+            "race_mean_mae": 3.7818181818181817,
+            "trees": 103
+          }
+        ],
+        "mean_mae": 3.7075757575757575
+      },
+      {
+        "id": "rank-d6",
+        "kind": "ranker",
+        "depth": 6,
+        "start": 2010,
+        "decay": 1.0,
+        "folds": [
+          {
+            "train_through": 2019,
+            "early_stop_year": 2020,
+            "score_year": 2021,
+            "race_mean_mae": 3.5454545454545454,
+            "trees": 59
+          },
+          {
+            "train_through": 2020,
+            "early_stop_year": 2021,
+            "score_year": 2022,
+            "race_mean_mae": 3.768181818181819,
+            "trees": 239
+          },
+          {
+            "train_through": 2021,
+            "early_stop_year": 2022,
+            "score_year": 2023,
+            "race_mean_mae": 3.7590909090909084,
+            "trees": 134
+          }
+        ],
+        "mean_mae": 3.690909090909091
+      },
+      {
+        "id": "rank-recency",
+        "kind": "ranker",
+        "depth": 5,
+        "start": 2014,
+        "decay": 0.85,
+        "folds": [
+          {
+            "train_through": 2019,
+            "early_stop_year": 2020,
+            "score_year": 2021,
+            "race_mean_mae": 3.5681818181818183,
+            "trees": 58
+          },
+          {
+            "train_through": 2020,
+            "early_stop_year": 2021,
+            "score_year": 2022,
+            "race_mean_mae": 3.8681818181818177,
+            "trees": 54
+          },
+          {
+            "train_through": 2021,
+            "early_stop_year": 2022,
+            "score_year": 2023,
+            "race_mean_mae": 3.7590909090909093,
+            "trees": 51
+          }
+        ],
+        "mean_mae": 3.731818181818182
+      },
+      {
+        "id": "reg-d4",
+        "kind": "regressor",
+        "depth": 4,
+        "start": 2010,
+        "decay": 1.0,
+        "folds": [
+          {
+            "train_through": 2019,
+            "early_stop_year": 2020,
+            "score_year": 2021,
+            "race_mean_mae": 3.5318181818181813,
+            "trees": 290
+          },
+          {
+            "train_through": 2020,
+            "early_stop_year": 2021,
+            "score_year": 2022,
+            "race_mean_mae": 3.7818181818181817,
+            "trees": 260
+          },
+          {
+            "train_through": 2021,
+            "early_stop_year": 2022,
+            "score_year": 2023,
+            "race_mean_mae": 3.690909090909091,
+            "trees": 171
+          }
+        ],
+        "mean_mae": 3.668181818181818
+      },
+      {
+        "id": "reg-d6",
+        "kind": "regressor",
+        "depth": 6,
+        "start": 2010,
+        "decay": 1.0,
+        "folds": [
+          {
+            "train_through": 2019,
+            "early_stop_year": 2020,
+            "score_year": 2021,
+            "race_mean_mae": 3.5136363636363637,
+            "trees": 160
+          },
+          {
+            "train_through": 2020,
+            "early_stop_year": 2021,
+            "score_year": 2022,
+            "race_mean_mae": 3.8181818181818183,
+            "trees": 332
+          },
+          {
+            "train_through": 2021,
+            "early_stop_year": 2022,
+            "score_year": 2023,
+            "race_mean_mae": 3.7318181818181824,
+            "trees": 133
+          }
+        ],
+        "mean_mae": 3.687878787878788
+      },
+      {
+        "id": "reg-recent",
+        "kind": "regressor",
+        "depth": 5,
+        "start": 2018,
+        "decay": 0.85,
+        "folds": [
+          {
+            "train_through": 2019,
+            "early_stop_year": 2020,
+            "score_year": 2021,
+            "race_mean_mae": 3.5545454545454547,
+            "trees": 106
+          },
+          {
+            "train_through": 2020,
+            "early_stop_year": 2021,
+            "score_year": 2022,
+            "race_mean_mae": 3.8499999999999996,
+            "trees": 247
+          },
+          {
+            "train_through": 2021,
+            "early_stop_year": 2022,
+            "score_year": 2023,
+            "race_mean_mae": 3.7818181818181817,
+            "trees": 131
+          }
+        ],
+        "mean_mae": 3.7287878787878785
+      }
+    ],
+    "risk_candidates": [
+      {
+        "id": "risk-d3",
+        "depth": 3,
+        "folds": [
+          {
+            "train_through": 2019,
+            "early_stop_year": 2020,
+            "score_year": 2021,
+            "brier": 0.10588530523553587,
+            "trees": 116
+          },
+          {
+            "train_through": 2020,
+            "early_stop_year": 2021,
+            "score_year": 2022,
+            "brier": 0.12514658826200703,
+            "trees": 159
+          },
+          {
+            "train_through": 2021,
+            "early_stop_year": 2022,
+            "score_year": 2023,
+            "brier": 0.10240345038411541,
+            "trees": 133
+          }
+        ],
+        "mean_brier": 0.11114511462721943
+      },
+      {
+        "id": "risk-d4",
+        "depth": 4,
+        "folds": [
+          {
+            "train_through": 2019,
+            "early_stop_year": 2020,
+            "score_year": 2021,
+            "brier": 0.1073418692836884,
+            "trees": 90
+          },
+          {
+            "train_through": 2020,
+            "early_stop_year": 2021,
+            "score_year": 2022,
+            "brier": 0.12544486046985637,
+            "trees": 188
+          },
+          {
+            "train_through": 2021,
+            "early_stop_year": 2022,
+            "score_year": 2023,
+            "brier": 0.10227005780093111,
+            "trees": 174
+          }
+        ],
+        "mean_brier": 0.11168559585149196
+      },
+      {
+        "id": "risk-d5",
+        "depth": 5,
+        "folds": [
+          {
+            "train_through": 2019,
+            "early_stop_year": 2020,
+            "score_year": 2021,
+            "brier": 0.10736267867577541,
+            "trees": 106
+          },
+          {
+            "train_through": 2020,
+            "early_stop_year": 2021,
+            "score_year": 2022,
+            "brier": 0.1247789058745687,
+            "trees": 185
+          },
+          {
+            "train_through": 2021,
+            "early_stop_year": 2022,
+            "score_year": 2023,
+            "brier": 0.10313859880806112,
+            "trees": 99
+          }
+        ],
+        "mean_brier": 0.11176006111946842
+      }
+    ],
+    "selected_pace": {
+      "id": "reg-d4",
+      "kind": "regressor",
+      "depth": 4,
+      "start": 2010,
+      "decay": 1.0,
+      "folds": [
+        {
+          "train_through": 2019,
+          "early_stop_year": 2020,
+          "score_year": 2021,
+          "race_mean_mae": 3.5318181818181813,
+          "trees": 290
+        },
+        {
+          "train_through": 2020,
+          "early_stop_year": 2021,
+          "score_year": 2022,
+          "race_mean_mae": 3.7818181818181817,
+          "trees": 260
+        },
+        {
+          "train_through": 2021,
+          "early_stop_year": 2022,
+          "score_year": 2023,
+          "race_mean_mae": 3.690909090909091,
+          "trees": 171
+        }
+      ],
+      "mean_mae": 3.668181818181818
+    },
+    "selected_risk": {
+      "id": "risk-d3",
+      "depth": 3,
+      "folds": [
+        {
+          "train_through": 2019,
+          "early_stop_year": 2020,
+          "score_year": 2021,
+          "brier": 0.10588530523553587,
+          "trees": 116
+        },
+        {
+          "train_through": 2020,
+          "early_stop_year": 2021,
+          "score_year": 2022,
+          "brier": 0.12514658826200703,
+          "trees": 159
+        },
+        {
+          "train_through": 2021,
+          "early_stop_year": 2022,
+          "score_year": 2023,
+          "brier": 0.10240345038411541,
+          "trees": 133
+        }
+      ],
+      "mean_brier": 0.11114511462721943
+    },
+    "selection_seasons": [
+      2021,
+      2022,
+      2023
+    ],
+    "audit_used_for_selection": false
+  },
+  "selection_sha256": "db77d45ea1382eedef637abcbf7c36e758e0e42af6c9d7a1e1887f6960a1f31e",
+  "final_train_through": 2023,
+  "early_stop_and_calibration_year": 2024,
+  "calibration": {
+    "slope": 0.4254138469911814,
+    "intercept": -1.4035823497791704
+  },
+  "pace_trees": 356,
+  "risk_trees": 261,
+  "training_rows": 5953,
+  "risk_training_rows": 5953,
+  "audit_2025": {
+    "entries": 479,
+    "races": 24,
+    "rank_mae": 3.991649269311065,
+    "baseline_rank_mae": 4.137787056367432,
+    "winner_accuracy": 0.3333333333333333,
+    "baseline_winner_accuracy": 0.20833333333333334,
+    "nonclass_brier": 0.10127510407224641,
+    "baseline_nonclass_brier": 0.10679399401724805,
+    "nonclass_logloss": 0.3545978582789756,
+    "nonclass_observed_rate": 0.11482254697286012,
+    "nonclass_predicted_rate": 0.09959497478894008,
+    "per_race": [
+      {
+        "season": 2025,
+        "round": 1,
+        "race": "Australian Grand Prix",
+        "participants": 20,
+        "rank_mae": 3.7,
+        "baseline_rank_mae": 4.2,
+        "predicted_winner": "leclerc",
+        "baseline_winner": "leclerc",
+        "actual_winner": "norris"
+      },
+      {
+        "season": 2025,
+        "round": 2,
+        "race": "Chinese Grand Prix",
+        "participants": 20,
+        "rank_mae": 5.4,
+        "baseline_rank_mae": 5.4,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "max_verstappen",
+        "actual_winner": "piastri"
+      },
+      {
+        "season": 2025,
+        "round": 3,
+        "race": "Japanese Grand Prix",
+        "participants": 20,
+        "rank_mae": 2.8,
+        "baseline_rank_mae": 3.6,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "norris",
+        "actual_winner": "max_verstappen"
+      },
+      {
+        "season": 2025,
+        "round": 4,
+        "race": "Bahrain Grand Prix",
+        "participants": 20,
+        "rank_mae": 3.6,
+        "baseline_rank_mae": 3.9,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "norris",
+        "actual_winner": "piastri"
+      },
+      {
+        "season": 2025,
+        "round": 5,
+        "race": "Saudi Arabian Grand Prix",
+        "participants": 20,
+        "rank_mae": 3.0,
+        "baseline_rank_mae": 3.3,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "norris",
+        "actual_winner": "piastri"
+      },
+      {
+        "season": 2025,
+        "round": 6,
+        "race": "Miami Grand Prix",
+        "participants": 20,
+        "rank_mae": 2.2,
+        "baseline_rank_mae": 2.0,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "norris",
+        "actual_winner": "piastri"
+      },
+      {
+        "season": 2025,
+        "round": 7,
+        "race": "Emilia Romagna Grand Prix",
+        "participants": 20,
+        "rank_mae": 3.0,
+        "baseline_rank_mae": 3.5,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "piastri",
+        "actual_winner": "max_verstappen"
+      },
+      {
+        "season": 2025,
+        "round": 8,
+        "race": "Monaco Grand Prix",
+        "participants": 20,
+        "rank_mae": 4.7,
+        "baseline_rank_mae": 4.0,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "piastri",
+        "actual_winner": "norris"
+      },
+      {
+        "season": 2025,
+        "round": 9,
+        "race": "Spanish Grand Prix",
+        "participants": 19,
+        "rank_mae": 4.631578947368421,
+        "baseline_rank_mae": 4.526315789473684,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "norris",
+        "actual_winner": "piastri"
+      },
+      {
+        "season": 2025,
+        "round": 10,
+        "race": "Canadian Grand Prix",
+        "participants": 20,
+        "rank_mae": 4.6,
+        "baseline_rank_mae": 4.7,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "norris",
+        "actual_winner": "russell"
+      },
+      {
+        "season": 2025,
+        "round": 11,
+        "race": "Austrian Grand Prix",
+        "participants": 20,
+        "rank_mae": 5.8,
+        "baseline_rank_mae": 5.4,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "piastri",
+        "actual_winner": "norris"
+      },
+      {
+        "season": 2025,
+        "round": 12,
+        "race": "British Grand Prix",
+        "participants": 20,
+        "rank_mae": 4.5,
+        "baseline_rank_mae": 4.0,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "piastri",
+        "actual_winner": "norris"
+      },
+      {
+        "season": 2025,
+        "round": 13,
+        "race": "Belgian Grand Prix",
+        "participants": 20,
+        "rank_mae": 3.6,
+        "baseline_rank_mae": 3.7,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "piastri",
+        "actual_winner": "piastri"
+      },
+      {
+        "season": 2025,
+        "round": 14,
+        "race": "Hungarian Grand Prix",
+        "participants": 20,
+        "rank_mae": 4.5,
+        "baseline_rank_mae": 4.6,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "piastri",
+        "actual_winner": "norris"
+      },
+      {
+        "season": 2025,
+        "round": 15,
+        "race": "Dutch Grand Prix",
+        "participants": 20,
+        "rank_mae": 6.4,
+        "baseline_rank_mae": 6.1,
+        "predicted_winner": "norris",
+        "baseline_winner": "piastri",
+        "actual_winner": "piastri"
+      },
+      {
+        "season": 2025,
+        "round": 16,
+        "race": "Italian Grand Prix",
+        "participants": 20,
+        "rank_mae": 2.1,
+        "baseline_rank_mae": 3.8,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "piastri",
+        "actual_winner": "max_verstappen"
+      },
+      {
+        "season": 2025,
+        "round": 17,
+        "race": "Azerbaijan Grand Prix",
+        "participants": 20,
+        "rank_mae": 4.4,
+        "baseline_rank_mae": 5.6,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "piastri",
+        "actual_winner": "max_verstappen"
+      },
+      {
+        "season": 2025,
+        "round": 18,
+        "race": "Singapore Grand Prix",
+        "participants": 20,
+        "rank_mae": 2.7,
+        "baseline_rank_mae": 2.7,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "piastri",
+        "actual_winner": "russell"
+      },
+      {
+        "season": 2025,
+        "round": 19,
+        "race": "United States Grand Prix",
+        "participants": 20,
+        "rank_mae": 3.4,
+        "baseline_rank_mae": 3.8,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "russell",
+        "actual_winner": "max_verstappen"
+      },
+      {
+        "season": 2025,
+        "round": 20,
+        "race": "Mexico City Grand Prix",
+        "participants": 20,
+        "rank_mae": 4.3,
+        "baseline_rank_mae": 3.7,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "max_verstappen",
+        "actual_winner": "norris"
+      },
+      {
+        "season": 2025,
+        "round": 21,
+        "race": "São Paulo Grand Prix",
+        "participants": 20,
+        "rank_mae": 4.6,
+        "baseline_rank_mae": 4.4,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "max_verstappen",
+        "actual_winner": "norris"
+      },
+      {
+        "season": 2025,
+        "round": 22,
+        "race": "Las Vegas Grand Prix",
+        "participants": 20,
+        "rank_mae": 4.5,
+        "baseline_rank_mae": 4.6,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "max_verstappen",
+        "actual_winner": "max_verstappen"
+      },
+      {
+        "season": 2025,
+        "round": 23,
+        "race": "Qatar Grand Prix",
+        "participants": 20,
+        "rank_mae": 3.7,
+        "baseline_rank_mae": 4.0,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "max_verstappen",
+        "actual_winner": "max_verstappen"
+      },
+      {
+        "season": 2025,
+        "round": 24,
+        "race": "Abu Dhabi Grand Prix",
+        "participants": 20,
+        "rank_mae": 3.7,
+        "baseline_rank_mae": 3.8,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "max_verstappen",
+        "actual_winner": "max_verstappen"
+      }
+    ]
+  },
+  "audit_2026_partial": {
+    "entries": 374,
+    "races": 17,
+    "rank_mae": 4.080213903743315,
+    "baseline_rank_mae": 4.053475935828877,
+    "winner_accuracy": 0.11764705882352941,
+    "baseline_winner_accuracy": 0.17647058823529413,
+    "nonclass_brier": 0.1614434125328381,
+    "baseline_nonclass_brier": 0.14832495537741458,
+    "nonclass_logloss": 0.5204547552387095,
+    "nonclass_observed_rate": 0.18983957219251338,
+    "nonclass_predicted_rate": 0.10075172879883476,
+    "per_race": [
+      {
+        "season": 2026,
+        "round": 1,
+        "race": "Australian Grand Prix",
+        "participants": 22,
+        "rank_mae": 6.2727272727272725,
+        "baseline_rank_mae": 5.2727272727272725,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "max_verstappen",
+        "actual_winner": "russell"
+      },
+      {
+        "season": 2026,
+        "round": 2,
+        "race": "Chinese Grand Prix",
+        "participants": 22,
+        "rank_mae": 6.363636363636363,
+        "baseline_rank_mae": 6.090909090909091,
+        "predicted_winner": "russell",
+        "baseline_winner": "russell",
+        "actual_winner": "antonelli"
+      },
+      {
+        "season": 2026,
+        "round": 3,
+        "race": "Japanese Grand Prix",
+        "participants": 22,
+        "rank_mae": 3.727272727272727,
+        "baseline_rank_mae": 3.272727272727273,
+        "predicted_winner": "russell",
+        "baseline_winner": "russell",
+        "actual_winner": "antonelli"
+      },
+      {
+        "season": 2026,
+        "round": 4,
+        "race": "Miami Grand Prix",
+        "participants": 22,
+        "rank_mae": 4.818181818181818,
+        "baseline_rank_mae": 4.454545454545454,
+        "predicted_winner": "russell",
+        "baseline_winner": "russell",
+        "actual_winner": "antonelli"
+      },
+      {
+        "season": 2026,
+        "round": 5,
+        "race": "Canadian Grand Prix",
+        "participants": 22,
+        "rank_mae": 4.545454545454546,
+        "baseline_rank_mae": 5.090909090909091,
+        "predicted_winner": "russell",
+        "baseline_winner": "antonelli",
+        "actual_winner": "antonelli"
+      },
+      {
+        "season": 2026,
+        "round": 6,
+        "race": "Monaco Grand Prix",
+        "participants": 22,
+        "rank_mae": 6.636363636363637,
+        "baseline_rank_mae": 6.545454545454546,
+        "predicted_winner": "russell",
+        "baseline_winner": "antonelli",
+        "actual_winner": "antonelli"
+      },
+      {
+        "season": 2026,
+        "round": 7,
+        "race": "Barcelona Grand Prix",
+        "participants": 22,
+        "rank_mae": 3.8181818181818183,
+        "baseline_rank_mae": 3.272727272727273,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "antonelli",
+        "actual_winner": "hamilton"
+      },
+      {
+        "season": 2026,
+        "round": 8,
+        "race": "Austrian Grand Prix",
+        "participants": 22,
+        "rank_mae": 1.5454545454545454,
+        "baseline_rank_mae": 2.727272727272727,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "hamilton",
+        "actual_winner": "russell"
+      },
+      {
+        "season": 2026,
+        "round": 9,
+        "race": "British Grand Prix",
+        "participants": 22,
+        "rank_mae": 4.909090909090909,
+        "baseline_rank_mae": 4.2727272727272725,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "hamilton",
+        "actual_winner": "leclerc"
+      },
+      {
+        "season": 2026,
+        "round": 10,
+        "race": "Belgian Grand Prix",
+        "participants": 22,
+        "rank_mae": 3.3636363636363638,
+        "baseline_rank_mae": 3.272727272727273,
+        "predicted_winner": "russell",
+        "baseline_winner": "hamilton",
+        "actual_winner": "antonelli"
+      },
+      {
+        "season": 2026,
+        "round": 11,
+        "race": "Hungarian Grand Prix",
+        "participants": 22,
+        "rank_mae": 3.090909090909091,
+        "baseline_rank_mae": 3.6363636363636362,
+        "predicted_winner": "russell",
+        "baseline_winner": "hamilton",
+        "actual_winner": "norris"
+      },
+      {
+        "season": 2026,
+        "round": 12,
+        "race": "Dutch Grand Prix",
+        "participants": 22,
+        "rank_mae": 3.4545454545454546,
+        "baseline_rank_mae": 3.6363636363636362,
+        "predicted_winner": "leclerc",
+        "baseline_winner": "hamilton",
+        "actual_winner": "norris"
+      },
+      {
+        "season": 2026,
+        "round": 13,
+        "race": "Italian Grand Prix",
+        "participants": 22,
+        "rank_mae": 2.8181818181818183,
+        "baseline_rank_mae": 3.090909090909091,
+        "predicted_winner": "russell",
+        "baseline_winner": "hamilton",
+        "actual_winner": "antonelli"
+      },
+      {
+        "season": 2026,
+        "round": 14,
+        "race": "Spanish Grand Prix",
+        "participants": 22,
+        "rank_mae": 3.3636363636363638,
+        "baseline_rank_mae": 3.0,
+        "predicted_winner": "russell",
+        "baseline_winner": "antonelli",
+        "actual_winner": "antonelli"
+      },
+      {
+        "season": 2026,
+        "round": 15,
+        "race": "Azerbaijan Grand Prix",
+        "participants": 22,
+        "rank_mae": 4.181818181818182,
+        "baseline_rank_mae": 4.636363636363637,
+        "predicted_winner": "russell",
+        "baseline_winner": "antonelli",
+        "actual_winner": "russell"
+      },
+      {
+        "season": 2026,
+        "round": 16,
+        "race": "Bahrain Grand Prix in Malaysia",
+        "participants": 22,
+        "rank_mae": 3.5454545454545454,
+        "baseline_rank_mae": 3.272727272727273,
+        "predicted_winner": "russell",
+        "baseline_winner": "antonelli",
+        "actual_winner": "max_verstappen"
+      },
+      {
+        "season": 2026,
+        "round": 17,
+        "race": "Singapore Grand Prix",
+        "participants": 22,
+        "rank_mae": 2.909090909090909,
+        "baseline_rank_mae": 3.3636363636363638,
+        "predicted_winner": "max_verstappen",
+        "baseline_winner": "antonelli",
+        "actual_winner": "max_verstappen"
+      }
+    ]
+  },
+  "training_seconds": 185.75,
+  "limitations": [
+    "2025 was inspected for v1 and is a repeated audit, not a pristine unseen benchmark for the overall project.",
+    "No 2025 or 2026 rows enter model fitting, early stopping, calibration or candidate selection.",
+    "2026 is an incomplete season; audit conditions on entrants known from each result sheet.",
+    "Three selection seasons can overfit; final calibration uses the early-stop year 2024 too.",
+    "Same v1 inputs and ordering heuristic; no current-race weather, qualifying, upgrades or transfers predicted.",
+    "Classifier probabilities remain experimental; baseline is deterministic, not the production season simulator."
+  ],
+  "artifact_sha256": {
+    "nonclassification.cbm": "cc8faaf28e91ec8b6580564d52bdb54b48a54c2368cb7b95adac0aa9cbc8b0b9",
+    "pace.cbm": "9daff9c4ca3c208aba9bb177faa1d817521f3e241c7fd5067541ffbcddfa6a69"
+  }
+}

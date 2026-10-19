@@ -12,7 +12,8 @@ import {
 import { AuthService } from '../../auth/services/auth.service';
 import { ThemeService } from '../../core/services/theme.service';
 
-type NavId = 'home' | 'calendar' | 'standings' | 'drivers' | 'teams' | 'compare' | 'insights';
+type NavId =
+  'home' | 'calendar' | 'standings' | 'drivers' | 'teams' | 'compare' | 'insights' | 'predictions';
 
 interface NavItem {
   id: NavId;
@@ -65,6 +66,7 @@ export class AppShell {
     { id: 'teams', label: 'Команди', icon: '#icon-teams' },
     { id: 'compare', label: 'Порівняння', icon: '#icon-compare' },
     { id: 'insights', label: 'Аналітика', icon: '#icon-insights' },
+    { id: 'predictions', label: 'Прогнози', icon: '#icon-predictions' },
   ];
 
   protected readonly isMenuOpen = signal(false);

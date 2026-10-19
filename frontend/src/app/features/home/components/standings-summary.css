@@ -1,0 +1,100 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+section {
+  height: 100%;
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 26px;
+}
+.card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+h3 {
+  margin: 0;
+  font-size: 19px;
+  letter-spacing: -0.02em;
+}
+.section-eyebrow {
+  margin: 0;
+}
+.note {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+.leaders-list {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0;
+}
+.leaders-list li {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.leader-position {
+  color: var(--muted);
+  font-size: 12px;
+}
+.leaders-list li:first-child .leader-position {
+  color: var(--accent-text);
+  font-weight: 700;
+}
+.leaders-list a {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  line-height: 1.6;
+}
+.leaders-list a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.leaders-list small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 5px;
+  line-height: 1.5;
+}
+.leader-points {
+  text-align: right;
+  font-size: 18px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.leader-points small {
+  font-weight: 400;
+}
+.text-link {
+  display: inline-flex;
+  gap: 16px;
+  margin: 0 0 12px;
+  color: var(--accent-text);
+  text-underline-offset: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+a:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+@media (max-width: 540px) {
+  section {
+    padding: 22px;
+  }
+  h3 {
+    font-size: 17px;
+  }
+}

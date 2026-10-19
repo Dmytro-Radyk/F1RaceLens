@@ -1,0 +1,317 @@
+<div class="schedule-page">
+  <app-season-picker
+    [year]="season.year()"
+    [valid]="season.valid()"
+    (yearChange)="season.select($event)"
+  />
+  @if (!season.valid()) {
+    <section class="feedback-panel" role="alert">
+      <h2>Сезон не знайдено</h2>
+      <p>Виберіть рік зі списку.</p>
+    </section>
+  } @else if (drivers.isLoading()) {
+    <p role="status">Завантажуємо пілотів сезону…</p>
+  } @else if (drivers.error()) {
+    <section class="feedback-panel" role="alert">
+      <h2>Не вдалося завантажити пілотів</h2>
+      <button class="primary-link" type="button" (click)="drivers.reload()">
+        Спробувати ще раз
+      </button>
+    </section>
+  } @else if (drivers.hasValue()) {
+    @let list = drivers.value();
+    <div class="season-heading">
+      <div>
+        <p class="section-eyebrow">ДВА ПІЛОТИ · ОДИН СЕЗОН</p>
+        <h2>
+          Порівняння <span>{{ list.season }}</span>
+        </h2>
+      </div>
+      <p class="note">Гонки сезону. Кваліфікації та спринти поки не порівнюються.</p>
+    </div>
+    @if (list.entries.length >= 2) {
+      <section class="comparison-picker" aria-label="Вибір пілотів">
+        <label class="first-color" for="compare-first"
+          >Перший пілот
+          <select id="compare-first" [value]="first()" (change)="select('first', $event)">
+            <option value="">Виберіть пілота</option>
+            @for (driver of list.entries; track driver.id) {
+              <option [value]="driver.id" [selected]="driver.id === first()">
+                {{ driver.name }}
+              </option>
+            }
+          </select>
+        </label>
+        <button
+          type="button"
+          class="swap"
+          [disabled]="!pairValid()"
+          (click)="swap()"
+          aria-label="Поміняти пілотів місцями"
+        >
+          ⇄
+        </button>
+        <label for="compare-second"
+          >Другий пілот
+          <select id="compare-second" [value]="second()" (change)="select('second', $event)">
+            <option value="">Виберіть пілота</option>
+            @for (driver of list.entries; track driver.id) {
+              <option [value]="driver.id" [selected]="driver.id === second()">
+                {{ driver.name }}
+              </option>
+            }
+          </select>
+        </label>
+      </section>
+      @if (!pairValid()) {
+        <section class="feedback-panel" role="status">
+          <h2>Виберіть двох різних пілотів цього сезону</h2>
+          <p>Якщо змінили рік, попередньої пари може не бути в його заліку.</p>
+        </section>
+      } @else if (left.isLoading() || right.isLoading()) {
+        <p role="status">Завантажуємо результати пілотів…</p>
+      } @else if (left.error() || right.error()) {
+        <section class="feedback-panel" role="alert">
+          <h2>Не вдалося завантажити порівняння</h2>
+          <p>Показники не порівнюються, поки обидва профілі не доступні.</p>
+          <button class="primary-link" type="button" (click)="retry()">
+            Повторити завантаження результатів
+          </button>
+        </section>
+      } @else if (left.hasValue() && right.hasValue()) {
+        @let a = left.value(); @let b = right.value();
+        @if (comparison(); as data) {
+          <div class="profile-pair">
+            <a
+              class="profile-card first-border"
+              [routerLink]="['/drivers', a.driver.id]"
+              [queryParams]="{ season: list.season }"
+              ><p class="section-eyebrow">ПЕРШИЙ ПІЛОТ ↗</p>
+              <h2>{{ a.driver.name }}</h2>
+              <p class="note">{{ a.standing?.teams?.join(' · ') || 'Команда не вказана' }}</p></a
+            >
+            <a
+              class="profile-card"
+              [routerLink]="['/drivers', b.driver.id]"
+              [queryParams]="{ season: list.season }"
+              ><p class="section-eyebrow">ДРУГИЙ ПІЛОТ ↗</p>
+              <h2>{{ b.driver.name }}</h2>
+              <p class="note">{{ b.standing?.teams?.join(' · ') || 'Команда не вказана' }}</p></a
+            >
+          </div>
+          <section class="panel" aria-labelledby="metrics-heading">
+            <h2 id="metrics-heading">Показники сезону</h2>
+            <div
+              class="table-scroll"
+              role="region"
+              tabindex="0"
+              aria-label="Порівняння показників пілотів"
+            >
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Показник</th>
+                    <th scope="col">{{ a.driver.name }}</th>
+                    <th scope="col">{{ b.driver.name }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Очки чемпіонату</th>
+                    <td>{{ number(a.standing?.points) }}</td>
+                    <td>{{ number(b.standing?.points) }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Перемоги в заліку</th>
+                    <td>{{ number(a.standing?.wins) }}</td>
+                    <td>{{ number(b.standing?.wins) }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Фактичні фініші*</th>
+                    <td>{{ data.left.finishes }}</td>
+                    <td>{{ data.right.finishes }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Середня позиція на фініші*</th>
+                    <td>{{ number(data.left.average) }}</td>
+                    <td>{{ number(data.right.average) }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Попереду в очних фінішах*</th>
+                    <td>{{ data.leftWins }}</td>
+                    <td>{{ data.rightWins }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="note">
+              Залік: {{ a.driver.name }} — після етапу {{ a.standingsRound ?? '—' }};
+              {{ b.driver.name }} — після етапу {{ b.standingsRound ?? '—' }}. Очки чемпіонату
+              можуть включати спринти, штрафи й історичні правила заліку.
+            </p>
+            <p class="note">
+              * Фініші — лише записи зі статусом Finished або відставанням на кола. Середня позиція
+              рахується за фінішами; менше — краще. Етапи з кількома записами одного пілота
+              виключені з цих розрахунків. Очне порівняння: {{ data.comparable }} спільних етапів з
+              фінішем обох; однакових позицій: {{ data.ties }}. Ці числа не є прогнозом.
+            </p>
+          </section>
+          @if (data.rows.length) {
+            @if (chart(); as graph) {
+              <section class="panel" aria-labelledby="chart-heading">
+                <h2 id="chart-heading">Фінішні позиції за етапами</h2>
+                <p class="note">
+                  <span class="first-color">● {{ a.driver.name }} — суцільна</span> ·
+                  <span>■ {{ b.driver.name }} — пунктирна</span>. Менше число — вища позиція.
+                </p>
+                <div
+                  class="chart-scroll"
+                  role="region"
+                  tabindex="0"
+                  aria-label="Графік фінішних позицій, прокручується горизонтально"
+                >
+                  <svg
+                    viewBox="0 0 800 300"
+                    role="img"
+                    aria-labelledby="compare-chart-title compare-chart-description"
+                  >
+                    <title id="compare-chart-title">
+                      Порівняння фінішів {{ a.driver.name }} та {{ b.driver.name }}
+                    </title>
+                    <desc id="compare-chart-description">
+                      Обидва пілоти мають спільні осі. Сходи, пропуски й кілька записів етапу
+                      розривають лінії. Числові дані наведені в таблиці нижче.
+                    </desc>
+                    @for (tick of graph.ticks; track tick.value) {
+                      <line
+                        x1="55"
+                        x2="745"
+                        [attr.y1]="tick.y"
+                        [attr.y2]="tick.y"
+                        class="grid-line"
+                      />
+                      <text x="37" [attr.y]="tick.y + 4" text-anchor="end">{{ tick.value }}</text>
+                    }
+                    <path [attr.d]="graph.left.path" class="first-line" />
+                    <path [attr.d]="graph.right.path" class="second-line" />
+                    @for (point of graph.left.points; track point.round) {
+                      <circle [attr.cx]="point.x" [attr.cy]="point.y" r="4" class="first-dot" />
+                    }
+                    @for (point of graph.right.points; track point.round) {
+                      <rect
+                        [attr.x]="point.x - 3"
+                        [attr.y]="point.y - 3"
+                        width="6"
+                        height="6"
+                        class="second-dot"
+                      />
+                    }
+                    @for (point of graph.rounds; track point.round) {
+                      <text [attr.x]="point.x" y="284" text-anchor="middle">{{ point.round }}</text>
+                    }
+                  </svg>
+                </div>
+                <p class="note">
+                  Етап. Сходи та пропуски не замінюються останнім місцем. Для пояснення результатів
+                  виберіть етап:
+                </p>
+                <div class="round-buttons" aria-label="Пояснення результатів за етапом">
+                  @for (row of data.rows; track row.round) {
+                    <button
+                      type="button"
+                      [attr.aria-label]="'Етап ' + row.round + ': ' + row.name"
+                      [attr.aria-pressed]="activeRound() === row.round"
+                      (mouseenter)="activeRound.set(row.round)"
+                      (focus)="activeRound.set(row.round)"
+                      (click)="activeRound.set(row.round)"
+                    >
+                      {{ row.round }}
+                    </button>
+                  }
+                </div>
+                @if (selectedRow(); as selected) {
+                  <div class="round-details" role="status">
+                    <strong>Етап {{ selected.round }} · {{ selected.name }}</strong>
+                    <p>{{ a.driver.name }}: {{ resultLabel(selected.left) }}</p>
+                    <p>{{ b.driver.name }}: {{ resultLabel(selected.right) }}</p>
+                  </div>
+                }
+              </section>
+            }
+            <section class="panel">
+              <h2>Результати за етапами</h2>
+              <div class="table-scroll" role="region" tabindex="0" aria-label="Порівняння гонок">
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Гран-прі</th>
+                      <th scope="col">{{ a.driver.name }}</th>
+                      <th scope="col">{{ b.driver.name }}</th>
+                      <th scope="col">Попереду на фініші</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (row of data.rows; track row.round) {
+                      <tr>
+                        <th scope="row">
+                          <a
+                            [routerLink]="['/calendar', list.season, row.round]"
+                            [queryParams]="{ session: 'race' }"
+                            >{{ row.round }} · {{ row.name }}</a
+                          >
+                        </th>
+                        <td>{{ resultLabel(row.left) }}</td>
+                        <td>{{ resultLabel(row.right) }}</td>
+                        <td>
+                          {{
+                            row.winner === 'left'
+                              ? a.driver.name
+                              : row.winner === 'right'
+                                ? b.driver.name
+                                : row.winner === 'tie'
+                                  ? 'Однакова позиція'
+                                  : 'Не порівнюється'
+                          }}
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          } @else {
+            <section class="feedback-panel">
+              <h2>Результатів гонок для цієї пари поки немає</h2>
+              <p>Показники заліку наведені вище.</p>
+            </section>
+          }
+          <section class="source-pair" aria-label="Актуальність профілів">
+            <div>
+              <h3>{{ a.driver.name }}</h3>
+              <app-source-note
+                [metadata]="a"
+                staleMessage="Профіль першого пілота містить збережені дані."
+              />
+            </div>
+            <div>
+              <h3>{{ b.driver.name }}</h3>
+              <app-source-note
+                [metadata]="b"
+                staleMessage="Профіль другого пілота містить збережені дані."
+              />
+            </div>
+          </section>
+        }
+      }
+    } @else {
+      <section class="feedback-panel">
+        <h2>Недостатньо пілотів для порівняння</h2>
+        <p>Джерело має надати щонайменше двох пілотів у заліку. Виберіть інший сезон.</p>
+      </section>
+    }
+    <app-source-note
+      [metadata]="list"
+      staleMessage="Список для вибору пілотів містить збережені дані."
+    />
+  }
+</div>

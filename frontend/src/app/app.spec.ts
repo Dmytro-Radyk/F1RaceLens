@@ -151,11 +151,25 @@ describe('Authentication screen', () => {
         races: [],
       });
     });
+    for (const kind of ['drivers', 'constructors']) {
+      TestBed.inject(HttpTestingController)
+        .expectOne('/api/seasons/current/standings/' + kind)
+        .flush({
+          season: 2026,
+          round: null,
+          updatedAt: '2026-10-17T10:00:00Z',
+          isStale: false,
+          source: 'Jolpica',
+          kind,
+          entries: [],
+        });
+    }
     await fixture.whenStable();
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(page.querySelector('.brand')?.textContent).toContain('F1 Race Lens');
-    expect(page.querySelectorAll('.primary-nav .nav-item')).toHaveLength(7);
-    expect(page.querySelector('.workspace')?.textContent).toContain('Календар ще не опублікований');
+    expect(page.querySelectorAll('.primary-nav .nav-item')).toHaveLength(8);
+    expect(page.querySelector('.primary-nav a[href="/predictions"]')).not.toBeNull();
+    expect(page.querySelector('.workspace')?.textContent).toContain('Календар ще не опубліковано');
     expect(document.activeElement).toBe(page.querySelector('#page-heading'));
 
     page.querySelector<HTMLButtonElement>('.logout-button')!.click();

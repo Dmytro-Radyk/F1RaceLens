@@ -42,3 +42,12 @@ appsettings.*.local.json
 *.log
 .DS_Store
 Thumbs.db
+
+# Local machine learning environment, source snapshots and trained artifacts
+ml/.venv/
+ml/.cache/
+ml/data/
+ml/models/
+ml/reports/
+**/__pycache__/
+catboost_info/

@@ -1,0 +1,141 @@
+<div class="schedule-page home-page">
+  <div class="home-heading">
+    <div>
+      <p class="section-eyebrow">ВАШ ПОГЛЯД НА ПЕРЕГОНИ</p>
+      <h2>
+        Сезон у фокусі
+        @if (season(); as year) {
+          <span>{{ year }}</span>
+        }
+      </h2>
+    </div>
+    <a class="text-link" routerLink="/calendar" [queryParams]="{ season: season() }"
+      >Відкрити календар <span aria-hidden="true">↗</span></a
+    >
+  </div>
+
+  @if (calendar.isLoading()) {
+    <section class="home-card feedback-panel" role="status">
+      <h3>Завантажуємо календар…</h3>
+      <p>Готуємо огляд актуального сезону.</p>
+    </section>
+  } @else if (calendar.error()) {
+    <section class="home-card feedback-panel" role="alert">
+      <h3>Не вдалося завантажити календар</h3>
+      <p>Заліки та інші розділи доступні нижче.</p>
+      <button class="secondary-action" type="button" (click)="calendar.reload()">
+        Оновити календар
+      </button>
+    </section>
+  } @else if (calendar.hasValue()) {
+    @let data = calendar.value();
+    @if (nextRace(); as race) {
+      <section class="race-hero" aria-labelledby="next-race-title">
+        <div class="race-intro">
+          <p class="section-eyebrow">
+            {{ past(race) ? 'ОЧІКУЄМО ОНОВЛЕННЯ РЕЗУЛЬТАТІВ' : 'НАСТУПНИЙ ГРАН-ПРІ' }}
+          </p>
+          <p class="round-label">
+            ЕТАП {{ race.round }} <span aria-hidden="true">/</span>
+            {{ country(race.circuit.country) }}
+          </p>
+          <h3 id="next-race-title">{{ race.name }}</h3>
+          <p class="circuit-name">{{ race.circuit.name }} · {{ race.circuit.locality }}</p>
+          <div class="race-start">
+            <span>{{ date(race) }}</span
+            ><strong>{{ time(race) }}</strong>
+          </div>
+          @if (past(race)) {
+            <p class="home-note">
+              Час старту за розкладом минув. Підсумок етапу ще не підтверджений у завантаженому
+              заліку.
+            </p>
+          }
+          <a class="primary-link" [routerLink]="['/calendar', race.season, race.round]"
+            >Сторінка Гран-прі <span aria-hidden="true">→</span></a
+          >
+        </div>
+        <div class="weekend-schedule">
+          <h4>Розклад вікенду</h4>
+          <p class="home-note">Час у вашому часовому поясі</p>
+          @if (race.sessions.length) {
+            <ul class="session-list">
+              @for (session of race.sessions; track session.kind) {
+                <li>
+                  <span
+                    >{{ session.name }}<small>{{ date(session) }}</small></span
+                  ><time [attr.datetime]="session.startsAt ?? session.date">{{
+                    time(session)
+                  }}</time>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p>Розклад сесій ще не опубліковано.</p>
+          }
+        </div>
+      </section>
+    } @else {
+      <section class="home-card empty-calendar">
+        <p class="section-eyebrow">КАЛЕНДАР СЕЗОНУ</p>
+        <h3>
+          {{
+            data.races.length ? 'Майбутніх етапів у календарі немає' : 'Календар ще не опубліковано'
+          }}
+        </h3>
+        <p class="home-note">
+          Історичні сезони й доступні результати можна переглянути в календарі.
+        </p>
+        <a class="text-link" routerLink="/calendar" [queryParams]="{ season: data.season }"
+          >Переглянути етапи →</a
+        >
+      </section>
+    }
+    <div class="season-progress">
+      <div>
+        <strong>{{ data.races.length }}</strong
+        ><span>Гран-прі в календарі</span>
+      </div>
+      <div>
+        <strong>{{ confirmed() ?? '—' }}</strong
+        ><span>етапів у підтвердженому заліку</span>
+      </div>
+      <div>
+        <strong>{{ remaining() ?? '—' }}</strong
+        ><span>етапів без підсумку в заліку</span>
+      </div>
+    </div>
+    <app-source-note [metadata]="data" />
+  }
+
+  <div class="standings-grid">
+    @for (item of standingPanels; track item.kind) {
+      <app-standings-summary
+        [title]="item.title"
+        [kind]="item.kind"
+        [loading]="item.resource.isLoading()"
+        [failed]="!!item.resource.error()"
+        [data]="item.resource.hasValue() ? item.resource.value() : undefined"
+        (retry)="item.resource.reload()"
+      />
+    }
+  </div>
+
+  <section aria-labelledby="explore-title">
+    <div class="card-heading explore-heading">
+      <h3 id="explore-title">Досліджуйте сезон</h3>
+      <span class="home-note">Від результатів до власних висновків</span>
+    </div>
+    <div class="explore-grid">
+      @for (section of sections; track section.path) {
+        <a
+          class="explore-card"
+          [routerLink]="section.path"
+          [queryParams]="section.path === '/predictions' ? null : { season: season() }"
+          ><span class="explore-title">{{ section.title }}<span aria-hidden="true">↗</span></span
+          ><span>{{ section.text }}</span></a
+        >
+      }
+    </div>
+  </section>
+</div>

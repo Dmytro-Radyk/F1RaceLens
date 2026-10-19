@@ -3,6 +3,7 @@ using F1RaceLens.Api.RaceResults;
 using F1RaceLens.Api.Standings;
 using F1RaceLens.Api.Drivers;
 using F1RaceLens.Api.Teams;
+using F1RaceLens.Api.Predictions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddProblemDetails();
@@ -23,6 +24,13 @@ builder.Services.AddSingleton<StandingsService>();
 builder.Services.AddSingleton<JolpicaDriverClient>();
 builder.Services.AddSingleton<DriverService>();
 builder.Services.AddSingleton<HistoricalTeams>();
+builder.Services.AddSingleton<PredictionSource>();
+builder.Services.AddHttpClient("OpenMeteo", client => {
+    client.BaseAddress = new Uri("https://api.open-meteo.com/");
+    client.Timeout = TimeSpan.FromSeconds(8);
+});
+builder.Services.AddSingleton<ForecastWeatherClient>();
+builder.Services.AddSingleton<PredictionService>();
 
 var app = builder.Build();
 app.UseExceptionHandler();
@@ -32,6 +40,7 @@ app.MapResultsEndpoints();
 app.MapStandingsEndpoints();
 app.MapDriverEndpoints();
 HistoricalTeams.MapEndpoints(app);
+PredictionService.MapEndpoints(app);
 app.Run();
 
 public partial class Program;

@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-19",
+  "scope": "Filename search of accessible C:/D:/E:; registered Python 3.13/3.14 and project venv module lookup; project models and uv cache",
+  "removed": {
+    "uv_cache_files": 55,
+    "uv_cache_mib": 336.3,
+    "remaining_empty_lock_removed": true
+  },
+  "module_lookup": {
+    "project_venv": false,
+    "python_3_13": false,
+    "python_3_14": false
+  },
+  "cbm_weights_remaining": 0,
+  "preserved": "Historical evaluation JSON/CSV reports, screenshots and Git branch references are not executable packages.",
+  "limits": "Protected directories and opaque third-party archives not inspected."
+}

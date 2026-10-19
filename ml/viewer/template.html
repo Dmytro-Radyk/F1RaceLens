@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>F1 Race Lens · Перегляд LightGBM</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;background:#111214;color:#f4f4f5}*{box-sizing:border-box}body{margin:0}main{max-width:1160px;margin:auto;padding:32px 24px}h1{font-size:30px;margin:10px 0}h2{font-size:20px}p{line-height:1.6}.muted,small{color:#b7bbc4}.eyebrow{color:#ff808b;font-weight:700;letter-spacing:.1em;font-size:12px}.controls{display:flex;flex-wrap:wrap;gap:16px;margin:24px 0}label{display:grid;gap:8px;min-width:180px;flex:1;font-size:14px}select{font:inherit;padding:12px;background:#1c1e22;color:#f4f4f5;border:1px solid #616570;border-radius:8px;width:100%}select:disabled{opacity:.55}select:focus-visible,summary:focus-visible,.table-wrap:focus-visible{outline:3px solid #ff808b;outline-offset:3px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.stat{background:#1b1d21;border:1px solid #363941;border-radius:12px;padding:18px}.stat span{display:block;color:#b7bbc4;font-size:13px}.stat strong{display:block;margin-top:8px;font-size:27px}.notice{border-left:3px solid #e52b40;padding:12px 18px;background:#1b1d21;margin:22px 0;font-size:14px}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;border-bottom:1px solid #34373e;padding:13px 10px;white-space:nowrap}th{color:#c6cad2;font-size:12px}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}.pred{font-weight:700;color:#ff808b}td:first-child{min-width:190px}.risk{display:flex;align-items:center;justify-content:flex-end;gap:12px}.track{width:62px;height:5px;background:#393c43;border-radius:5px;overflow:hidden}.fill{height:100%;background:#ef6071}details{margin-top:28px;padding:18px 0;border-top:1px solid #363941}summary{font-weight:600;cursor:pointer}.params{display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;font-size:14px}.params p{margin:5px 0}footer{font-size:12px;margin-top:24px;color:#b7bbc4}.badge{display:inline-block;background:#302024;color:#ffabb4;padding:5px 10px;border-radius:6px;font-size:12px}@media(max-width:650px){main{padding:22px 14px}.stats{grid-template-columns:1fr}.controls{gap:12px}label{min-width:100%;}h1{font-size:25px}.params{grid-template-columns:1fr}}
+</style>
+</head>
+<body><main>
+<div class="eyebrow">F1 RACE LENS / LIGHTGBM</div>
+<h1>Робота локальної моделі</h1>
+<p class="muted">Окремий перегляд прогнозів і перевірки. Основний застосунок працює зі своїм статистичним скриптом.</p>
+<div class="controls">
+<label>Версія моделі<select id="model"><option value="lightgbm-v1">LightGBM v1</option></select></label>
+<label>Що переглянути<select id="mode"><option value="season-drivers">Прогноз сезону — пілоти</option><option value="season-teams">Прогноз сезону — команди</option><option value="future">Майбутні Гран-прі — до вікенду</option><option value="post-qualifying">Після кваліфікації</option></select></label>
+<label>Гонка<select id="race" disabled><option>Підсумок сезону</option></select></label>
+</div>
+<div id="content" aria-live="polite" aria-atomic="false">
+<span class="badge" id="kind"></span><h2 id="race-title"></h2>
+<div class="stats"><div class="stat"><span id="s1-label"></span><strong id="s1-value"></strong></div><div class="stat"><span id="s2-label"></span><strong id="s2-value"></strong></div><div class="stat"><span id="s3-label"></span><strong id="s3-value"></strong></div></div>
+<p class="notice" id="notice"></p>
+<div class="table-wrap" role="region" tabindex="0" aria-label="Таблиця майбутнього прогнозу"><table><caption id="caption" class="muted" style="text-align:left;padding:0 10px 14px"></caption><thead><tr id="columns"></tr></thead><tbody id="rows"></tbody></table></div>
+</div>
+<details><summary>Як влаштована обрана модель</summary><div class="params" id="params"></div><p class="muted">Базові версії LightGBM оцінюють темп і ризик за 22 ознаками з попередніх гонок. Окрема модель після кваліфікації має 24 ознаки, включно з фактичною кваліфікаційною позицією та позначкою її доступності. Для кожної майбутньої траси обчислюється власний прогноз зі складом і формою, відомими на поточний зріз. Прогнозовані результати не видаються за факти для наступних гонок.</p><p class="muted">Симуляції стартують з офіційних очок. Випадковість темпу береться з позавибіркових помилок минулих гонок, з командною та особистою складовими. Майбутні спринти рахуються окремо за спринтовою шкалою очок, із наближенням темпу й ризику гонки. За рівності очок порівнюються кількості гоночних перших, других та наступних місць; залишкова нічия випадкова.</p><p class="muted">Відсотки — частки симуляцій, їх калібрування не підтверджене. 80% діапазон — центральні 80% результатів моделі. Погода, кваліфікація, майбутні оновлення, заміни, штрафи та скорочення дистанції не прогнозуються. Оцінки ризику потребують перевірки; некласифікація — не лише технічний схід.</p></details>
+<section aria-labelledby="validation-title"><h2 id="validation-title">Перевірка збережених прогнозів</h2><p class="muted" id="validation-summary"></p><div class="table-wrap" tabindex="0" role="region" aria-label="Збережені передгоночні прогнози"><table><caption class="muted">Перші збережені прогнози; результати перевіряються після гонки</caption><thead><tr><th scope="col">Гран-прі</th><th scope="col">Модель / момент</th><th scope="col">Збережено</th><th scope="col">Перевірка</th></tr></thead><tbody id="validation-rows"></tbody></table></div><p class="muted">Знімки з часом і хешем зберігаються локально до старту; повторний розрахунок їх не замінює. Це локальна перевірка цілісності, а не зовнішнє засвідчення часу. Різні моделі та моменти прогнозу оцінюються окремо.</p></section><footer id="stamp"></footer>
+</main>
+<script type="application/json" id="model-data">__MODEL_DATA__</script>
+<script>
+(()=>{
+const data=JSON.parse(document.getElementById('model-data').textContent);
+const $=id=>document.getElementById(id);
+const num=x=>new Intl.NumberFormat('uk-UA',{maximumFractionDigits:2}).format(x);
+const points=x=>new Intl.NumberFormat('uk-UA',{maximumFractionDigits:0}).format(x);
+const pct=x=>x===0?'<0,1%':x===100?'>99,9%':`${num(x)}%`;
+const txt=(id,v)=>{$(id).textContent=v};
+function cell(row,value,cls){const td=document.createElement('td');td.textContent=value;if(cls)td.className=cls;row.append(td);return td}
+function headings(labels){$('columns').replaceChildren();labels.forEach((text,i)=>{const th=document.createElement('th');th.scope='col';th.textContent=text;if(i)th.className='num';$('columns').append(th)})}
+function identity(tr,name,team){const who=cell(tr,name);if(team){who.append(document.createElement('br'));const small=document.createElement('small');small.textContent=team;who.append(small)}}
+function stats(a,b,c){[a,b,c].forEach(([label,value],i)=>{txt(`s${i+1}-label`,label);txt(`s${i+1}-value`,value)})}
+let baseVersion='lightgbm-v1';
+function controls(){
+ const mode=$('mode').value,post=mode==='post-qualifying',old=$('race').value,season=mode.startsWith('season-');
+ $('model').disabled=post;$('race').replaceChildren();$('race').disabled=season||post;
+ if(post){
+  if($('model').value!=='lightgbm-q1')baseVersion=$('model').value;
+  $('model').replaceChildren();$('model').add(new Option('lightgbm-q1 — після кваліфікації','lightgbm-q1'));
+  const p=data.post_qualifying;$('race').add(new Option(p?.name||'Очікуємо дані',String(p?.round||0)));render();return;
+ }
+ if($('model').value==='lightgbm-q1'){
+  $('model').replaceChildren();Object.keys(data.models).reverse().forEach(v=>$('model').add(new Option(v+' — '+data.models[v].version,v)));$('model').value=baseVersion;
+ }
+ const model=data.models[$('model').value];
+ if(season){$('race').add(new Option('Підсумок сезону','season'))}
+ else{const races=model.forecast.races;races.forEach(r=>$('race').add(new Option(`${r.round}. ${r.name}`,String(r.round))));if(races.some(r=>String(r.round)===old))$('race').value=old}
+ render();
+}
+function render(){
+ const mode=$('mode').value,post=mode==='post-qualifying',season=mode.startsWith('season-'),future=mode==='future'||post;
+ const model=post?data.post_qualifying?.model:data.models[$('model').value];
+ const forecast=post?data.post_qualifying?.forecast:model.forecast;
+ document.querySelector('#content .table-wrap').hidden=false;
+ if(post&&data.post_qualifying?.status!=='ready'){
+  $('rows').replaceChildren();headings([]);document.querySelector('#content .table-wrap').hidden=true;
+  const p=data.post_qualifying;txt('kind','Окрема модель після кваліфікації');txt('race-title','Очікуємо результати кваліфікації');
+  const q=p?.qualifying,when=q?.time?new Date(q.date+'T'+q.time).toLocaleString('uk-UA'):'Час ще невідомий';
+  stats(['Найближчий Гран-прі',p?.name||'Немає даних'],['Кваліфікація · місцевий час',when],['Ознак навченої моделі',model?.features||'—']);
+  txt('notice',p?.message||'Підготуйте модель та оновіть кваліфікаційні дані.');$('params').replaceChildren();
+  if(model){const line=document.createElement('p');line.textContent=`${model.version}: ${model.pace_trees} дерев темпу / ${model.risk_trees} ризику. Кваліфікаційна позиція не враховує непідтверджені штрафи стартової решітки.`;$('params').append(line)}
+  if(model?.same_stage_baseline){const b=model.same_stage_baseline,e=model.evaluation,line=document.createElement('p');line.textContent=`Ретроспективна перевірка 2026: MAE моделі ${num(e.rank_mae)}, простого порядку кваліфікації ${num(b.rank_mae)}. Стабільної переваги ML не доведено.`;$('params').append(line)}
+  txt('stamp',p?'Стан оновлено: '+new Date(p.generated).toLocaleString('uk-UA'):'Немає знімка кваліфікаційного прогнозу');return;
+ }
+
+ $('rows').replaceChildren();
+ if(season){
+  const teams=mode==='season-teams',rows=teams?forecast.teams:forecast.drivers,favourite=[...rows].sort((a,b)=>b.title_chance-a.title_chance)[0];
+  txt('kind',`Прогноз майбутнього · ${num(forecast.simulations)} симуляцій LightGBM`);
+  txt('race-title',`${forecast.season} · підсумковий залік ${teams?'команд':'пілотів'}`);
+  stats(['Фаворит титулу',favourite.name],['Титул у симуляціях',pct(favourite.title_chance)],['Залишилося',`${forecast.remaining_races} ГП · спринтів: ${forecast.remaining_sprints}`]);
+  txt('notice',`Стартуємо з офіційних очок після етапу ${forecast.through_round}. Симулюються лише майбутні сесії, зі складом та формою на цей зріз. Відсотки експериментальні, калібрування шансів чемпіонату ще не підтверджене.`);
+  headings([teams?'Команда':'Пілот','Прогноз, очки','Очки: 80% діапазон','Місця: 80%','Титул','Топ-3']);
+  txt('caption',`${model.version} · порядок за очікуваними підсумковими очками`);
+  rows.forEach((r,i)=>{const tr=document.createElement('tr');identity(tr,`${i+1}. ${r.name}`,r.active?'':'Без майбутніх нарахувань');cell(tr,points(r.expected_points),'num pred');cell(tr,`${points(r.points_low)}–${points(r.points_high)}`,'num');cell(tr,`${r.position_low}–${r.position_high}`,'num');cell(tr,pct(r.title_chance),'num');cell(tr,pct(r.top3_chance),'num');$('rows').append(tr)});
+ }else if(future){
+  const race=forecast.races.find(r=>String(r.round)===$('race').value);
+  if(!race){txt('race-title','Сезон завершений: майбутніх Гран-прі немає');headings([]);return}
+  const favourite=[...race.drivers].sort((a,b)=>b.win_chance-a.win_chance)[0];
+  txt('kind',`Майбутній Гран-прі · ${num(forecast.simulations)} симуляцій`);txt('race-title',`${race.round}. ${race.name} · ${race.date}`);
+  stats(['Фаворит гонки',favourite.name],['Перемога у симуляціях',pct(favourite.win_chance)],['Дані після етапу',forecast.through_round]);
+  txt('notice',post?data.post_qualifying.message:'Прогноз саме цієї майбутньої траси за минулими результатами. Склад і форма зафіксовані на поточний зріз; майбутня погода, кваліфікація та оновлення машин невідомі. Частки симуляцій не є перевіреними ймовірностями.');
+  headings(['Пілот / команда','Середнє місце','Очки гонки','Перемога','Подіум','Некласифікація']);txt('caption',`${model.version} · порядок за очікуваними очками гонки`);
+  race.drivers.forEach(r=>{const tr=document.createElement('tr');identity(tr,r.name,r.team);cell(tr,num(r.average_position),'num');cell(tr,points(r.expected_points),'num pred');cell(tr,pct(r.win_chance),'num');cell(tr,pct(r.podium_chance),'num');cell(tr,`${num(r.risk*100)}%`,'num');$('rows').append(tr)});
+ }
+ $('params').replaceChildren();
+ const params=[['Версія',model.version],['Вага базової статистики: темп / ризик',`${num(100*(model.pace_baseline_weight||0))}% / ${num(100*(model.risk_baseline_weight||0))}%`],['Тип темпу',({regression:'Регресія RMSE',regression_l1:'Регресія MAE',huber:'Регресія Huber'}[model.pace_objective]||'Регресія')],['Дерева темпу / ризику',`${model.pace_trees} / ${model.risk_trees}`],['Глибина темпу / ризику',`${model.pace_depth} / ${model.risk_depth}`],['Швидкість навчання',num(model.learning_rate)],['Навчання до року включно',model.train_through],['Шар симуляцій',forecast.forecast_version],['Помилки для випадковості',forecast.uncertainty.residual_year]];
+ params.forEach(([k,v])=>{const p=document.createElement('p');p.textContent=`${k}: ${v}`;$('params').append(p)});
+ txt('stamp',`Прогноз сформовано: ${new Date(forecast.generated).toLocaleString('uk-UA')}. Заліки отримані: ${new Date(forecast.source_updated).toLocaleString('uk-UA')}. Перегляд — збережений зріз, не live.`);
+}
+const validation=data.evaluation,records=validation?.rows||[];
+txt('validation-summary',`Зафіксовано прогнозів: ${records.length}. Перевірено після гонки: ${records.filter(r=>r.status==='scored').length}. Очікують результатів: ${records.filter(r=>r.status==='pending').length}. Оновлення даних та перевірка запускаються вручну.`);
+records.forEach(r=>{const tr=document.createElement('tr');cell(tr,`${r.round}. ${r.name}`);cell(tr,`${r.model} · ${r.stage==='post-qualifying'?'після кваліфікації':'до вікенду'}`);cell(tr,new Date(r.frozen_at).toLocaleString('uk-UA'));cell(tr,r.status==='pending'?'Очікуємо гонку':r.status==='scored'?`MAE ${num(r.rank_mae)} · Brier переможця ${num(r.winner_brier_multiclass)} · log loss ${num(r.winner_logloss)} · переможець ${r.winner_hit?'вгаданий':'не вгаданий'}`:'Склад учасників змінився — не оцінено');$('validation-rows').append(tr)});
+$('model').replaceChildren();Object.keys(data.models).reverse().forEach(v=>$('model').add(new Option(v+' — '+data.models[v].version,v)));
+$('model').value='lightgbm-v1';
+$('model').addEventListener('change',controls);$('mode').addEventListener('change',controls);$('race').addEventListener('change',render);controls();
+})();
+</script></body></html>

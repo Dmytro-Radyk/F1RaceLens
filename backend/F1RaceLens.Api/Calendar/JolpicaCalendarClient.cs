@@ -78,10 +78,19 @@ public sealed class JolpicaCalendarClient(IHttpClientFactory clientFactory)
             PositiveInteger(race, "round"),
             RequiredText(race, "raceName"),
             new CircuitInfo(RequiredText(circuit, "circuitId"), RequiredText(circuit, "circuitName"),
-                RequiredText(location, "locality"), RequiredText(location, "country")),
+                RequiredText(location, "locality"), RequiredText(location, "country"),
+                Coordinate(location, "lat", 90), Coordinate(location, "long", 180)),
             date,
             startsAt,
             sessions.OrderBy(session => session.Date).ThenBy(session => session.StartsAt ?? DateTimeOffset.MaxValue).ToArray());
+    }
+
+    private static double? Coordinate(JsonElement location, string name, double maximum)
+    {
+        if (!location.TryGetProperty(name, out var value) || value.ValueKind == JsonValueKind.Null) return null;
+        if (!double.TryParse(value.GetString(), NumberStyles.Float, CultureInfo.InvariantCulture, out var coordinate)
+            || !double.IsFinite(coordinate) || Math.Abs(coordinate) > maximum) throw new FormatException("Invalid circuit coordinate.");
+        return coordinate;
     }
 
     private static string RequiredText(JsonElement element, string property)
