@@ -107,18 +107,24 @@
         <h1 id="page-heading" tabindex="-1">{{ activeLabel() | translate }}</h1>
       </div>
       <app-language-picker />
-      @if (auth.isAuthenticated()) {
-        <button class="logout-button" type="button" (click)="logout()">
-          {{ 'Вийти' | translate }}
-        </button>
-      } @else {
-        <a class="logout-button" routerLink="/login" [queryParams]="{ returnUrl: router.url }">{{
-          'Увійти' | translate
-        }}</a>
-      }
+      <div class="account-actions">
+        @if (auth.isAuthenticated()) {
+          <a class="logout-button" routerLink="/profile">{{ 'Мій профіль' | translate }}</a>
+          <button class="logout-button" type="button" (click)="logout()" [disabled]="loggingOut()">
+            {{ 'Вийти' | translate }}
+          </button>
+        } @else {
+          <a class="logout-button" routerLink="/login" [queryParams]="{ returnUrl: router.url }">{{
+            'Увійти' | translate
+          }}</a>
+        }
+      </div>
     </header>
 
     <main class="workspace" id="main-content" [attr.aria-label]="'Вміст сторінки' | translate">
+      @if (logoutError() || auth.preferenceError()) {
+        <p role="alert">{{ logoutError() || auth.preferenceError() | translate }}</p>
+      }
       <router-outlet (activate)="onPageActivated()" />
     </main>
   </div>

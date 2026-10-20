@@ -10,3 +10,4 @@
 
 - PostgreSQL/EF Core: @context/architecture/postgresql-storage.md. Зміни схеми лише через міграції, без EnsureCreated у runtime. Спортивні GET читають опубліковані зрізи; невдалий імпорт не замінює попередню версію.
 - PostgreSQL-тести використовують `RACELENS_TEST_DATABASE` і тільки створені ними тимчасові схеми. Без змінної інтеграційні сценарії мають явний skip. Не виводити значення змінної або локальний конфіг у логах.
+- Identity/профіль: @context/features/user-accounts.md. HttpOnly cookie та antiforgery для змін; UserId лише з автентифікованого principal. Не логувати тіла auth-запитів, паролі, хеші або cookie. `.local/identity-keys` і дампи не додавати в Git.

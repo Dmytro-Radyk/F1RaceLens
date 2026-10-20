@@ -3,7 +3,7 @@
   <h1 id="auth-heading" tabindex="-1">{{ 'Реєстрація' | translate }}</h1>
   <p class="auth-intro">{{ 'Створіть обліковий запис F1 Race Lens.' | translate }}</p>
 
-  <form novalidate (submit)="submit($event)">
+  <form novalidate (submit)="submit($event)" [attr.aria-busy]="busy()">
     <div class="auth-field">
       <label for="register-login">{{ 'Логін' | translate }}</label>
       <input
@@ -13,13 +13,34 @@
         [attr.aria-invalid]="registerForm.login().touched() && registerForm.login().invalid()"
         [attr.aria-describedby]="
           registerForm.login().touched() && registerForm.login().invalid()
-            ? 'register-login-error'
-            : null
+            ? 'register-login-error registration-rules'
+            : 'registration-rules'
         "
       />
       @if (registerForm.login().touched() && registerForm.login().invalid()) {
         <p class="field-error" id="register-login-error">
           {{ registerForm.login().errors()[0].message | translate }}
+        </p>
+      }
+    </div>
+
+    <div class="auth-field">
+      <label for="register-email">{{ 'Електронна пошта' | translate }}</label>
+      <input
+        id="register-email"
+        type="email"
+        autocomplete="email"
+        [formField]="registerForm.email"
+        [attr.aria-invalid]="registerForm.email().touched() && registerForm.email().invalid()"
+        [attr.aria-describedby]="
+          registerForm.email().touched() && registerForm.email().invalid()
+            ? 'register-email-error'
+            : null
+        "
+      />
+      @if (registerForm.email().touched() && registerForm.email().invalid()) {
+        <p class="field-error" id="register-email-error">
+          {{ registerForm.email().errors()[0].message | translate }}
         </p>
       }
     </div>
@@ -44,11 +65,16 @@
         </p>
       }
     </div>
+    <p class="form-notice" id="registration-rules">
+      {{ 'Логін: 3–30 латинських літер, цифр, _ або -. Пароль: 12–128 символів.' | translate }}
+    </p>
 
     @if (notice()) {
-      <p class="form-notice" role="status">{{ notice() | translate }}</p>
+      <p class="form-error" role="alert">{{ notice() | translate }}</p>
     }
-    <button class="auth-primary" type="submit">{{ 'Зареєструватися' | translate }}</button>
+    <button class="auth-primary" type="submit" [disabled]="busy()">
+      {{ (busy() ? 'Створюємо обліковий запис…' : 'Зареєструватися') | translate }}
+    </button>
   </form>
   <p class="auth-switch">
     {{ 'Уже є обліковий запис?' | translate }}

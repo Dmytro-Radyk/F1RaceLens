@@ -1,7 +1,7 @@
 import { TranslatePipe } from '../../../core/i18n/translate.pipe';
 import { Component, inject, output, signal } from '@angular/core';
-import { form, FormField, required } from '@angular/forms/signals';
-import { AuthService } from '../../services/auth.service';
+import { form, FormField, required, maxLength } from '@angular/forms/signals';
+import { accountError, AuthService } from '../../services/auth.service';
 import type { AuthCredentials } from '../../models/auth.types';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -19,29 +19,40 @@ export class LoginForm {
   protected readonly loginForm = form(this.model, (fields) => {
     required(fields.login, { message: 'Введіть логін.' });
     required(fields.password, { message: 'Введіть пароль.' });
+    maxLength(fields.login, 254, { message: 'Перевірте логін, електронну пошту та пароль.' });
+    maxLength(fields.password, 128, { message: 'Пароль: від 12 до 128 символів.' });
   });
   protected readonly error = signal('');
   protected readonly notice = signal('');
+  protected readonly busy = signal(false);
 
-  protected submit(event: Event): void {
+  protected async submit(event: Event): Promise<void> {
     event.preventDefault();
+    if (this.busy()) return;
     this.loginForm.login().markAsTouched();
     this.loginForm.password().markAsTouched();
     this.error.set('');
     if (this.loginForm().invalid()) return;
 
-    if (this.auth.login(this.model())) {
+    this.busy.set(true);
+    try {
+      await this.auth.login(this.model());
       const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
       void this.router.navigateByUrl(
-        returnUrl?.startsWith('/') && !returnUrl.startsWith('//') ? returnUrl : '/home',
+        returnUrl?.startsWith('/') && !returnUrl.startsWith('//') && !/[\\\r\n]/.test(returnUrl)
+          ? returnUrl
+          : '/home',
       );
-    } else {
-      this.error.set('Невірний логін або пароль.');
+    } catch (error) {
+      this.error.set(accountError(error));
+    } finally {
+      this.busy.set(false);
+      this.model.update((value) => ({ ...value, password: '' }));
     }
   }
 
   protected showResetNotice(event: Event): void {
     event.preventDefault();
-    this.notice.set('Скидання пароля стане доступним після підключення сервера.');
+    this.notice.set('Відновлення пароля через пошту ще не налаштоване.');
   }
 }

@@ -13,7 +13,10 @@ export class ThemeService {
   readonly isDark = computed(() => this.mode() === 'dark');
 
   toggle(): void {
-    const next = this.isDark() ? 'light' : 'dark';
+    this.set(this.isDark() ? 'light' : 'dark');
+  }
+
+  set(next: Theme): void {
     this.selected.set(next);
 
     try {

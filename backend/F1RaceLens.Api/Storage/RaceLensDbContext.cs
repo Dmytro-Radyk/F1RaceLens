@@ -1,9 +1,11 @@
 using F1RaceLens.Api.Storage.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using F1RaceLens.Api.Accounts;
 
 namespace F1RaceLens.Api.Storage;
 
-public sealed class RaceLensDbContext(DbContextOptions<RaceLensDbContext> options) : DbContext(options)
+public sealed class RaceLensDbContext(DbContextOptions<RaceLensDbContext> options) : IdentityUserContext<ApplicationUser>(options)
 {
     public DbSet<Predictions.Journal.ForecastRun> ForecastRuns => Set<Predictions.Journal.ForecastRun>();
     public DbSet<Predictions.Journal.ForecastSeal> ForecastSeals => Set<Predictions.Journal.ForecastSeal>();
@@ -22,6 +24,14 @@ public sealed class RaceLensDbContext(DbContextOptions<RaceLensDbContext> option
     public DbSet<ParticipationRecord> Participations => Set<ParticipationRecord>();
     protected override void OnModelCreating(ModelBuilder model)
     {
+        base.OnModelCreating(model);
+        model.Entity<ApplicationUser>().Property(x => x.Language).HasMaxLength(5);
+        model.Entity<ApplicationUser>().Property(x => x.Theme).HasMaxLength(10);
+        model.Entity<ApplicationUser>().HasIndex(x => x.NormalizedEmail).IsUnique();
+        model.Entity<UserFavourite>().HasKey(x => new { x.UserId, x.Kind, x.EntityId });
+        model.Entity<UserFavourite>().Property(x => x.Kind).HasMaxLength(10);
+        model.Entity<UserFavourite>().Property(x => x.EntityId).HasMaxLength(80);
+        model.Entity<UserFavourite>().HasOne<ApplicationUser>().WithMany().HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
         model.Entity<Predictions.Journal.ForecastRun>(entity => {
             entity.HasIndex(x => new { x.Engine, x.OutputHash, x.InputHash }).IsUnique();
             entity.Property(x => x.Inputs).HasColumnType("text");

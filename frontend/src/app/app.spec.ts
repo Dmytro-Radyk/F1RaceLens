@@ -5,6 +5,17 @@ import { provideRouter, Router } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { routes } from './app.routes';
+import axe from 'axe-core';
+const account = {
+  id: 'test-user',
+  login: 'test-user',
+  email: 'test@example.test',
+  language: 'uk',
+  theme: 'dark',
+  driverIds: [],
+  teamIds: [],
+  favourites: [],
+};
 
 describe('Authentication screen', () => {
   beforeEach(async () => {
@@ -17,6 +28,7 @@ describe('Authentication screen', () => {
   });
 
   afterEach(() => {
+    TestBed.inject(HttpTestingController).verify();
     vi.restoreAllMocks();
     localStorage.clear();
   });
@@ -69,11 +81,17 @@ describe('Authentication screen', () => {
     expect(page.querySelector('.auth-brand-panel')).toBeTruthy();
     expect(page.querySelectorAll('.auth-social button:disabled')).toHaveLength(2);
     expect(page.querySelector('.auth-helper a')).toBeTruthy();
+    expect(
+      (await axe.run(page, { rules: { 'color-contrast': { enabled: false } } })).violations,
+    ).toEqual([]);
 
     page.querySelector<HTMLButtonElement>('.auth-switch button')!.click();
     await fixture.whenStable();
     expect(page.querySelector('h1')?.textContent).toBe('Реєстрація');
     expect(page.querySelector('app-register-form form')).toBeTruthy();
+    expect(
+      (await axe.run(page, { rules: { 'color-contrast': { enabled: false } } })).violations,
+    ).toEqual([]);
   });
 
   it('rejects empty fields and wrong credentials', async () => {
@@ -96,12 +114,23 @@ describe('Authentication screen', () => {
     page
       .querySelector('form')!
       .dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    await vi.waitFor(() =>
+      TestBed.inject(HttpTestingController).expectOne('/api/auth/csrf').flush(null),
+    );
+    await vi.waitFor(() =>
+      TestBed.inject(HttpTestingController)
+        .expectOne('/api/auth/login')
+        .flush({}, { status: 401, statusText: 'Unauthorized' }),
+    );
     await fixture.whenStable();
-    expect(page.querySelector('.form-error')?.textContent).toContain('Невірний');
+    await vi.waitFor(() => {
+      fixture.detectChanges();
+      expect(page.querySelector('.form-error')?.textContent).toContain('Невірний');
+    });
     expect(page.querySelector('.app-shell')).toBeNull();
   });
 
-  it('validates registration without creating a session', async () => {
+  it('validates registration and shows a safe server error without creating a session', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const page = fixture.nativeElement as HTMLElement;
@@ -111,11 +140,14 @@ describe('Authentication screen', () => {
       .querySelector('form')!
       .dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
     await fixture.whenStable();
-    expect(page.querySelectorAll('.field-error')).toHaveLength(2);
+    expect(page.querySelectorAll('.field-error')).toHaveLength(3);
 
     const login = page.querySelector<HTMLInputElement>('#register-login')!;
     login.value = 'new-user';
     login.dispatchEvent(new Event('input', { bubbles: true }));
+    const email = page.querySelector<HTMLInputElement>('#register-email')!;
+    email.value = 'test@example.test';
+    email.dispatchEvent(new Event('input', { bubbles: true }));
     const password = page.querySelector<HTMLInputElement>('#register-password')!;
     password.value = 'test-password';
     password.dispatchEvent(new Event('input', { bubbles: true }));
@@ -123,25 +155,42 @@ describe('Authentication screen', () => {
     page
       .querySelector('form')!
       .dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    await vi.waitFor(() =>
+      TestBed.inject(HttpTestingController).expectOne('/api/auth/csrf').flush(null),
+    );
+    await vi.waitFor(() =>
+      TestBed.inject(HttpTestingController)
+        .expectOne('/api/auth/register')
+        .flush({ code: 'registration-unavailable' }, { status: 400, statusText: 'Bad Request' }),
+    );
     await fixture.whenStable();
-    expect(page.querySelector('.form-notice')?.textContent).toContain('підключення сервера');
+    await vi.waitFor(() => {
+      fixture.detectChanges();
+      expect(page.querySelector('.form-error')?.textContent).toContain('Не вдалося створити');
+    });
     expect(page.querySelector('.app-shell')).toBeNull();
   });
 
-  it('opens the existing application for the demo account', async () => {
+  it('opens the application after server login and waits for server logout', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const page = fixture.nativeElement as HTMLElement;
     const login = page.querySelector<HTMLInputElement>('#login')!;
-    login.value = 'admin';
+    login.value = 'test-user';
     login.dispatchEvent(new Event('input', { bubbles: true }));
     const password = page.querySelector<HTMLInputElement>('#login-password')!;
-    password.value = '12345';
+    password.value = 'test-password';
     password.dispatchEvent(new Event('input', { bubbles: true }));
     await fixture.whenStable();
     page
       .querySelector('form')!
       .dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    await vi.waitFor(() =>
+      TestBed.inject(HttpTestingController).expectOne('/api/auth/csrf').flush(null),
+    );
+    await vi.waitFor(() =>
+      TestBed.inject(HttpTestingController).expectOne('/api/auth/login').flush(account),
+    );
     await vi.waitFor(() => {
       TestBed.inject(HttpTestingController).expectOne('/api/seasons/current/calendar').flush({
         season: 2026,
@@ -172,10 +221,19 @@ describe('Authentication screen', () => {
     expect(page.querySelector('.workspace')?.textContent).toContain('Календар ще не опубліковано');
     expect(document.activeElement).toBe(page.querySelector('#page-heading'));
 
-    page.querySelector<HTMLButtonElement>('.logout-button')!.click();
+    page.querySelector<HTMLButtonElement>('button.logout-button')!.click();
+    await vi.waitFor(() =>
+      TestBed.inject(HttpTestingController).expectOne('/api/auth/csrf').flush(null),
+    );
+    await vi.waitFor(() =>
+      TestBed.inject(HttpTestingController).expectOne('/api/auth/logout').flush(null),
+    );
     await fixture.whenStable();
     await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(page.querySelector('app-login-form')).toBeTruthy();
-    expect(document.activeElement).toBe(page.querySelector('#login'));
+    await vi.waitFor(() => {
+      fixture.detectChanges();
+      expect(page.querySelector('app-login-form')).toBeTruthy();
+    });
+    await vi.waitFor(() => expect(document.activeElement).toBe(page.querySelector('#login')));
   });
 });

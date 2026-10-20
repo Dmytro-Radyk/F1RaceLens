@@ -7,6 +7,7 @@ using F1RaceLens.Api.Standings;
 using F1RaceLens.Api.Drivers;
 using F1RaceLens.Api.Teams;
 using F1RaceLens.Api.Predictions;
+using F1RaceLens.Api.Accounts;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true).AddEnvironmentVariables();
@@ -22,6 +23,8 @@ if (persistenceEnabled)
     builder.Services.AddTransient<SourceCaptureHandler>();
     builder.Services.AddHttpContextAccessor();
     builder.Services.AddSingleton<F1RaceLens.Api.Predictions.Journal.ForecastJournal>();
+    builder.Services.AddScoped(services => services.GetRequiredService<IDbContextFactory<RaceLensDbContext>>().CreateDbContext());
+    builder.Services.AddAccounts(builder.Environment);
 }
 builder.Services.AddProblemDetails();
 builder.Services.AddSingleton(TimeProvider.System);
@@ -86,6 +89,22 @@ if (args.Contains("--migrate", StringComparer.Ordinal))
     return;
 }
 app.UseExceptionHandler();
+if (persistenceEnabled)
+{
+    app.Use(async (context, next) => {
+        if (context.Request.Path.StartsWithSegments("/api/auth"))
+        {
+            var limit = context.Features.Get<Microsoft.AspNetCore.Http.Features.IHttpMaxRequestBodySizeFeature>();
+            if (limit is { IsReadOnly: false }) limit.MaxRequestBodySize = 16 * 1024;
+            if (context.Request.ContentLength > 16 * 1024) { context.Response.StatusCode = 413; return; }
+        }
+        await next(context);
+    });
+    app.UseAuthentication();
+    app.UseAuthorization();
+    app.UseRateLimiter();
+    app.MapAccountEndpoints();
+}
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
 var sports = app.MapGroup("");
 if (persistenceEnabled) sports.AddEndpointFilter<PersistenceFilter>();

@@ -859,4 +859,47 @@ export const en: Readonly<Record<string, string>> = {
   НДР: 'East Germany',
   Родезія: 'Rhodesia',
   'Правила FIA 2026, розділ A': 'FIA 2026 regulations, Section A',
+
+  'Мій профіль · F1 Race Lens': 'My profile · F1 Race Lens',
+  'Мій профіль': 'My profile',
+  'Увійдіть, щоб зберігати обране та налаштування.':
+    'Sign in to save your favourites and preferences.',
+  'Входимо…': 'Signing in…',
+  'Перевірте логін, електронну пошту та пароль.': 'Check your username, email and password.',
+  'Пароль: від 12 до 128 символів.': 'Password: 12 to 128 characters.',
+  'Відновлення пароля через пошту ще не налаштоване.':
+    'Password recovery by email is not configured yet.',
+  'Електронна пошта': 'Email',
+  'Логін: 3–30 латинських літер, цифр, _ або -. Пароль: 12–128 символів.':
+    'Username: 3–30 Latin letters, digits, _ or -. Password: 12–128 characters.',
+  'Створюємо обліковий запис…': 'Creating account…',
+  'Введіть електронну пошту.': 'Enter your email.',
+  'Введіть коректну електронну пошту.': 'Enter a valid email address.',
+  'Логін: 3–30 латинських літер, цифр, _ або -.': 'Username: 3–30 Latin letters, digits, _ or -.',
+  'Забагато спроб. Спробуйте пізніше.': 'Too many attempts. Try again later.',
+  'Невірний логін або пароль, або вхід тимчасово заблоковано.':
+    'Incorrect username or password, or sign-in is temporarily locked.',
+  'Не вдалося створити обліковий запис. Перевірте дані або виберіть інший логін і пошту.':
+    'Could not create the account. Check your details or choose another username and email.',
+  'Сеанс захисту оновився. Спробуйте ще раз.': 'The security session changed. Please try again.',
+  'Можна обрати до 20 пілотів і 20 команд.': 'Select up to 20 drivers and 20 teams.',
+  'Деякі обрані учасники недоступні. Оновіть сторінку.':
+    'Some selected participants are unavailable. Reload the page.',
+  'Дані змінилися в іншому вікні. Оновіть сторінку та повторіть.':
+    'Data changed in another window. Reload the page and try again.',
+  'Сервер тимчасово недоступний. Спробуйте ще раз.': 'Server temporarily unavailable. Try again.',
+  'Сесія завершилася. Увійдіть знову.': 'Your session has ended. Sign in again.',
+  'ОБЛІКОВИЙ ЗАПИС': 'ACCOUNT',
+  Налаштування: 'Preferences',
+  'Мова й тема автоматично зберігаються у вашому обліковому записі.':
+    'Language and theme are saved automatically to your account.',
+  'Обрані пілоти та команди': 'Favourite drivers and teams',
+  'Оберіть до 20 пілотів і 20 команд. Обране зберігається між сезонами.':
+    'Select up to 20 drivers and 20 teams. Favourites are kept across seasons.',
+  'Не вдалося завантажити учасників. Збережене обране залишається доступним.':
+    'Could not load participants. Saved favourites are still available.',
+  'Збережені посилання': 'Saved links',
+  'Зберігаємо…': 'Saving…',
+  'Зберегти обране': 'Save favourites',
+  'Обране збережено.': 'Favourites saved.',
 };

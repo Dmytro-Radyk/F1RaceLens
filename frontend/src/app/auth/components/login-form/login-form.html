@@ -1,9 +1,9 @@
 <div class="auth-form-content">
   <p class="auth-eyebrow">{{ 'З поверненням' | translate }}</p>
   <h1 id="auth-heading" tabindex="-1">{{ 'Увійти' | translate }}</h1>
-  <p class="auth-intro">{{ 'Увійдіть, щоб переглядати F1 Race Lens.' | translate }}</p>
+  <p class="auth-intro">{{ 'Увійдіть, щоб зберігати обране та налаштування.' | translate }}</p>
 
-  <form novalidate (submit)="submit($event)">
+  <form novalidate (submit)="submit($event)" [attr.aria-busy]="busy()">
     <div class="auth-field">
       <label for="login">{{ 'Логін' | translate }}</label>
       <input
@@ -50,7 +50,9 @@
     @if (notice()) {
       <p class="form-notice" role="status">{{ notice() | translate }}</p>
     }
-    <button class="auth-primary" type="submit">{{ 'Увійти' | translate }}</button>
+    <button class="auth-primary" type="submit" [disabled]="busy()">
+      {{ (busy() ? 'Входимо…' : 'Увійти') | translate }}
+    </button>
   </form>
 
   <p class="auth-divider">
@@ -69,8 +71,5 @@
     <button type="button" (click)="registerRequested.emit()">
       {{ 'Зареєструватися' | translate }}
     </button>
-  </p>
-  <p class="auth-demo-note">
-    <span>{{ 'Демо-доступ' | translate }}</span> <code>admin</code> / <code>12345</code>
   </p>
 </div>

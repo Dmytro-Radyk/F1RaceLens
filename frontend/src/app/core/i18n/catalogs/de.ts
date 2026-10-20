@@ -865,4 +865,50 @@ export const de: Readonly<Record<string, string>> = {
   НДР: 'DDR',
   Родезія: 'Rhodesien',
   'Правила FIA 2026, розділ A': 'FIA-Reglement 2026, Abschnitt A',
+
+  'Мій профіль · F1 Race Lens': 'Mein Profil · F1 Race Lens',
+  'Мій профіль': 'Mein Profil',
+  'Увійдіть, щоб зберігати обране та налаштування.':
+    'Melde dich an, um Favoriten und Einstellungen zu speichern.',
+  'Входимо…': 'Anmeldung läuft…',
+  'Перевірте логін, електронну пошту та пароль.': 'Prüfe Benutzername, E-Mail und Passwort.',
+  'Пароль: від 12 до 128 символів.': 'Passwort: 12 bis 128 Zeichen.',
+  'Відновлення пароля через пошту ще не налаштоване.':
+    'Die Passwortwiederherstellung per E-Mail ist noch nicht eingerichtet.',
+  'Електронна пошта': 'E-Mail',
+  'Логін: 3–30 латинських літер, цифр, _ або -. Пароль: 12–128 символів.':
+    'Benutzername: 3–30 lateinische Buchstaben, Ziffern, _ oder -. Passwort: 12–128 Zeichen.',
+  'Створюємо обліковий запис…': 'Konto wird erstellt…',
+  'Введіть електронну пошту.': 'Gib deine E-Mail-Adresse ein.',
+  'Введіть коректну електронну пошту.': 'Gib eine gültige E-Mail-Adresse ein.',
+  'Логін: 3–30 латинських літер, цифр, _ або -.':
+    'Benutzername: 3–30 lateinische Buchstaben, Ziffern, _ oder -.',
+  'Забагато спроб. Спробуйте пізніше.': 'Zu viele Versuche. Versuche es später erneut.',
+  'Невірний логін або пароль, або вхід тимчасово заблоковано.':
+    'Benutzername oder Passwort falsch, oder Anmeldung vorübergehend gesperrt.',
+  'Не вдалося створити обліковий запис. Перевірте дані або виберіть інший логін і пошту.':
+    'Konto konnte nicht erstellt werden. Prüfe die Angaben oder wähle einen anderen Benutzernamen und eine andere E-Mail-Adresse.',
+  'Сеанс захисту оновився. Спробуйте ще раз.':
+    'Die Sicherheitssitzung wurde aktualisiert. Bitte erneut versuchen.',
+  'Можна обрати до 20 пілотів і 20 команд.': 'Wähle bis zu 20 Fahrer und 20 Teams.',
+  'Деякі обрані учасники недоступні. Оновіть сторінку.':
+    'Einige ausgewählte Teilnehmer sind nicht verfügbar. Lade die Seite neu.',
+  'Дані змінилися в іншому вікні. Оновіть сторінку та повторіть.':
+    'Daten wurden in einem anderen Fenster geändert. Lade die Seite neu und versuche es erneut.',
+  'Сервер тимчасово недоступний. Спробуйте ще раз.':
+    'Server vorübergehend nicht verfügbar. Versuche es erneut.',
+  'Сесія завершилася. Увійдіть знову.': 'Deine Sitzung ist abgelaufen. Melde dich erneut an.',
+  'ОБЛІКОВИЙ ЗАПИС': 'KONTO',
+  Налаштування: 'Einstellungen',
+  'Мова й тема автоматично зберігаються у вашому обліковому записі.':
+    'Sprache und Design werden automatisch in deinem Konto gespeichert.',
+  'Обрані пілоти та команди': 'Lieblingsfahrer und -teams',
+  'Оберіть до 20 пілотів і 20 команд. Обране зберігається між сезонами.':
+    'Wähle bis zu 20 Fahrer und 20 Teams. Favoriten bleiben über Saisons hinweg gespeichert.',
+  'Не вдалося завантажити учасників. Збережене обране залишається доступним.':
+    'Teilnehmer konnten nicht geladen werden. Gespeicherte Favoriten bleiben verfügbar.',
+  'Збережені посилання': 'Gespeicherte Links',
+  'Зберігаємо…': 'Wird gespeichert…',
+  'Зберегти обране': 'Favoriten speichern',
+  'Обране збережено.': 'Favoriten gespeichert.',
 };

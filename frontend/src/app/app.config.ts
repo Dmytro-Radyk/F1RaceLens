@@ -9,10 +9,14 @@ import {
 import { provideRouter, TitleStrategy } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
+import { AuthService } from './auth/services/auth.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideAppInitializer(() => inject(LocaleService).ready),
+    provideAppInitializer(() => {
+      const auth = inject(AuthService);
+      return inject(LocaleService).ready.then(() => auth.restore());
+    }),
     { provide: TitleStrategy, useClass: LocalizedTitle },
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),

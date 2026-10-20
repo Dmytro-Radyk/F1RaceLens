@@ -11,7 +11,7 @@ import {
   ActivatedRoute,
   NavigationEnd,
 } from '@angular/router';
-import { AuthService } from '../../auth/services/auth.service';
+import { accountError, AuthService } from '../../auth/services/auth.service';
 import { ThemeService } from '../../core/services/theme.service';
 
 type NavId =
@@ -59,6 +59,8 @@ export class AppShell {
     fragment: 'ignored',
   } as const;
   protected readonly auth = inject(AuthService);
+  protected readonly logoutError = signal('');
+  protected readonly loggingOut = signal(false);
   protected readonly theme = inject(ThemeService);
   protected readonly menuItems: readonly NavItem[] = [
     { id: 'home', label: 'Головна', icon: '#icon-home' },
@@ -128,10 +130,18 @@ export class AppShell {
     this.theme.toggle();
   }
 
-  protected logout(): void {
-    this.auth.logout();
-    void this.router.navigateByUrl('/login').then(() => {
+  protected async logout(): Promise<void> {
+    if (this.loggingOut()) return;
+    this.loggingOut.set(true);
+    this.logoutError.set('');
+    try {
+      await this.auth.logout();
+      await this.router.navigateByUrl('/login');
       setTimeout(() => document.getElementById('login')?.focus());
-    });
+    } catch (error) {
+      this.logoutError.set(accountError(error));
+    } finally {
+      this.loggingOut.set(false);
+    }
   }
 }

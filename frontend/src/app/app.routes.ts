@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { accountGuard } from './auth/services/account.guard';
 
 export const routes: Routes = [
   {
@@ -11,6 +12,13 @@ export const routes: Routes = [
     loadComponent: () => import('./layout/app-shell/app-shell').then((m) => m.AppShell),
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'home' },
+      {
+        path: 'profile',
+        canActivate: [accountGuard],
+        title: 'Мій профіль · F1 Race Lens',
+        data: { label: 'Мій профіль' },
+        loadComponent: () => import('./features/profile/user-profile').then((m) => m.UserProfile),
+      },
       {
         path: 'calendar',
         title: 'Календар сезону · F1 Race Lens',

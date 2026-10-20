@@ -1,0 +1,86 @@
+@if (auth.user(); as user) {
+  <section class="profile-card">
+    <p class="section-eyebrow">{{ 'ОБЛІКОВИЙ ЗАПИС' | translate }}</p>
+    <h2>{{ user.login }}</h2>
+    <dl>
+      <div>
+        <dt>{{ 'Електронна пошта' | translate }}</dt>
+        <dd>{{ user.email }}</dd>
+      </div>
+    </dl>
+  </section>
+  <section class="profile-card" aria-labelledby="preferences-heading">
+    <h2 id="preferences-heading">{{ 'Налаштування' | translate }}</h2>
+    <p>{{ 'Мова й тема автоматично зберігаються у вашому обліковому записі.' | translate }}</p>
+    <div class="preference-controls">
+      <app-language-picker />
+      <button type="button" (click)="theme.toggle()">
+        {{ (theme.isDark() ? 'Світла тема' : 'Темна тема') | translate }}
+      </button>
+    </div>
+  </section>
+  <section class="profile-card" aria-labelledby="favourites-heading" [attr.aria-busy]="busy()">
+    <h2 id="favourites-heading">{{ 'Обрані пілоти та команди' | translate }}</h2>
+    <p>{{ 'Оберіть до 20 пілотів і 20 команд. Обране зберігається між сезонами.' | translate }}</p>
+    @if (drivers.isLoading() || teams.isLoading()) {
+      <p role="status">{{ 'Завантаження…' | translate }}</p>
+    }
+    @if (drivers.error() || teams.error()) {
+      <p role="alert">
+        {{
+          'Не вдалося завантажити учасників. Збережене обране залишається доступним.' | translate
+        }}
+      </p>
+      <button type="button" (click)="drivers.reload(); teams.reload()">
+        {{ 'Спробувати ще раз' | translate }}
+      </button>
+    }
+    <div class="favourite-columns">
+      <fieldset [disabled]="busy()">
+        <legend>{{ 'Пілоти' | translate }}</legend>
+        @for (driver of driverOptions(); track driver.id) {
+          <label
+            ><input
+              type="checkbox"
+              [checked]="chosen().drivers.includes(driver.id)"
+              (change)="toggle('drivers', driver.id, $event)"
+            />{{ driver.name }}</label
+          >
+        }
+      </fieldset>
+      <fieldset [disabled]="busy()">
+        <legend>{{ 'Команди' | translate }}</legend>
+        @for (team of teamOptions(); track team.id) {
+          <label
+            ><input
+              type="checkbox"
+              [checked]="chosen().teams.includes(team.id)"
+              (change)="toggle('teams', team.id, $event)"
+            />{{ team.name }}</label
+          >
+        }
+      </fieldset>
+    </div>
+    @if (chosen().drivers.length || chosen().teams.length) {
+      <h3>{{ 'Збережені посилання' | translate }}</h3>
+      <p class="saved-links">
+        @for (item of user.favourites; track item.kind + item.id) {
+          <a [routerLink]="[item.kind === 'driver' ? '/drivers' : '/teams', item.id]">{{
+            item.name
+          }}</a>
+        }
+      </p>
+    }
+    @if (feedback()) {
+      <p [attr.role]="failed() ? 'alert' : 'status'">{{ feedback() | translate }}</p>
+    }
+    <button class="primary-link" type="button" [disabled]="busy() || !dirty()" (click)="save()">
+      {{ (busy() ? 'Зберігаємо…' : 'Зберегти обране') | translate }}
+    </button>
+  </section>
+} @else {
+  <section class="profile-card">
+    <p>{{ 'Сесія завершилася. Увійдіть знову.' | translate }}</p>
+    <a routerLink="/login" [queryParams]="{ returnUrl: '/profile' }">{{ 'Увійти' | translate }}</a>
+  </section>
+}
