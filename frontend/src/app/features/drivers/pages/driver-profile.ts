@@ -1,6 +1,8 @@
 import { LocalDatePipe } from '../../../shared/local-date.pipe';
 import { currentLocale } from '../../../core/i18n/locale.service';
 import { TranslatePipe } from '../../../core/i18n/translate.pipe';
+import { RaceStatus } from '../../../core/i18n/race-status';
+import { citizenshipCountry } from '../../../core/i18n/regions';
 import { Component, computed, inject } from '@angular/core';
 import { HttpErrorResponse, httpResource } from '@angular/common/http';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -19,6 +21,8 @@ import type { StandingsEntry } from '../../standings/standings.types';
   styleUrl: './driver-profile.css',
 })
 export class DriverProfile {
+  protected readonly status = inject(RaceStatus);
+  protected readonly citizenship = citizenshipCountry;
   protected readonly season = createSeasonContext();
   private readonly route = inject(ActivatedRoute);
   private readonly params = toSignal(this.route.paramMap, {

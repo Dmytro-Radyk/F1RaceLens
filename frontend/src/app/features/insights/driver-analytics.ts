@@ -1,5 +1,6 @@
-import { currentLocale } from '../../core/i18n/locale.service';
+import { currentLocale, LocaleService } from '../../core/i18n/locale.service';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
+import { RaceStatus } from '../../core/i18n/race-status';
 import { Component, computed, inject } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -8,7 +9,7 @@ import { createSeasonContext } from '../../shared/season-context';
 import { SeasonPicker } from '../../shared/season-picker';
 import { SourceNote } from '../calendar/components/source-note';
 import type { StandingsResponse } from '../standings/standings.types';
-import type { DriverProfileResponse } from '../drivers/models/driver-profile.types';
+import type { DriverProfileResponse, DriverRace } from '../drivers/models/driver-profile.types';
 import { analyseRaces } from './analytics';
 import { resultLabel } from '../compare/comparison';
 
@@ -62,5 +63,12 @@ export class DriverAnalytics {
       : new Intl.NumberFormat(currentLocale(), { maximumFractionDigits: 2 }).format(value);
   protected readonly signed = (value: number | null) =>
     value === null ? '—' : `${value > 0 ? '+' : ''}${this.number(value)}`;
-  protected readonly resultLabel = resultLabel;
+  private readonly locale = inject(LocaleService);
+  private readonly status = inject(RaceStatus);
+  protected readonly resultLabel = (races: readonly DriverRace[]) =>
+    resultLabel(
+      races,
+      (message, parameters) => this.locale.text(message, parameters),
+      (value) => this.status.text(value),
+    );
 }

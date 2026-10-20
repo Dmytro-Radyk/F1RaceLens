@@ -46,13 +46,21 @@ export function compareRaces(left: DriverProfileResponse, right: DriverProfileRe
   };
 }
 
-export function resultLabel(races: readonly DriverRace[]): string {
-  if (!races.length) return 'Немає запису';
+export function resultLabel(
+  races: readonly DriverRace[],
+  text: (message: string, parameters?: readonly unknown[]) => string = (message, parameters = []) =>
+    message.replace(/\{(\d+)\}/g, (_, index: string) => String(parameters[Number(index)])),
+  status: (value: string | null) => string = (value) => value ?? 'невідомий',
+): string {
+  if (!races.length) return text('Немає запису');
   return races
     .map((race) =>
       isFinish(race)
-        ? `Фініш: ${race.result.position}`
-        : `Класифікація: ${race.result.position}; статус: ${race.result.status ?? 'невідомий'}`,
+        ? text('Фініш: {0}', [race.result.position])
+        : text('Класифікація: {0}; статус: {1}', [
+            race.result.position,
+            status(race.result.status),
+          ]),
     )
     .join(' / ');
 }

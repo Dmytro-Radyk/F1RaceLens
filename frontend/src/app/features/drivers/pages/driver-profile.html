@@ -47,8 +47,8 @@
           <dd>{{ birthDate(data.driver.dateOfBirth) | translate }}</dd>
         </div>
         <div>
-          <dt>{{ 'Громадянство (дані джерела)' | translate }}</dt>
-          <dd>{{ data.driver.nationality ?? 'Не вказано' | translate }}</dd>
+          <dt>{{ 'Країна громадянства (дані джерела)' | translate }}</dt>
+          <dd>{{ citizenship(data.driver.nationality) | translate }}</dd>
         </div>
       </dl>
     </section>
@@ -127,12 +127,7 @@
                   </td>
                   <td>{{ race.result.position | translate }}</td>
                   <td>
-                    {{
-                      (race.result.status === 'Finished'
-                        ? 'Фінішував'
-                        : (race.result.status ?? 'Не вказано')
-                      ) | translate
-                    }}
+                    {{ status.text(race.result.status) }}
                   </td>
                   <td>{{ race.result.time ?? '—' | translate }}</td>
                   <td>{{ points(race.result.points) | translate }}</td>
@@ -143,7 +138,7 @@
         </div>
         <p class="driver-note">
           {{
-            'Таблиця прокручується горизонтально. 0* на старті — піт-лейн або невказана позиція у джерелі. Класифікація при сході не означає фактичний фініш. Причини сходу наведено мовою джерела.'
+            'Таблиця прокручується горизонтально. 0* на старті — піт-лейн або невказана позиція у джерелі. Класифікація при сході не означає фактичний фініш. Відомі статуси перекладено; невідомі позначено як дані джерела.'
               | translate
           }}
         </p>

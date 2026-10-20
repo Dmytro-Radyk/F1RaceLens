@@ -7,6 +7,8 @@ import { vi } from 'vitest';
 import { routes } from '../../app.routes';
 import type { DriverProfileResponse, DriverRace } from './models/driver-profile.types';
 import { buildFormChart } from './utils/form-chart';
+import { LocaleService } from '../../core/i18n/locale.service';
+import type { Language } from '../../core/i18n/translations';
 
 const race: DriverRace = {
   round: 1,
@@ -60,8 +62,10 @@ describe('Driver profile routes', () => {
     }).compileComponents();
     http = TestBed.inject(HttpTestingController);
   });
-  afterEach(() => {
+  afterEach(async () => {
     http.verify();
+    await TestBed.inject(LocaleService).setLanguage('uk');
+    localStorage.clear();
     vi.restoreAllMocks();
   });
   async function settle(harness: RouterTestingHarness, text: string) {
@@ -99,6 +103,39 @@ describe('Driver profile routes', () => {
     expect(harness.routeNativeElement!.querySelector('.driver-card')?.getAttribute('href')).toBe(
       '/drivers/test?season=2025',
     );
+  });
+
+  it('updates table statuses and open chart tooltip in all six languages without refetching', async () => {
+    const harness = await RouterTestingHarness.create('/drivers/test?season=2025');
+    http.expectOne('/api/seasons/2025/drivers/test').flush({
+      ...profile,
+      driver: { ...profile.driver, nationality: 'Italian' },
+      races: [{ ...race, result: { ...race.result, status: 'Retired' } }],
+    });
+    await settle(harness, 'Результати за етапами');
+    const page = harness.routeNativeElement!;
+    page.querySelector<HTMLButtonElement>('app-form-chart button')!.click();
+    harness.detectChanges();
+    const locale = TestBed.inject(LocaleService);
+    const expected: readonly [Language, string, string][] = [
+      ['uk', 'Схід', 'Старт: 3'],
+      ['en', 'Retired', 'Grid: 3'],
+      ['de', 'Ausgeschieden', 'Start: 3'],
+      ['it', 'Ritirato', 'Partenza: 3'],
+      ['es', 'Abandono', 'Salida: 3'],
+      ['fr', 'Abandon', 'Départ : 3'],
+    ];
+    for (const [language, status, grid] of expected) {
+      await locale.setLanguage(language);
+      harness.detectChanges();
+      expect(page.querySelector('tbody')!.textContent).toContain(status);
+      expect(page.querySelector('[role="tooltip"]')!.textContent).toContain(status);
+      expect(page.querySelector('[role="tooltip"]')!.textContent).toContain(grid);
+      expect(page.querySelector('app-form-chart button')!.getAttribute('aria-label')).toContain(
+        status,
+      );
+      http.expectNone('/api/seasons/2025/drivers/test');
+    }
   });
 
   it('switches season without changing identity and handles no participation', async () => {

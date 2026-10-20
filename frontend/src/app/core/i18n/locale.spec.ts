@@ -180,7 +180,7 @@ describe('Interface languages', () => {
     picker.dispatchEvent(new Event('change'));
     await vi.waitFor(() => {
       harness.detectChanges();
-      expect(page.textContent).toContain('Manches de saison');
+      expect(page.textContent).toContain('Manches de la saison');
     });
     expect(TestBed.inject(Router).url).toBe('/calendar?season=2025');
     expect(page.querySelector<HTMLSelectElement>('.season-picker select')!.value).toBe('2025');

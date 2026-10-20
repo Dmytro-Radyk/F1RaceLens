@@ -1,5 +1,7 @@
 import { TranslatePipe } from '../../../core/i18n/translate.pipe';
-import { Component, computed, input, linkedSignal, signal } from '@angular/core';
+import { Component, computed, inject, input, linkedSignal, signal } from '@angular/core';
+import { LocaleService } from '../../../core/i18n/locale.service';
+import { RaceStatus } from '../../../core/i18n/race-status';
 import type { DriverRace } from '../models/driver-profile.types';
 import { buildFormChart } from '../utils/form-chart';
 
@@ -15,6 +17,8 @@ import { buildFormChart } from '../utils/form-chart';
   },
 })
 export class FormChart {
+  private readonly locale = inject(LocaleService);
+  private readonly status = inject(RaceStatus);
   readonly races = input.required<readonly DriverRace[]>();
   protected readonly chart = computed(() => buildFormChart(this.races()));
   protected readonly hovered = linkedSignal<string | null>(() => {
@@ -37,35 +41,23 @@ export class FormChart {
     this.chart().points.flatMap((point) => {
       const entries = this.races().filter((race) => race.round === point.round);
       const race = entries[0];
-      const title = `Етап ${point.round} · ${race.name}`;
-      const status =
-        (
-          {
-            Finished: 'Фінішував',
-            Retired: 'Схід',
-            Disqualified: 'Дискваліфіковано',
-            'Not classified': 'Не класифіковано',
-            'Did not start': 'Не стартував',
-            Engine: 'Схід: двигун',
-            Gearbox: 'Схід: коробка передач',
-            Collision: 'Схід: зіткнення',
-            Accident: 'Схід: аварія',
-            'Spun off': 'Схід: виліт із траси',
-          } as Readonly<Record<string, string>>
-        )[race.result.status ?? ''] ??
-        (race.result.status ? `Статус: ${race.result.status}` : null) ??
-        'Статус невідомий';
+      const title = this.locale.text('Етап {0} · {1}', [point.round, race.name]);
       const grid = race.result.grid;
       const start =
         grid === null
-          ? 'Старт невідомий'
+          ? this.locale.text('Старт невідомий')
           : grid === 0
-            ? 'Старт: піт-лейн / невідомо'
-            : `Старт: ${grid}`;
+            ? this.locale.text('Старт: піт-лейн / невідомо')
+            : this.locale.text('Старт: {0}', [grid]);
       const detail =
         entries.length > 1
-          ? 'Кілька записів одного етапу — деталі у таблиці.'
-          : `${start} · ${point.finished ? `Фініш: ${race.result.position}` : status}`;
+          ? this.locale.text('Кілька записів одного етапу — деталі у таблиці.')
+          : [
+              start,
+              point.finished
+                ? this.locale.text('Фініш: {0}', [race.result.position])
+                : this.status.text(race.result.status),
+            ].join(' · ');
       const both = point.finished && point.gridY === point.y;
       const positions = both
         ? [{ kind: 'both', y: point.y, label: 'Старт і фініш' }]
@@ -81,7 +73,7 @@ export class FormChart {
         y: position.y,
         title,
         detail,
-        label: `${position.label}. ${title}. ${detail}`,
+        label: [this.locale.text(position.label), title, detail].join('. '),
       }));
     }),
   );

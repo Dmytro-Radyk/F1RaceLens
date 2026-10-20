@@ -106,7 +106,7 @@ describe('Grand Prix results', () => {
     const harness = await open('race');
     await respond(harness, 'race');
     const table = harness.routeNativeElement!.querySelector('table')!;
-    expect(table.textContent).toContain('Engine');
+    expect(table.textContent).toContain('Схід: двигун');
     expect(table.textContent).toContain('4,5');
     expect(table.textContent).toContain('0*');
     expect(table.textContent).toContain('—');

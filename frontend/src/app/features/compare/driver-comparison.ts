@@ -1,5 +1,6 @@
-import { currentLocale } from '../../core/i18n/locale.service';
+import { currentLocale, LocaleService } from '../../core/i18n/locale.service';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
+import { RaceStatus } from '../../core/i18n/race-status';
 import { Component, computed, inject, linkedSignal } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -8,7 +9,7 @@ import { createSeasonContext } from '../../shared/season-context';
 import { SeasonPicker } from '../../shared/season-picker';
 import { SourceNote } from '../calendar/components/source-note';
 import type { StandingsResponse } from '../standings/standings.types';
-import type { DriverProfileResponse } from '../drivers/models/driver-profile.types';
+import type { DriverProfileResponse, DriverRace } from '../drivers/models/driver-profile.types';
 import { compareRaces, resultLabel } from './comparison';
 import { isFinish } from '../drivers/utils/form-chart';
 
@@ -128,7 +129,14 @@ export class DriverComparison {
     if (this.left.error()) this.left.reload();
     if (this.right.error()) this.right.reload();
   }
-  protected readonly resultLabel = resultLabel;
+  private readonly locale = inject(LocaleService);
+  private readonly status = inject(RaceStatus);
+  protected readonly resultLabel = (races: readonly DriverRace[]) =>
+    resultLabel(
+      races,
+      (message, parameters) => this.locale.text(message, parameters),
+      (value) => this.status.text(value),
+    );
   protected readonly number = (value: number | null | undefined) =>
     value == null
       ? '—'

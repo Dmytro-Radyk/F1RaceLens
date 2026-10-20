@@ -84,12 +84,7 @@
                   <td>{{ row.laps ?? '—' | translate }}</td>
                   <td>{{ row.time ?? '—' | translate }}</td>
                   <td>
-                    {{
-                      (row.status === 'Finished'
-                        ? 'Фінішував'
-                        : (row.status ?? row.positionText ?? '—')
-                      ) | translate
-                    }}
+                    {{ status.text(row.status) }}
                   </td>
                   <td class="result-points">{{ points(row.points) | translate }}</td>
                 }
@@ -107,7 +102,7 @@
           }}
         } @else {
           {{
-            '0* на старті — позначення джерела: піт-лейн або невказана позиція. Причини сходу наведено мовою джерела.'
+            '0* на старті — позначення джерела: піт-лейн або невказана позиція. Відомі статуси перекладено; невідомі позначено як дані джерела.'
               | translate
           }}
         }

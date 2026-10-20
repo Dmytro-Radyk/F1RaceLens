@@ -1,6 +1,7 @@
 import { currentLocale } from '../../../core/i18n/locale.service';
 import { TranslatePipe } from '../../../core/i18n/translate.pipe';
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
+import { RaceStatus } from '../../../core/i18n/race-status';
 import { httpResource } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import type { RaceSchedule } from '../models/calendar.types';
@@ -15,6 +16,7 @@ import { isPastSchedule } from '../utils/schedule-format';
   styleUrl: './results-table.css',
 })
 export class ResultsTable {
+  protected readonly status = inject(RaceStatus);
   readonly race = input.required<RaceSchedule>();
   readonly kind = input.required<ResultKind>();
   protected readonly results = httpResource<SessionResultsResponse>(
