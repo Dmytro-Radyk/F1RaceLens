@@ -1,3 +1,5 @@
+import { currentLocale } from '../../core/i18n/locale.service';
+import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { Component, computed, inject } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -7,7 +9,7 @@ import type { StandingsEntry, StandingsResponse } from './standings.types';
 
 @Component({
   selector: 'app-season-standings',
-  imports: [RouterLink, SourceNote],
+  imports: [TranslatePipe, RouterLink, SourceNote],
   templateUrl: './season-standings.html',
   styleUrl: './season-standings.css',
 })
@@ -46,7 +48,9 @@ export class SeasonStandings {
     { id: 'drivers', label: 'Пілоти' },
     { id: 'constructors', label: 'Команди' },
   ] as const;
-  private readonly numberFormat = new Intl.NumberFormat('uk-UA');
+  private get numberFormat() {
+    return new Intl.NumberFormat(currentLocale());
+  }
   protected readonly points = (value: number) => this.numberFormat.format(value);
   protected readonly positionLabel = (entry: StandingsEntry) => {
     const labels: Readonly<Record<string, string>> = {

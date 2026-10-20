@@ -1,3 +1,6 @@
+import { LocalDatePipe } from '../../../shared/local-date.pipe';
+import { currentLocale } from '../../../core/i18n/locale.service';
+import { TranslatePipe } from '../../../core/i18n/translate.pipe';
 import { Component, computed, inject } from '@angular/core';
 import { HttpErrorResponse, httpResource } from '@angular/common/http';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -11,7 +14,7 @@ import type { StandingsEntry } from '../../standings/standings.types';
 
 @Component({
   selector: 'app-driver-profile',
-  imports: [RouterLink, SeasonPicker, SourceNote, FormChart],
+  imports: [LocalDatePipe, TranslatePipe, RouterLink, SeasonPicker, SourceNote, FormChart],
   templateUrl: './driver-profile.html',
   styleUrl: './driver-profile.css',
 })
@@ -39,11 +42,11 @@ export class DriverProfile {
         (this.profile.error() as HttpErrorResponse).status === 404),
   );
   protected readonly points = (value: number | null) =>
-    value === null ? '—' : new Intl.NumberFormat('uk-UA').format(value);
+    value === null ? '—' : new Intl.NumberFormat(currentLocale()).format(value);
   protected readonly birthDate = (value: string | null) => {
     if (!value) return 'Не вказано';
     const [year, month, day] = value.split('-').map(Number);
-    return new Intl.DateTimeFormat('uk-UA', {
+    return new Intl.DateTimeFormat(currentLocale(), {
       day: 'numeric',
       month: 'long',
       year: 'numeric',

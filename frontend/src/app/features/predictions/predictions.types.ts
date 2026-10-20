@@ -14,6 +14,9 @@ export interface ForecastRow {
   readonly top3Chance: number;
 }
 export interface PredictionResponse {
+  readonly generatedAt?: string | null;
+  readonly recordedAt?: string | null;
+  readonly runId?: string | null;
   readonly races?: readonly RaceForecast[] | null;
   readonly season: number;
   readonly updatedAt: string;

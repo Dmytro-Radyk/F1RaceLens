@@ -37,7 +37,11 @@ public sealed class PredictionService(CalendarService calendars, StandingsServic
                 var stale = calendar.IsStale || drivers.IsStale || teams.IsStale;
                 var prior = (await priorTask).SelectMany(rows => rows).ToArray();
                 var events = await weather.EnrichAsync(FutureEvents(calendar, drivers.Round ?? 0), token);
-                cached = Build(year, timestamp, stale, calendar, drivers, teams, history, token, prior, events);
+                cached = Build(year, timestamp, stale, calendar, drivers, teams, history, token, prior, events) with {
+                    GeneratedAt = clock.GetUtcNow(), Schedule = events,
+                    InputsJson = System.Text.Json.JsonSerializer.Serialize(new { calendar, drivers, teams, history, prior, events,
+                        seed = PredictionEngine.DefaultSeed, version = PredictionEngine.Version })
+                };
                 cachedInput = cached.Status == "ready" ? MakeInput(calendar, drivers, teams, history, prior, events) : null;
                 refreshAfter = clock.GetUtcNow().AddMinutes(cached.Status is "ready" or "completed" ? 15 : 1);
                 return cached;
@@ -137,8 +141,12 @@ public sealed class PredictionService(CalendarService calendars, StandingsServic
     public static void MapEndpoints(WebApplication app)
     {
         app.MapGet("/api/predictions/current", async (
-        PredictionService service, HttpContext context, ILogger<PredictionService> logger) => {
-        try { return Results.Ok(await service.GetAsync(context.RequestAborted)); }
+        PredictionService service, HttpContext context, ILogger<PredictionService> logger, IServiceProvider services) => {
+        try {
+            var forecast = await service.GetAsync(context.RequestAborted);
+            var journal = services.GetService<Journal.ForecastJournal>();
+            return Results.Ok(journal is null ? forecast : await journal.SaveAsync("script", forecast, context.RequestAborted));
+        }
         catch (PredictionSourceException error)
         {
             logger.LogWarning(error, "Season prediction request failed.");

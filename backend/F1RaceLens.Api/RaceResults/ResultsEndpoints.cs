@@ -5,7 +5,7 @@ namespace F1RaceLens.Api.RaceResults;
 
 public static class ResultsEndpoints
 {
-    public static void MapResultsEndpoints(this WebApplication app)
+    public static void MapResultsEndpoints(this IEndpointRouteBuilder app)
     {
         app.MapGet("/api/seasons/{season}/races/{round:int}/results/{kind}", async (
             string season, int round, string kind, ResultsService results, CalendarService calendar,

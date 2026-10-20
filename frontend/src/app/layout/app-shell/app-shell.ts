@@ -1,3 +1,5 @@
+import { LanguagePicker } from '../../core/i18n/language-picker';
+import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { Component, computed, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
@@ -23,7 +25,7 @@ interface NavItem {
 
 @Component({
   selector: 'app-shell',
-  imports: [RouterLink, RouterLinkActive, RouterOutlet],
+  imports: [LanguagePicker, TranslatePipe, RouterLink, RouterLinkActive, RouterOutlet],
   styleUrl: './app-shell.css',
   templateUrl: './app-shell.html',
   host: {

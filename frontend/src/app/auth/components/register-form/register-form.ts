@@ -1,3 +1,4 @@
+import { TranslatePipe } from '../../../core/i18n/translate.pipe';
 import { Component, inject, output, signal } from '@angular/core';
 import { form, FormField, required } from '@angular/forms/signals';
 import { AuthService } from '../../services/auth.service';
@@ -5,7 +6,7 @@ import type { RegistrationRequest } from '../../models/auth.types';
 
 @Component({
   selector: 'app-register-form',
-  imports: [FormField],
+  imports: [TranslatePipe, FormField],
   templateUrl: './register-form.html',
 })
 export class RegisterForm {

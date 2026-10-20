@@ -5,7 +5,7 @@
     [queryParams]="{
       season: season.valid() && season.season() !== 'current' ? season.season() : null,
     }"
-    >← До списку пілотів</a
+    >{{ '← До списку пілотів' | translate }}</a
   >
   <app-season-picker
     [year]="season.year()"
@@ -14,134 +14,148 @@
   />
   @if (notFound()) {
     <section class="feedback-panel">
-      <h2>{{ season.valid() ? 'Пілота не знайдено' : 'Сезон не знайдено' }}</h2>
-      <p>Перевірте адресу або виберіть пілота зі списку.</p>
+      <h2>{{ (season.valid() ? 'Пілота не знайдено' : 'Сезон не знайдено') | translate }}</h2>
+      <p>{{ 'Перевірте адресу або виберіть пілота зі списку.' | translate }}</p>
     </section>
   } @else if (profile.isLoading()) {
-    <section class="feedback-panel" role="status"><h2>Завантажуємо профіль…</h2></section>
+    <section class="feedback-panel" role="status">
+      <h2>{{ 'Завантажуємо профіль…' | translate }}</h2>
+    </section>
   } @else if (profile.error()) {
     <section class="feedback-panel" role="alert">
-      <h2>Не вдалося завантажити профіль</h2>
-      <p>Джерело тимчасово недоступне.</p>
+      <h2>{{ 'Не вдалося завантажити профіль' | translate }}</h2>
+      <p>{{ 'Джерело тимчасово недоступне.' | translate }}</p>
       <button class="primary-link" type="button" (click)="profile.reload()">
-        Спробувати ще раз
+        {{ 'Спробувати ще раз' | translate }}
       </button>
     </section>
   } @else if (profile.hasValue()) {
     @let data = profile.value();
     <section class="driver-hero">
-      <p class="section-eyebrow">{{ data.driver.code ?? 'F1' }} / СЕЗОН {{ data.season }}</p>
-      <h2>{{ data.driver.name }}</h2>
-      <p>{{ data.standing?.teams.join(' · ') || 'Команда за цей сезон не вказана у заліку' }}</p>
+      <p class="section-eyebrow">
+        {{ '{0} / СЕЗОН {1}' | translate: [data.driver.code ?? 'F1', data.season] }}
+      </p>
+      <h2>{{ data.driver.name | translate }}</h2>
+      <p>
+        {{
+          data.standing?.teams.join(' · ') || 'Команда за цей сезон не вказана у заліку' | translate
+        }}
+      </p>
       <dl class="driver-bio">
         <div>
-          <dt>Дата народження</dt>
-          <dd>{{ birthDate(data.driver.dateOfBirth) }}</dd>
+          <dt>{{ 'Дата народження' | translate }}</dt>
+          <dd>{{ birthDate(data.driver.dateOfBirth) | translate }}</dd>
         </div>
         <div>
-          <dt>Громадянство (дані джерела)</dt>
-          <dd>{{ data.driver.nationality ?? 'Не вказано' }}</dd>
+          <dt>{{ 'Громадянство (дані джерела)' | translate }}</dt>
+          <dd>{{ data.driver.nationality ?? 'Не вказано' | translate }}</dd>
         </div>
       </dl>
     </section>
     <dl class="driver-stats">
       <div>
-        <dt>Місце у заліку</dt>
-        <dd>{{ position(data.standing) }}</dd>
+        <dt>{{ 'Місце у заліку' | translate }}</dt>
+        <dd>{{ position(data.standing) | translate }}</dd>
       </div>
       <div>
-        <dt>Очки чемпіонату</dt>
-        <dd>{{ points(data.standing?.points ?? null) }}</dd>
+        <dt>{{ 'Очки чемпіонату' | translate }}</dt>
+        <dd>{{ points(data.standing?.points ?? null) | translate }}</dd>
       </div>
       <div>
-        <dt>Перемоги за заліком</dt>
-        <dd>{{ data.standing?.wins ?? '—' }}</dd>
+        <dt>{{ 'Перемоги за заліком' | translate }}</dt>
+        <dd>{{ data.standing?.wins ?? '—' | translate }}</dd>
       </div>
       <div>
-        <dt>Записів результатів гонок</dt>
-        <dd>{{ data.races.length }}</dd>
+        <dt>{{ 'Записів результатів гонок' | translate }}</dt>
+        <dd>{{ data.races.length | translate }}</dd>
       </div>
     </dl>
     <p class="driver-note">
-      Показники чемпіонату взято зі заліку джерела
+      {{ 'Показники чемпіонату взято зі заліку джерела' | translate }}
       @if (data.standingsRound !== null) {
-        після етапу {{ data.standingsRound }}
+        {{ 'після етапу {0}' | translate: [data.standingsRound] }}
       }
-      . Очки гонок нижче не включають спринти й можуть відрізнятися від очок чемпіонату через
-      правила сезону та штрафи.
+      {{
+        '. Очки гонок нижче не включають спринти й можуть відрізнятися від очок чемпіонату через правила сезону та штрафи.'
+          | translate
+      }}
     </p>
     @if (data.races.length) {
       <app-form-chart [races]="data.races" />
       <section class="driver-results" aria-labelledby="driver-results-heading">
-        <h2 id="driver-results-heading">Результати за етапами</h2>
+        <h2 id="driver-results-heading">{{ 'Результати за етапами' | translate }}</h2>
         <div
           class="driver-table-scroll"
           role="region"
           tabindex="0"
-          aria-label="Таблиця результатів пілота"
+          [attr.aria-label]="'Таблиця результатів пілота' | translate"
         >
           <table>
             <caption>
               {{
-                data.driver.name
-              }}
-              · гонки сезону
-              {{
-                data.season
+                '{0} · гонки сезону {1}' | translate: [data.driver.name, data.season]
               }}
             </caption>
             <thead>
               <tr>
-                <th scope="col">Етап</th>
-                <th scope="col">Гран-прі</th>
-                <th scope="col">Команда</th>
-                <th scope="col">Старт</th>
-                <th scope="col">Класифікація</th>
-                <th scope="col">Статус</th>
-                <th scope="col">Час / відставання</th>
-                <th scope="col">Очки гонки</th>
+                <th scope="col">{{ 'Етап' | translate }}</th>
+                <th scope="col">{{ 'Гран-прі' | translate }}</th>
+                <th scope="col">{{ 'Команда' | translate }}</th>
+                <th scope="col">{{ 'Старт' | translate }}</th>
+                <th scope="col">{{ 'Класифікація' | translate }}</th>
+                <th scope="col">{{ 'Статус' | translate }}</th>
+                <th scope="col">{{ 'Час / відставання' | translate }}</th>
+                <th scope="col">{{ 'Очки гонки' | translate }}</th>
               </tr>
             </thead>
             <tbody>
               @for (race of data.races; track $index) {
                 <tr>
-                  <td>{{ race.round }}</td>
+                  <td>{{ race.round | translate }}</td>
                   <th scope="row">
                     <a
                       [routerLink]="['/calendar', data.season, race.round]"
                       [queryParams]="{ session: 'race' }"
-                      >{{ race.name }}</a
-                    ><span class="race-date">{{ race.date }} · {{ race.circuit }}</span>
+                      >{{ race.name | translate }}</a
+                    ><span class="race-date"
+                      >{{ race.date | localDate }} · {{ race.circuit | translate }}</span
+                    >
                   </th>
-                  <td>{{ race.result.team ?? '—' }}</td>
-                  <td>{{ race.result.grid === 0 ? '0*' : (race.result.grid ?? '—') }}</td>
-                  <td>{{ race.result.position }}</td>
+                  <td>{{ race.result.team ?? '—' | translate }}</td>
+                  <td>
+                    {{ (race.result.grid === 0 ? '0*' : (race.result.grid ?? '—')) | translate }}
+                  </td>
+                  <td>{{ race.result.position | translate }}</td>
                   <td>
                     {{
-                      race.result.status === 'Finished'
+                      (race.result.status === 'Finished'
                         ? 'Фінішував'
                         : (race.result.status ?? 'Не вказано')
+                      ) | translate
                     }}
                   </td>
-                  <td>{{ race.result.time ?? '—' }}</td>
-                  <td>{{ points(race.result.points) }}</td>
+                  <td>{{ race.result.time ?? '—' | translate }}</td>
+                  <td>{{ points(race.result.points) | translate }}</td>
                 </tr>
               }
             </tbody>
           </table>
         </div>
         <p class="driver-note">
-          Таблиця прокручується горизонтально. 0* на старті — піт-лейн або невказана позиція у
-          джерелі. Класифікація при сході не означає фактичний фініш. Причини сходу наведено мовою
-          джерела.
+          {{
+            'Таблиця прокручується горизонтально. 0* на старті — піт-лейн або невказана позиція у джерелі. Класифікація при сході не означає фактичний фініш. Причини сходу наведено мовою джерела.'
+              | translate
+          }}
         </p>
       </section>
     } @else {
       <section class="feedback-panel" role="status">
-        <h2>Результатів гонок за цей сезон немає</h2>
+        <h2>{{ 'Результатів гонок за цей сезон немає' | translate }}</h2>
         <p>
-          Джерело не надало результатів цього пілота за вибраний рік. Він міг не брати участі або
-          історичні дані можуть бути неповними.
+          {{
+            'Джерело не надало результатів цього пілота за вибраний рік. Він міг не брати участі або історичні дані можуть бути неповними.'
+              | translate
+          }}
         </p>
       </section>
     }

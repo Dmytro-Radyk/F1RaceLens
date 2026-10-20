@@ -56,6 +56,58 @@ describe('Prediction page', () => {
     http = TestBed.inject(HttpTestingController);
   });
   afterEach(() => http.verify());
+  it('loads ML directly from the URL and keeps it independent from the script', async () => {
+    const h = await RouterTestingHarness.create('/predictions?engine=ml');
+    http
+      .expectOne('/api/predictions/ml')
+      .flush({ ...prediction, source: 'Jolpica · LightGBM', modelVersion: 'lightgbm-race-v4' });
+    await settle(h, 'Прогнозований залік команд');
+    http.expectNone('/api/predictions/current');
+    expect(h.routeNativeElement!.textContent).toContain('Збережений розрахунок LightGBM v4');
+    expect(h.routeNativeElement!.textContent).not.toContain('Що враховує статистичний скрипт');
+    const button = [
+      ...h.routeNativeElement!.querySelectorAll<HTMLButtonElement>('.forecast-views button'),
+    ].find((x) => x.textContent?.trim() === 'Статистичний скрипт')!;
+    button.click();
+    await vi.waitFor(() => {
+      h.detectChanges();
+      http.expectOne('/api/predictions/current').flush(prediction);
+    });
+    await settle(h, 'Що враховує статистичний скрипт');
+  });
+  it('shows pending journal rows without inventing accuracy numbers', async () => {
+    const h = await RouterTestingHarness.create('/predictions');
+    http.expectOne('/api/predictions/current').flush(prediction);
+    await settle(h, 'Прогнозований залік команд');
+    [...h.routeNativeElement!.querySelectorAll<HTMLButtonElement>('button')]
+      .find((x) => x.textContent?.trim() === 'Перевірка точності')!
+      .click();
+    await vi.waitFor(() => {
+      h.detectChanges();
+      http
+        .expectOne('/api/predictions/accuracy')
+        .flush({
+          rows: [
+            {
+              engine: 'ml',
+              version: 'lightgbm-race-v4',
+              round: 18,
+              throughRound: 17,
+              name: 'Future GP',
+              status: 'pending',
+              rankMae: null,
+              winnerBrier: null,
+              winnerHit: null,
+            },
+          ],
+        });
+    });
+    await settle(h, 'Очікуємо гонку');
+    const cells = h.routeNativeElement!.querySelectorAll('app-forecast-accuracy tbody td');
+    expect(cells[3].textContent?.trim()).toBe('—');
+    expect(cells[4].textContent?.trim()).toBe('—');
+    expect(cells[5].textContent?.trim()).toBe('—');
+  });
   async function settle(h: RouterTestingHarness, text: string) {
     await vi.waitFor(() => {
       h.detectChanges();

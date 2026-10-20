@@ -1,3 +1,4 @@
+import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
@@ -27,7 +28,7 @@ export function nextHomeRace(
 
 @Component({
   selector: 'app-home-overview',
-  imports: [RouterLink, SourceNote, StandingsSummary],
+  imports: [TranslatePipe, RouterLink, SourceNote, StandingsSummary],
   templateUrl: './home-overview.html',
   styleUrl: './home-overview.css',
 })

@@ -105,7 +105,8 @@ describe('Driver profile routes', () => {
     const harness = await RouterTestingHarness.create('/drivers/test?season=2025');
     http.expectOne('/api/seasons/2025/drivers/test').flush(profile);
     await settle(harness, 'Результати за етапами');
-    const select = harness.routeNativeElement!.querySelector<HTMLSelectElement>('select')!;
+    const select =
+      harness.routeNativeElement!.querySelector<HTMLSelectElement>('.season-picker select')!;
     select.value = '1950';
     select.dispatchEvent(new Event('change'));
     await vi.waitFor(() =>

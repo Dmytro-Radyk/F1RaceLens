@@ -1,49 +1,54 @@
 <div class="schedule-page" [attr.aria-busy]="schedule.isLoading()">
   <a class="back-link" routerLink="/calendar" [queryParams]="calendarQuery()"
-    ><span aria-hidden="true">←</span> До календаря сезону</a
+    ><span aria-hidden="true">←</span> {{ 'До календаря сезону' | translate }}</a
   >
   @if (notFound()) {
     <section class="feedback-panel">
       <p class="section-eyebrow">404</p>
-      <h2>Гран-прі не знайдено</h2>
-      <p>Перевірте адресу або виберіть інший етап у календарі.</p>
+      <h2>{{ 'Гран-прі не знайдено' | translate }}</h2>
+      <p>{{ 'Перевірте адресу або виберіть інший етап у календарі.' | translate }}</p>
     </section>
   } @else if (schedule.isLoading()) {
     <section class="feedback-panel" role="status">
       <span class="loading-line" aria-hidden="true"></span>
-      <h2>Завантажуємо розклад…</h2>
+      <h2>{{ 'Завантажуємо розклад…' | translate }}</h2>
     </section>
   } @else if (schedule.error()) {
     <section class="feedback-panel" role="alert">
-      <h2>Не вдалося завантажити Гран-прі</h2>
-      <p>Дані тимчасово недоступні. Спробуйте ще раз.</p>
+      <h2>{{ 'Не вдалося завантажити Гран-прі' | translate }}</h2>
+      <p>{{ 'Дані тимчасово недоступні. Спробуйте ще раз.' | translate }}</p>
       <button class="primary-link" type="button" (click)="schedule.reload()">
-        Спробувати ще раз
+        {{ 'Спробувати ще раз' | translate }}
       </button>
     </section>
   } @else if (schedule.hasValue()) {
     @let data = schedule.value(); @let race = data.race;
     <section class="grand-prix-hero">
       <p class="section-eyebrow">
-        СЕЗОН {{ race.season }} <span aria-hidden="true">/</span> ЕТАП {{ race.round }}
+        {{ 'СЕЗОН {0}' | translate: [race.season] }}<span aria-hidden="true">/</span>
+        {{ 'ЕТАП {0}' | translate: [race.round] }}
       </p>
-      <h2>{{ race.name }}</h2>
+      <h2>{{ race.name | translate }}</h2>
       <p class="next-race-location">
-        {{ countryName(race.circuit.country) }} · {{ race.circuit.locality }}
+        {{ countryName(race.circuit.country) | translate }} ·
+        {{ race.circuit.locality | translate }}
       </p>
       <div class="grand-prix-facts">
         <div>
-          <span>Траса</span><strong>{{ race.circuit.name }}</strong>
+          <span>{{ 'Траса' | translate }}</span
+          ><strong>{{ race.circuit.name | translate }}</strong>
         </div>
         <div>
-          <span>Дата гонки</span><strong>{{ formatDate(race) }}</strong>
+          <span>{{ 'Дата гонки' | translate }}</span
+          ><strong>{{ formatDate(race) | translate }}</strong>
         </div>
         <div>
-          <span>Початок гонки</span><strong>{{ formatTime(race) }}</strong>
+          <span>{{ 'Початок гонки' | translate }}</span
+          ><strong>{{ formatTime(race) | translate }}</strong>
         </div>
       </div>
     </section>
-    <nav class="session-navigation" aria-label="Сесії Гран-прі">
+    <nav class="session-navigation" [attr.aria-label]="'Сесії Гран-прі' | translate">
       @for (tab of tabs(); track tab.id) {
         <a
           [routerLink]="[]"
@@ -51,7 +56,7 @@
           queryParamsHandling="merge"
           [class.selected]="selectedTab() === tab.id"
           [attr.aria-current]="selectedTab() === tab.id ? 'page' : null"
-          >{{ tab.label }}</a
+          >{{ tab.label | translate }}</a
         >
       }
     </nav>
@@ -60,31 +65,35 @@
     } @else {
       <section class="sessions-panel" aria-labelledby="sessions-heading">
         <div class="sessions-heading">
-          <h2 id="sessions-heading">Розклад вікенду</h2>
-          <p>{{ timeZone }}</p>
+          <h2 id="sessions-heading">{{ 'Розклад вікенду' | translate }}</h2>
+          <p>{{ timeZone | translate }}</p>
         </div>
         <ol class="session-list">
           @for (session of race.sessions; track session.kind) {
             <li [class.race-session]="session.kind === 'Race'">
               <span class="session-marker" aria-hidden="true"></span>
               <div>
-                <p>{{ formatDay(session) }}</p>
-                <h3>{{ session.name }}</h3>
+                <p>{{ formatDay(session) | translate }}</p>
+                <h3>{{ session.name | translate }}</h3>
               </div>
               <time [attr.datetime]="session.startsAt ?? session.date">{{
-                formatTime(session)
+                formatTime(session) | translate
               }}</time>
             </li>
           }
         </ol>
         <p class="schedule-hint">
-          Відомий час сесій відображається у вашому часовому поясі. Якщо час не вказано, джерело
-          його не надало.
+          {{
+            'Відомий час сесій відображається у вашому часовому поясі. Якщо час не вказано, джерело його не надало.'
+              | translate
+          }}
         </p>
         @if (race.sessions.length === 1 && race.sessions[0].kind === 'Race') {
           <p class="schedule-hint">
-            Джерело містить лише дату гонки. Дані про практики та кваліфікацію для цього етапу
-            відсутні.
+            {{
+              'Джерело містить лише дату гонки. Дані про практики та кваліфікацію для цього етапу відсутні.'
+                | translate
+            }}
           </p>
         }
       </section>

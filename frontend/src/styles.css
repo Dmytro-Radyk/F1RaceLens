@@ -108,3 +108,30 @@ app-root[data-theme] select:not([multiple]):not([size]) {
     background-image: none;
   }
 }
+
+@media (max-width: 600px) {
+  app-root[data-theme] app-shell .topbar {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    gap: 12px;
+  }
+  app-root[data-theme] app-shell .page-heading {
+    grid-column: 2 / -1;
+    min-width: 0;
+  }
+  app-root[data-theme] app-shell .menu-toggle {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  app-root[data-theme] app-shell .topbar app-language-picker {
+    grid-column: 2;
+    grid-row: 2;
+    margin: 0;
+    justify-self: start;
+    max-width: 100%;
+  }
+  app-root[data-theme] app-shell .logout-button {
+    grid-column: 3;
+    grid-row: 2;
+  }
+}

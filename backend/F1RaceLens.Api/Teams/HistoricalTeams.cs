@@ -87,7 +87,7 @@ public sealed partial class HistoricalTeams(IHttpClientFactory clients, TimeProv
     [GeneratedRegex(@"\A[a-z0-9_-]{1,80}\z", RegexOptions.CultureInvariant)]
     private static partial Regex ValidId();
 
-    public static void MapEndpoints(WebApplication app)
+    public static void MapEndpoints(IEndpointRouteBuilder app)
     {
         app.MapGet("/api/seasons/{year:int}/participants/teams", (int year, HistoricalTeams source, HttpContext context, ILogger<HistoricalTeams> logger) =>
             Respond(year, null, source, context, logger));

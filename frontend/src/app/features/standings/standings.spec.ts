@@ -75,7 +75,7 @@ describe('Season standings', () => {
     expect(page.querySelector('tbody')?.textContent).toContain('4,5');
     expect(page.querySelector('tbody')?.textContent).toContain('Дискваліфіковано');
     expect(page.querySelector('tbody tr:last-child')?.classList.contains('podium')).toBe(false);
-    expect(page.querySelector<HTMLSelectElement>('select')?.value).toBe('2025');
+    expect(page.querySelector<HTMLSelectElement>('.season-picker select')?.value).toBe('2025');
     expect(page.textContent).toContain('Підсумковий залік сезону');
     expect(page.textContent).toContain('Після етапу 24');
   });
@@ -116,7 +116,8 @@ describe('Season standings', () => {
       ...data,
       kind: 'constructors',
     });
-    const select = harness.routeNativeElement!.querySelector<HTMLSelectElement>('select')!;
+    const select =
+      harness.routeNativeElement!.querySelector<HTMLSelectElement>('.season-picker select')!;
     select.value = '1950';
     select.dispatchEvent(new Event('change'));
     await respond(harness, '/api/seasons/1950/standings/constructors', {
@@ -144,20 +145,18 @@ describe('Season standings', () => {
       harness.routeNativeElement!.querySelector('.primary-nav a[href="/calendar?season=2025"]'),
     ).not.toBeNull();
     await harness.navigateByUrl('/calendar/2025/1');
-    http
-      .expectOne('/api/seasons/2025/races/1')
-      .flush({
-        ...data,
-        race: {
-          season: 2025,
-          round: 1,
-          name: 'Test Grand Prix',
-          circuit: { name: 'Test Circuit', locality: 'Test', country: 'UK', id: 'test' },
-          date: '2025-03-01',
-          startsAt: null,
-          sessions: [],
-        },
-      });
+    http.expectOne('/api/seasons/2025/races/1').flush({
+      ...data,
+      race: {
+        season: 2025,
+        round: 1,
+        name: 'Test Grand Prix',
+        circuit: { name: 'Test Circuit', locality: 'Test', country: 'UK', id: 'test' },
+        date: '2025-03-01',
+        startsAt: null,
+        sessions: [],
+      },
+    });
     await settle(harness, 'Test Grand Prix');
     expect(
       harness.routeNativeElement!.querySelector('.primary-nav a[href="/standings?season=2025"]'),

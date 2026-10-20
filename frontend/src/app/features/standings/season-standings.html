@@ -1,13 +1,13 @@
 <div class="schedule-page" [attr.aria-busy]="standings.isLoading()">
   <div class="season-picker">
-    <label for="standings-season">Сезон</label>
+    <label for="standings-season">{{ 'Сезон' | translate }}</label>
     <select id="standings-season" (change)="selectSeason($event)">
       @if (!validSeason()) {
-        <option value="" selected disabled>Невідомий сезон</option>
+        <option value="" selected disabled>{{ 'Невідомий сезон' | translate }}</option>
       }
       @for (year of seasons; track year) {
         <option [value]="year" [selected]="year === selectedYear()">
-          {{ year }}{{ year === currentYear ? ' · поточний' : '' }}
+          {{ year | translate }}{{ (year === currentYear ? ' · поточний' : '') | translate }}
         </option>
       }
     </select>
@@ -15,10 +15,10 @@
       class="standings-calendar"
       routerLink="/calendar"
       [queryParams]="{ season: validSeason() && season() !== 'current' ? season() : null }"
-      >Календар сезону <span aria-hidden="true">↗</span></a
+      >{{ 'Календар сезону' | translate }} <span aria-hidden="true">↗</span></a
     >
   </div>
-  <nav class="session-navigation" aria-label="Вид турнірної таблиці">
+  <nav class="session-navigation" [attr.aria-label]="'Вид турнірної таблиці' | translate">
     @for (tab of tabs; track tab.id) {
       <a
         [routerLink]="[]"
@@ -26,129 +26,133 @@
         queryParamsHandling="merge"
         [class.selected]="kind() === tab.id"
         [attr.aria-current]="kind() === tab.id ? 'page' : null"
-        >{{ tab.label }}</a
+        >{{ tab.label | translate }}</a
       >
     }
   </nav>
   @if (!validSeason()) {
     <section class="feedback-panel" role="alert">
-      <h2>Сезон не знайдено</h2>
-      <p>Виберіть рік від 1950 до {{ currentYear }}.</p>
+      <h2>{{ 'Сезон не знайдено' | translate }}</h2>
+      <p>{{ 'Виберіть рік від 1950 до {0}.' | translate: [currentYear] }}</p>
     </section>
   } @else if (standings.isLoading()) {
     <section class="feedback-panel" role="status">
       <span class="loading-line" aria-hidden="true"></span>
-      <h2>Завантажуємо турнірну таблицю…</h2>
+      <h2>{{ 'Завантажуємо турнірну таблицю…' | translate }}</h2>
     </section>
   } @else if (standings.error()) {
     <section class="feedback-panel" role="alert">
-      <h2>Не вдалося завантажити турнірну таблицю</h2>
-      <p>Джерело тимчасово недоступне. Спробуйте ще раз або виберіть інший сезон.</p>
+      <h2>{{ 'Не вдалося завантажити турнірну таблицю' | translate }}</h2>
+      <p>
+        {{ 'Джерело тимчасово недоступне. Спробуйте ще раз або виберіть інший сезон.' | translate }}
+      </p>
       <button class="primary-link" type="button" (click)="standings.reload()">
-        Спробувати ще раз
+        {{ 'Спробувати ще раз' | translate }}
       </button>
     </section>
   } @else if (standings.hasValue()) {
     @let data = standings.value();
     <div class="season-heading standings-heading">
       <div>
-        <p class="section-eyebrow">{{ title() }}</p>
+        <p class="section-eyebrow">{{ title() | translate }}</p>
         <h2>
-          Сезон <span>{{ data.season }}</span>
+          {{ 'Сезон' | translate }} <span>{{ data.season | translate }}</span>
         </h2>
       </div>
       <p class="standings-summary">
-        {{ data.season < currentYear ? 'Підсумковий залік сезону' : 'Останній доступний залік' }}
+        {{
+          (data.season < currentYear ? 'Підсумковий залік сезону' : 'Останній доступний залік')
+            | translate
+        }}
         @if (data.round !== null) {
-          <span>Після етапу {{ data.round }}</span>
+          <span>{{ 'Після етапу {0}' | translate: [data.round] }}</span>
         }
       </p>
     </div>
     @if (data.entries.length) {
-      <section class="standings-panel" aria-label="Класифікація чемпіонату">
+      <section class="standings-panel" [attr.aria-label]="'Класифікація чемпіонату' | translate">
         <p class="standings-hint" id="standings-help">
-          Місця й очки наведені за даними джерела, з урахуванням його класифікації та штрафів.
+          {{
+            'Місця й очки наведені за даними джерела, з урахуванням його класифікації та штрафів.'
+              | translate
+          }}
         </p>
         <div
           class="standings-scroll"
           role="region"
           tabindex="0"
-          [attr.aria-label]="'Таблиця: ' + title()"
+          [attr.aria-label]="'Таблиця: ' + title() | translate"
           aria-describedby="standings-help"
         >
           <table>
             <caption>
               {{
-                title()
-              }}
-              · сезон
-              {{
-                data.season
+                '{0} · сезон {1}' | translate: [title(), data.season]
               }}
             </caption>
             <thead>
               <tr>
-                <th scope="col">Місце</th>
-                <th scope="col">{{ kind() === 'drivers' ? 'Пілот' : 'Команда' }}</th>
+                <th scope="col">{{ 'Місце' | translate }}</th>
+                <th scope="col">{{ (kind() === 'drivers' ? 'Пілот' : 'Команда') | translate }}</th>
                 @if (kind() === 'drivers') {
-                  <th scope="col">Команди за сезон</th>
+                  <th scope="col">{{ 'Команди за сезон' | translate }}</th>
                 }
-                <th scope="col">Очки</th>
-                <th scope="col">Перемоги</th>
+                <th scope="col">{{ 'Очки' | translate }}</th>
+                <th scope="col">{{ 'Перемоги' | translate }}</th>
               </tr>
             </thead>
             <tbody>
               @for (entry of data.entries; track entry.id) {
                 <tr [class.podium]="podium(entry)">
-                  <td class="standing-position">{{ positionLabel(entry) }}</td>
+                  <td class="standing-position">{{ positionLabel(entry) | translate }}</td>
                   <th scope="row">
                     @if (kind() === 'drivers') {
                       <a
                         class="profile-link"
                         [routerLink]="['/drivers', entry.id]"
                         [queryParams]="{ season: data.season }"
-                        >{{ entry.name }}</a
+                        >{{ entry.name | translate }}</a
                       >
                     } @else {
-                      {{ entry.name }}
+                      {{ entry.name | translate }}
                     }
                     @if (entry.code) {
-                      <span class="standing-code">{{ entry.code }}</span>
+                      <span class="standing-code">{{ entry.code | translate }}</span>
                     }
                   </th>
                   @if (kind() === 'drivers') {
-                    <td class="standing-teams">{{ entry.teams.join(' · ') || '—' }}</td>
+                    <td class="standing-teams">{{ entry.teams.join(' · ') || '—' | translate }}</td>
                   }
-                  <td class="standing-points">{{ points(entry.points) }}</td>
-                  <td>{{ entry.wins }}</td>
+                  <td class="standing-points">{{ points(entry.points) | translate }}</td>
+                  <td>{{ entry.wins | translate }}</td>
                 </tr>
               }
             </tbody>
           </table>
         </div>
         <p class="standings-hint">
-          На вузькому екрані таблиця прокручується горизонтально.
+          {{ 'На вузькому екрані таблиця прокручується горизонтально.' | translate }}
           @if (kind() === 'drivers') {
-            Перелічено всі команди, за які пілот виступав у цьому сезоні.
+            {{ 'Перелічено всі команди, за які пілот виступав у цьому сезоні.' | translate }}
           }
         </p>
       </section>
     } @else {
       <section class="feedback-panel" role="status">
-        <h2>Залік поки недоступний</h2>
+        <h2>{{ 'Залік поки недоступний' | translate }}</h2>
         <p>
           @if (data.season < currentYear) {
             @if (kind() === 'constructors') {
-              Джерело не містить заліку команд для цього історичного сезону.
+              {{ 'Джерело не містить заліку команд для цього історичного сезону.' | translate }}
             } @else {
-              Джерело не містить заліку пілотів для цього історичного сезону.
+              {{ 'Джерело не містить заліку пілотів для цього історичного сезону.' | translate }}
             }
           } @else {
-            Джерело ще не надало турнірну таблицю цього сезону.
+            {{ 'Джерело ще не надало турнірну таблицю цього сезону.' | translate }}
           }
         </p>
         <button class="primary-link" type="button" (click)="standings.reload()">
-          Оновити залік
+          {{ 'Оновити залік' | translate }}
         </button>
       </section>
     }

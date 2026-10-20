@@ -51,3 +51,6 @@ ml/models/
 ml/reports/
 **/__pycache__/
 catboost_info/
+
+# Local PostgreSQL binaries, cluster, backups and credentials
+.local/

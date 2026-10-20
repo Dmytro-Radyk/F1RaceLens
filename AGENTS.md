@@ -18,5 +18,11 @@ Backend: з кореня репозиторію `dotnet run --project backend/F1
 
 Окремий LightGBM-експеримент і переглядач на порту 4300: @ml/README.md.
 ML-команди запускати з директорії `ml`; перевірки: `.venv/Scripts/python.exe -m unittest discover -s tests -q`.
-Ваги, сирі дані, кеші й локальні середовища не додавати в Git. Статистичний скрипт на 4200 та ML на 4300 поки не інтегровані.
+Ваги, сирі дані, кеші й локальні середовища не додавати в Git. На /predictions доступні скрипт і збережений LightGBM v4 через backend; журнал у PostgreSQL: @context/features/integrated-forecasts.md. Переглядач 4300 лишається окремим технічним інструментом.
 
+
+## PostgreSQL
+
+Перед API: `./scripts/database/Start.ps1`; перше встановлення Windows — `./scripts/database/Setup.ps1`. Контракт: @context/architecture/postgresql-storage.md.
+Міграції: `dotnet run --project backend/F1RaceLens.Api --no-launch-profile -- --migrate`; готовність: `/health/storage`.
+Ніколи не друкувати connection string або пароль; `.local/`, кластер, дампи та `appsettings.Local.json` виключені з Git. Коміт лише за командою користувача.

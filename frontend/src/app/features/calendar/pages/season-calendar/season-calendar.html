@@ -1,84 +1,89 @@
 <div class="schedule-page" [attr.aria-busy]="calendar.isLoading()">
   <div class="season-picker">
-    <label for="calendar-season">Сезон</label>
+    <label for="calendar-season">{{ 'Сезон' | translate }}</label>
     <select id="calendar-season" (change)="selectSeason($event)">
       @if (!validSeason()) {
-        <option value="" selected disabled>Невідомий сезон</option>
+        <option value="" selected disabled>{{ 'Невідомий сезон' | translate }}</option>
       }
       @for (year of seasons; track year) {
         <option [value]="year" [selected]="year === selectedYear()">
-          {{ year }}{{ year === currentYear ? ' · поточний' : '' }}
+          {{ year | translate }}{{ (year === currentYear ? ' · поточний' : '') | translate }}
         </option>
       }
     </select>
-    <span>Архів від 1950 року</span>
+    <span>{{ 'Архів від 1950 року' | translate }}</span>
   </div>
   @if (!validSeason()) {
     <section class="feedback-panel" role="alert">
-      <h2>Сезон не знайдено</h2>
-      <p>Виберіть рік від 1950 до {{ currentYear }} у списку вище.</p>
+      <h2>{{ 'Сезон не знайдено' | translate }}</h2>
+      <p>{{ 'Виберіть рік від 1950 до {0} у списку вище.' | translate: [currentYear] }}</p>
     </section>
   } @else if (calendar.isLoading()) {
     <section class="feedback-panel" role="status">
       <span class="loading-line" aria-hidden="true"></span>
-      <h2>Завантажуємо календар…</h2>
-      <p>Готуємо розклад сезону.</p>
+      <h2>{{ 'Завантажуємо календар…' | translate }}</h2>
+      <p>{{ 'Готуємо розклад сезону.' | translate }}</p>
     </section>
   } @else if (calendar.error()) {
     <section class="feedback-panel" role="alert">
-      <p class="section-eyebrow">ДАНІ ТИМЧАСОВО НЕДОСТУПНІ</p>
-      <h2>Не вдалося завантажити календар</h2>
-      <p>Спробуйте ще раз трохи пізніше.</p>
+      <p class="section-eyebrow">{{ 'ДАНІ ТИМЧАСОВО НЕДОСТУПНІ' | translate }}</p>
+      <h2>{{ 'Не вдалося завантажити календар' | translate }}</h2>
+      <p>{{ 'Спробуйте ще раз трохи пізніше.' | translate }}</p>
       <button class="primary-link" type="button" (click)="calendar.reload()">
-        Спробувати ще раз
+        {{ 'Спробувати ще раз' | translate }}
       </button>
     </section>
   } @else if (calendar.hasValue()) {
     @let data = calendar.value();
     <div class="season-heading">
       <div>
-        <p class="section-eyebrow">ЧЕМПІОНАТ СВІТУ ФОРМУЛИ-1</p>
+        <p class="section-eyebrow">{{ 'ЧЕМПІОНАТ СВІТУ ФОРМУЛИ-1' | translate }}</p>
         <h2>
-          Сезон <span>{{ data.season }}</span>
+          {{ 'Сезон' | translate }} <span>{{ data.season | translate }}</span>
         </h2>
       </div>
       <p class="season-count">
-        Етапів: <strong>{{ races().length }}</strong
-        ><span aria-hidden="true"> / </span>Попереду: <strong>{{ upcoming().length }}</strong>
+        {{ 'Етапів:' | translate }} <strong>{{ races().length | translate }}</strong
+        ><span aria-hidden="true"> / </span>{{ 'Попереду:' | translate }}
+        <strong>{{ upcoming().length | translate }}</strong>
       </p>
     </div>
 
     @if (nextRace(); as race) {
       <section class="next-race" aria-labelledby="next-race-heading">
         <div>
-          <p class="section-eyebrow">НАСТУПНИЙ ГРАН-ПРІ <span aria-hidden="true">↗</span></p>
-          <h2 id="next-race-heading">{{ race.name }}</h2>
-          <p class="next-race-location">
-            {{ countryName(race.circuit.country) }} · {{ race.circuit.locality }}
+          <p class="section-eyebrow">
+            {{ 'НАСТУПНИЙ ГРАН-ПРІ' | translate }} <span aria-hidden="true">↗</span>
           </p>
-          <p class="circuit-name">{{ race.circuit.name }}</p>
+          <h2 id="next-race-heading">{{ race.name | translate }}</h2>
+          <p class="next-race-location">
+            {{ countryName(race.circuit.country) | translate }} ·
+            {{ race.circuit.locality | translate }}
+          </p>
+          <p class="circuit-name">{{ race.circuit.name | translate }}</p>
         </div>
         <div class="next-race-date">
-          <span class="round-label">ЕТАП {{ race.round }}</span>
-          <p>{{ formatDate(race) }}</p>
+          <span class="round-label">{{ 'ЕТАП {0}' | translate: [race.round] }}</span>
+          <p>{{ formatDate(race) | translate }}</p>
           <span
-            >{{ formatTime(race) }} <span class="time-zone-label">· {{ timeZone }}</span></span
+            >{{ formatTime(race) | translate }}
+            <span class="time-zone-label">· {{ timeZone | translate }}</span></span
           ><a class="primary-link" [routerLink]="['/calendar', race.season, race.round]"
-            >Розклад вікенду <span aria-hidden="true">↗</span></a
+            >{{ 'Розклад вікенду' | translate }} <span aria-hidden="true">↗</span></a
           >
         </div>
       </section>
     } @else if (races().length) {
       <section class="season-finished">
-        <h2>Усі дати гонок цього сезону вже минули</h2>
-        <p>Перегляньте розклад минулих етапів нижче.</p>
+        <h2>{{ 'Усі дати гонок цього сезону вже минули' | translate }}</h2>
+        <p>{{ 'Перегляньте розклад минулих етапів нижче.' | translate }}</p>
       </section>
     }
 
     @if (races().length) {
       <div class="calendar-toolbar">
-        <h2 class="calendar-list-title">Етапи сезону</h2>
-        <div class="calendar-filters" role="group" aria-label="Фільтр етапів">
+        <h2 class="calendar-list-title">{{ 'Етапи сезону' | translate }}</h2>
+        <div class="calendar-filters" role="group" [attr.aria-label]="'Фільтр етапів' | translate">
           @for (item of filters; track item.id) {
             <button
               type="button"
@@ -86,7 +91,7 @@
               [attr.aria-pressed]="filter() === item.id"
               (click)="filter.set(item.id)"
             >
-              {{ item.label }}
+              {{ item.label | translate }}
             </button>
           }
         </div>
@@ -99,34 +104,38 @@
             [routerLink]="['/calendar', race.season, race.round]"
           >
             <div class="race-card-top">
-              <span class="round-label"
-                >ЕТАП {{ race.round < 10 ? '0' + race.round : race.round }}</span
-              ><span class="race-badge">{{ scheduleLabel(race, now()) }}</span>
+              <span class="round-label">{{
+                'ЕТАП {0}' | translate: [race.round < 10 ? '0' + race.round : race.round]
+              }}</span
+              ><span class="race-badge">{{ scheduleLabel(race, now()) | translate }}</span>
             </div>
             <p class="race-country">
-              {{ countryName(race.circuit.country) }}
+              {{ countryName(race.circuit.country) | translate }}
               @if (isSprint(race)) {
-                <span class="sprint-badge">СПРИНТ</span>
+                <span class="sprint-badge">{{ 'СПРИНТ' | translate }}</span>
               }
             </p>
-            <h3>{{ race.name }}</h3>
-            <p class="race-circuit">{{ race.circuit.name }}</p>
+            <h3>{{ race.name | translate }}</h3>
+            <p class="race-circuit">{{ race.circuit.name | translate }}</p>
             <div class="race-card-bottom">
               <time [attr.datetime]="race.startsAt ?? race.date"
-                >{{ formatDate(race) }} <span>· {{ formatTime(race) }}</span></time
+                >{{ formatDate(race) | translate }}
+                <span>· {{ formatTime(race) | translate }}</span></time
               ><span aria-hidden="true">↗</span>
             </div>
           </a>
         } @empty {
-          <p class="empty-filter" role="status">За цим фільтром етапів немає.</p>
+          <p class="empty-filter" role="status">
+            {{ 'За цим фільтром етапів немає.' | translate }}
+          </p>
         }
       </div>
     } @else {
       <section class="feedback-panel">
-        <h2>Календар ще не опублікований</h2>
-        <p>Джерело поки не надало етапів цього сезону.</p>
+        <h2>{{ 'Календар ще не опублікований' | translate }}</h2>
+        <p>{{ 'Джерело поки не надало етапів цього сезону.' | translate }}</p>
         <button class="primary-link" type="button" (click)="calendar.reload()">
-          Оновити календар
+          {{ 'Оновити календар' | translate }}
         </button>
       </section>
     }

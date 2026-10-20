@@ -1,32 +1,57 @@
 <div class="auth-form-content">
-  <p class="auth-eyebrow">Приєднуйтесь</p>
-  <h1 id="auth-heading" tabindex="-1">Реєстрація</h1>
-  <p class="auth-intro">Створіть обліковий запис F1 Race Lens.</p>
+  <p class="auth-eyebrow">{{ 'Приєднуйтесь' | translate }}</p>
+  <h1 id="auth-heading" tabindex="-1">{{ 'Реєстрація' | translate }}</h1>
+  <p class="auth-intro">{{ 'Створіть обліковий запис F1 Race Lens.' | translate }}</p>
 
   <form novalidate (submit)="submit($event)">
     <div class="auth-field">
-      <label for="register-login">Логін</label>
-      <input id="register-login" autocomplete="username" [formField]="registerForm.login"
+      <label for="register-login">{{ 'Логін' | translate }}</label>
+      <input
+        id="register-login"
+        autocomplete="username"
+        [formField]="registerForm.login"
         [attr.aria-invalid]="registerForm.login().touched() && registerForm.login().invalid()"
-        [attr.aria-describedby]="registerForm.login().touched() && registerForm.login().invalid() ? 'register-login-error' : null" />
+        [attr.aria-describedby]="
+          registerForm.login().touched() && registerForm.login().invalid()
+            ? 'register-login-error'
+            : null
+        "
+      />
       @if (registerForm.login().touched() && registerForm.login().invalid()) {
-        <p class="field-error" id="register-login-error">{{ registerForm.login().errors()[0].message }}</p>
+        <p class="field-error" id="register-login-error">
+          {{ registerForm.login().errors()[0].message | translate }}
+        </p>
       }
     </div>
 
     <div class="auth-field">
-      <label for="register-password">Пароль</label>
-      <input id="register-password" type="password" autocomplete="new-password"
+      <label for="register-password">{{ 'Пароль' | translate }}</label>
+      <input
+        id="register-password"
+        type="password"
+        autocomplete="new-password"
         [formField]="registerForm.password"
         [attr.aria-invalid]="registerForm.password().touched() && registerForm.password().invalid()"
-        [attr.aria-describedby]="registerForm.password().touched() && registerForm.password().invalid() ? 'register-password-error' : null" />
+        [attr.aria-describedby]="
+          registerForm.password().touched() && registerForm.password().invalid()
+            ? 'register-password-error'
+            : null
+        "
+      />
       @if (registerForm.password().touched() && registerForm.password().invalid()) {
-        <p class="field-error" id="register-password-error">{{ registerForm.password().errors()[0].message }}</p>
+        <p class="field-error" id="register-password-error">
+          {{ registerForm.password().errors()[0].message | translate }}
+        </p>
       }
     </div>
 
-    @if (notice()) { <p class="form-notice" role="status">{{ notice() }}</p> }
-    <button class="auth-primary" type="submit">Зареєструватися</button>
+    @if (notice()) {
+      <p class="form-notice" role="status">{{ notice() | translate }}</p>
+    }
+    <button class="auth-primary" type="submit">{{ 'Зареєструватися' | translate }}</button>
   </form>
-  <p class="auth-switch">Уже є обліковий запис? <button type="button" (click)="loginRequested.emit()">Увійти</button></p>
+  <p class="auth-switch">
+    {{ 'Уже є обліковий запис?' | translate }}
+    <button type="button" (click)="loginRequested.emit()">{{ 'Увійти' | translate }}</button>
+  </p>
 </div>

@@ -1,3 +1,5 @@
+import { currentLocale } from '../../core/i18n/locale.service';
+import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { Component, computed, inject } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -12,7 +14,7 @@ import { resultLabel } from '../compare/comparison';
 
 @Component({
   selector: 'app-driver-analytics',
-  imports: [RouterLink, SeasonPicker, SourceNote],
+  imports: [TranslatePipe, RouterLink, SeasonPicker, SourceNote],
   templateUrl: './driver-analytics.html',
   styleUrl: './driver-analytics.css',
 })
@@ -57,7 +59,7 @@ export class DriverAnalytics {
   protected readonly number = (value: number | null | undefined) =>
     value == null
       ? '—'
-      : new Intl.NumberFormat('uk-UA', { maximumFractionDigits: 2 }).format(value);
+      : new Intl.NumberFormat(currentLocale(), { maximumFractionDigits: 2 }).format(value);
   protected readonly signed = (value: number | null) =>
     value === null ? '—' : `${value > 0 ? '+' : ''}${this.number(value)}`;
   protected readonly resultLabel = resultLabel;

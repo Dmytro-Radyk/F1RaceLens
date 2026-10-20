@@ -1,7 +1,11 @@
+import { LocalDatePipe } from '../../../shared/local-date.pipe';
+import { currentLocale } from '../../../core/i18n/locale.service';
+import { TranslatePipe } from '../../../core/i18n/translate.pipe';
 import { Component, computed, input, linkedSignal, output, signal } from '@angular/core';
 import type { ForecastScenario, PredictionResponse } from '../predictions.types';
 
 @Component({
+  imports: [LocalDatePipe, TranslatePipe],
   selector: 'app-prediction-context',
   templateUrl: './prediction-context.html',
   styleUrl: '../season-predictions.css',
@@ -75,7 +79,7 @@ export class PredictionContext {
   protected readonly number = (value: number | null) =>
     value === null
       ? '—'
-      : new Intl.NumberFormat('uk-UA', { maximumFractionDigits: 1 }).format(value);
+      : new Intl.NumberFormat(currentLocale(), { maximumFractionDigits: 1 }).format(value);
   protected readonly percent = (value: number | null) =>
     value === null ? 'Невідомо' : `${this.number(value * 100)}%`;
   protected readonly weatherLabel = (value: string) =>

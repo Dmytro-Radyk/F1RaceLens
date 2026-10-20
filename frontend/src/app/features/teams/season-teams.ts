@@ -1,3 +1,5 @@
+import { currentLocale } from '../../core/i18n/locale.service';
+import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { Component, computed, inject } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -10,7 +12,7 @@ import { HistoricalTeams } from './historical-teams';
 
 @Component({
   selector: 'app-season-teams',
-  imports: [RouterLink, SourceNote, SeasonPicker, HistoricalTeams],
+  imports: [TranslatePipe, RouterLink, SourceNote, SeasonPicker, HistoricalTeams],
   templateUrl: './season-teams.html',
   styleUrl: './season-teams.css',
 })
@@ -47,7 +49,9 @@ export class SeasonTeams {
       ? this.drivers.value().entries.filter((driver) => driver.teams.includes(team.name))
       : [];
   });
-  private readonly numberFormat = new Intl.NumberFormat('uk-UA');
+  private get numberFormat() {
+    return new Intl.NumberFormat(currentLocale());
+  }
   protected readonly points = (value: number) => this.numberFormat.format(value);
   protected readonly position = (entry: StandingsEntry) => {
     const labels: Readonly<Record<string, string>> = {

@@ -3,22 +3,31 @@
     <div class="auth-wordmark">
       <span class="brand-badge" aria-hidden="true">F1</span><span>F1 Race Lens</span>
     </div>
+    <app-language-picker />
     <button class="auth-theme-toggle" type="button" (click)="theme.toggle()">
       <svg aria-hidden="true" viewBox="0 0 24 24">
         <use [attr.href]="theme.isDark() ? '#icon-sun' : '#icon-moon'" />
       </svg>
-      <span>{{ theme.isDark() ? 'Світла тема' : 'Темна тема' }}</span>
+      <span>{{ (theme.isDark() ? 'Світла тема' : 'Темна тема') | translate }}</span>
     </button>
   </header>
   <section class="auth-card" aria-labelledby="auth-heading">
     <div class="auth-brand-panel">
-      <p class="auth-brand-kicker"><span aria-hidden="true"></span> ФОРМУЛА-1. БЛИЖЧЕ.</p>
+      <p class="auth-brand-kicker">
+        <span aria-hidden="true"></span> {{ 'ФОРМУЛА-1. БЛИЖЧЕ.' | translate }}
+      </p>
       <div class="auth-brand-copy">
-        <p class="auth-brand-label">Більше, ніж результати.</p>
-        <h2>Кожна гонка.<br />Кожна деталь.<br /><span>Ваш погляд.</span></h2>
+        <p class="auth-brand-label">{{ 'Більше, ніж результати.' | translate }}</p>
+        <h2>
+          {{ 'Кожна гонка.' | translate }}<br />{{ 'Кожна деталь.' | translate }}<br /><span>{{
+            'Ваш погляд.' | translate
+          }}</span>
+        </h2>
         <p class="auth-brand-description">
-          Розумійте перегони глибше. Стежте за пілотами, порівнюйте виступи та знаходьте історії за
-          цифрами.
+          {{
+            'Розумійте перегони глибше. Стежте за пілотами, порівнюйте виступи та знаходьте історії за цифрами.'
+              | translate
+          }}
         </p>
       </div>
       <svg class="auth-track" aria-hidden="true" viewBox="0 0 540 320" fill="none">
@@ -30,7 +39,9 @@
         />
       </svg>
       <div class="auth-brand-footer">
-        <span>СЕЗОН</span><span>ПІЛОТИ</span><span>АНАЛІТИКА</span>
+        <span>{{ 'СЕЗОН' | translate }}</span
+        ><span>{{ 'ПІЛОТИ' | translate }}</span
+        ><span>{{ 'АНАЛІТИКА' | translate }}</span>
       </div>
     </div>
     <div class="auth-form-panel">
@@ -41,6 +52,8 @@
       }
     </div>
   </section>
-  <p class="auth-page-footer">ВАШІ ПЕРЕГОНИ. ВАШ ПОГЛЯД.</p>
-  <p class="auth-page-footer"><a routerLink="/home">Відкрити застосунок без входу</a></p>
+  <p class="auth-page-footer">{{ 'ВАШІ ПЕРЕГОНИ. ВАШ ПОГЛЯД.' | translate }}</p>
+  <p class="auth-page-footer">
+    <a routerLink="/home">{{ 'Відкрити застосунок без входу' | translate }}</a>
+  </p>
 </main>

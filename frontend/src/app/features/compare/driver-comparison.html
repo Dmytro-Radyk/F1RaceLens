@@ -6,38 +6,40 @@
   />
   @if (!season.valid()) {
     <section class="feedback-panel" role="alert">
-      <h2>Сезон не знайдено</h2>
-      <p>Виберіть рік зі списку.</p>
+      <h2>{{ 'Сезон не знайдено' | translate }}</h2>
+      <p>{{ 'Виберіть рік зі списку.' | translate }}</p>
     </section>
   } @else if (drivers.isLoading()) {
-    <p role="status">Завантажуємо пілотів сезону…</p>
+    <p role="status">{{ 'Завантажуємо пілотів сезону…' | translate }}</p>
   } @else if (drivers.error()) {
     <section class="feedback-panel" role="alert">
-      <h2>Не вдалося завантажити пілотів</h2>
+      <h2>{{ 'Не вдалося завантажити пілотів' | translate }}</h2>
       <button class="primary-link" type="button" (click)="drivers.reload()">
-        Спробувати ще раз
+        {{ 'Спробувати ще раз' | translate }}
       </button>
     </section>
   } @else if (drivers.hasValue()) {
     @let list = drivers.value();
     <div class="season-heading">
       <div>
-        <p class="section-eyebrow">ДВА ПІЛОТИ · ОДИН СЕЗОН</p>
+        <p class="section-eyebrow">{{ 'ДВА ПІЛОТИ · ОДИН СЕЗОН' | translate }}</p>
         <h2>
-          Порівняння <span>{{ list.season }}</span>
+          {{ 'Порівняння' | translate }} <span>{{ list.season | translate }}</span>
         </h2>
       </div>
-      <p class="note">Гонки сезону. Кваліфікації та спринти поки не порівнюються.</p>
+      <p class="note">
+        {{ 'Гонки сезону. Кваліфікації та спринти поки не порівнюються.' | translate }}
+      </p>
     </div>
     @if (list.entries.length >= 2) {
-      <section class="comparison-picker" aria-label="Вибір пілотів">
+      <section class="comparison-picker" [attr.aria-label]="'Вибір пілотів' | translate">
         <label class="first-color" for="compare-first"
-          >Перший пілот
+          >{{ 'Перший пілот' | translate }}
           <select id="compare-first" [value]="first()" (change)="select('first', $event)">
-            <option value="">Виберіть пілота</option>
+            <option value="">{{ 'Виберіть пілота' | translate }}</option>
             @for (driver of list.entries; track driver.id) {
               <option [value]="driver.id" [selected]="driver.id === first()">
-                {{ driver.name }}
+                {{ driver.name | translate }}
               </option>
             }
           </select>
@@ -47,17 +49,17 @@
           class="swap"
           [disabled]="!pairValid()"
           (click)="swap()"
-          aria-label="Поміняти пілотів місцями"
+          [attr.aria-label]="'Поміняти пілотів місцями' | translate"
         >
           ⇄
         </button>
         <label for="compare-second"
-          >Другий пілот
+          >{{ 'Другий пілот' | translate }}
           <select id="compare-second" [value]="second()" (change)="select('second', $event)">
-            <option value="">Виберіть пілота</option>
+            <option value="">{{ 'Виберіть пілота' | translate }}</option>
             @for (driver of list.entries; track driver.id) {
               <option [value]="driver.id" [selected]="driver.id === second()">
-                {{ driver.name }}
+                {{ driver.name | translate }}
               </option>
             }
           </select>
@@ -65,17 +67,17 @@
       </section>
       @if (!pairValid()) {
         <section class="feedback-panel" role="status">
-          <h2>Виберіть двох різних пілотів цього сезону</h2>
-          <p>Якщо змінили рік, попередньої пари може не бути в його заліку.</p>
+          <h2>{{ 'Виберіть двох різних пілотів цього сезону' | translate }}</h2>
+          <p>{{ 'Якщо змінили рік, попередньої пари може не бути в його заліку.' | translate }}</p>
         </section>
       } @else if (left.isLoading() || right.isLoading()) {
-        <p role="status">Завантажуємо результати пілотів…</p>
+        <p role="status">{{ 'Завантажуємо результати пілотів…' | translate }}</p>
       } @else if (left.error() || right.error()) {
         <section class="feedback-panel" role="alert">
-          <h2>Не вдалося завантажити порівняння</h2>
-          <p>Показники не порівнюються, поки обидва профілі не доступні.</p>
+          <h2>{{ 'Не вдалося завантажити порівняння' | translate }}</h2>
+          <p>{{ 'Показники не порівнюються, поки обидва профілі не доступні.' | translate }}</p>
           <button class="primary-link" type="button" (click)="retry()">
-            Повторити завантаження результатів
+            {{ 'Повторити завантаження результатів' | translate }}
           </button>
         </section>
       } @else if (left.hasValue() && right.hasValue()) {
@@ -86,89 +88,105 @@
               class="profile-card first-border"
               [routerLink]="['/drivers', a.driver.id]"
               [queryParams]="{ season: list.season }"
-              ><p class="section-eyebrow">ПЕРШИЙ ПІЛОТ ↗</p>
-              <h2>{{ a.driver.name }}</h2>
-              <p class="note">{{ a.standing?.teams?.join(' · ') || 'Команда не вказана' }}</p></a
+              ><p class="section-eyebrow">{{ 'ПЕРШИЙ ПІЛОТ ↗' | translate }}</p>
+              <h2>{{ a.driver.name | translate }}</h2>
+              <p class="note">
+                {{ a.standing?.teams?.join(' · ') || 'Команда не вказана' | translate }}
+              </p></a
             >
             <a
               class="profile-card"
               [routerLink]="['/drivers', b.driver.id]"
               [queryParams]="{ season: list.season }"
-              ><p class="section-eyebrow">ДРУГИЙ ПІЛОТ ↗</p>
-              <h2>{{ b.driver.name }}</h2>
-              <p class="note">{{ b.standing?.teams?.join(' · ') || 'Команда не вказана' }}</p></a
+              ><p class="section-eyebrow">{{ 'ДРУГИЙ ПІЛОТ ↗' | translate }}</p>
+              <h2>{{ b.driver.name | translate }}</h2>
+              <p class="note">
+                {{ b.standing?.teams?.join(' · ') || 'Команда не вказана' | translate }}
+              </p></a
             >
           </div>
           <section class="panel" aria-labelledby="metrics-heading">
-            <h2 id="metrics-heading">Показники сезону</h2>
+            <h2 id="metrics-heading">{{ 'Показники сезону' | translate }}</h2>
             <div
               class="table-scroll"
               role="region"
               tabindex="0"
-              aria-label="Порівняння показників пілотів"
+              [attr.aria-label]="'Порівняння показників пілотів' | translate"
             >
               <table>
                 <thead>
                   <tr>
-                    <th scope="col">Показник</th>
-                    <th scope="col">{{ a.driver.name }}</th>
-                    <th scope="col">{{ b.driver.name }}</th>
+                    <th scope="col">{{ 'Показник' | translate }}</th>
+                    <th scope="col">{{ a.driver.name | translate }}</th>
+                    <th scope="col">{{ b.driver.name | translate }}</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <th scope="row">Очки чемпіонату</th>
-                    <td>{{ number(a.standing?.points) }}</td>
-                    <td>{{ number(b.standing?.points) }}</td>
+                    <th scope="row">{{ 'Очки чемпіонату' | translate }}</th>
+                    <td>{{ number(a.standing?.points) | translate }}</td>
+                    <td>{{ number(b.standing?.points) | translate }}</td>
                   </tr>
                   <tr>
-                    <th scope="row">Перемоги в заліку</th>
-                    <td>{{ number(a.standing?.wins) }}</td>
-                    <td>{{ number(b.standing?.wins) }}</td>
+                    <th scope="row">{{ 'Перемоги в заліку' | translate }}</th>
+                    <td>{{ number(a.standing?.wins) | translate }}</td>
+                    <td>{{ number(b.standing?.wins) | translate }}</td>
                   </tr>
                   <tr>
-                    <th scope="row">Фактичні фініші*</th>
-                    <td>{{ data.left.finishes }}</td>
-                    <td>{{ data.right.finishes }}</td>
+                    <th scope="row">{{ 'Фактичні фініші*' | translate }}</th>
+                    <td>{{ data.left.finishes | translate }}</td>
+                    <td>{{ data.right.finishes | translate }}</td>
                   </tr>
                   <tr>
-                    <th scope="row">Середня позиція на фініші*</th>
-                    <td>{{ number(data.left.average) }}</td>
-                    <td>{{ number(data.right.average) }}</td>
+                    <th scope="row">{{ 'Середня позиція на фініші*' | translate }}</th>
+                    <td>{{ number(data.left.average) | translate }}</td>
+                    <td>{{ number(data.right.average) | translate }}</td>
                   </tr>
                   <tr>
-                    <th scope="row">Попереду в очних фінішах*</th>
-                    <td>{{ data.leftWins }}</td>
-                    <td>{{ data.rightWins }}</td>
+                    <th scope="row">{{ 'Попереду в очних фінішах*' | translate }}</th>
+                    <td>{{ data.leftWins | translate }}</td>
+                    <td>{{ data.rightWins | translate }}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <p class="note">
-              Залік: {{ a.driver.name }} — після етапу {{ a.standingsRound ?? '—' }};
-              {{ b.driver.name }} — після етапу {{ b.standingsRound ?? '—' }}. Очки чемпіонату
-              можуть включати спринти, штрафи й історичні правила заліку.
+              {{
+                'Залік: {0} — після етапу {1}; {2} — після етапу {3}. Очки чемпіонату можуть включати спринти, штрафи й історичні правила заліку.'
+                  | translate
+                    : [
+                        a.driver.name,
+                        a.standingsRound ?? '—',
+                        b.driver.name,
+                        b.standingsRound ?? '—',
+                      ]
+              }}
             </p>
             <p class="note">
-              * Фініші — лише записи зі статусом Finished або відставанням на кола. Середня позиція
-              рахується за фінішами; менше — краще. Етапи з кількома записами одного пілота
-              виключені з цих розрахунків. Очне порівняння: {{ data.comparable }} спільних етапів з
-              фінішем обох; однакових позицій: {{ data.ties }}. Ці числа не є прогнозом.
+              {{
+                '* Фініші — лише записи зі статусом Finished або відставанням на кола. Середня позиція рахується за фінішами; менше — краще. Етапи з кількома записами одного пілота виключені з цих розрахунків. Очне порівняння: {0} спільних етапів з фінішем обох; однакових позицій: {1}. Ці числа не є прогнозом.'
+                  | translate: [data.comparable, data.ties]
+              }}
             </p>
           </section>
           @if (data.rows.length) {
             @if (chart(); as graph) {
               <section class="panel" aria-labelledby="chart-heading">
-                <h2 id="chart-heading">Фінішні позиції за етапами</h2>
+                <h2 id="chart-heading">{{ 'Фінішні позиції за етапами' | translate }}</h2>
                 <p class="note">
-                  <span class="first-color">● {{ a.driver.name }} — суцільна</span> ·
-                  <span>■ {{ b.driver.name }} — пунктирна</span>. Менше число — вища позиція.
+                  <span class="first-color">{{
+                    '● {0} — суцільна' | translate: [a.driver.name]
+                  }}</span>
+                  · <span>{{ '■ {0} — пунктирна' | translate: [b.driver.name] }}</span
+                  >{{ '. Менше число — вища позиція.' | translate }}
                 </p>
                 <div
                   class="chart-scroll"
                   role="region"
                   tabindex="0"
-                  aria-label="Графік фінішних позицій, прокручується горизонтально"
+                  [attr.aria-label]="
+                    'Графік фінішних позицій, прокручується горизонтально' | translate
+                  "
                 >
                   <svg
                     viewBox="0 0 800 300"
@@ -176,11 +194,15 @@
                     aria-labelledby="compare-chart-title compare-chart-description"
                   >
                     <title id="compare-chart-title">
-                      Порівняння фінішів {{ a.driver.name }} та {{ b.driver.name }}
+                      {{
+                        'Порівняння фінішів {0} та {1}' | translate: [a.driver.name, b.driver.name]
+                      }}
                     </title>
                     <desc id="compare-chart-description">
-                      Обидва пілоти мають спільні осі. Сходи, пропуски й кілька записів етапу
-                      розривають лінії. Числові дані наведені в таблиці нижче.
+                      {{
+                        'Обидва пілоти мають спільні осі. Сходи, пропуски й кілька записів етапу розривають лінії. Числові дані наведені в таблиці нижче.'
+                          | translate
+                      }}
                     </desc>
                     @for (tick of graph.ticks; track tick.value) {
                       <line
@@ -190,7 +212,9 @@
                         [attr.y2]="tick.y"
                         class="grid-line"
                       />
-                      <text x="37" [attr.y]="tick.y + 4" text-anchor="end">{{ tick.value }}</text>
+                      <text x="37" [attr.y]="tick.y + 4" text-anchor="end">
+                        {{ tick.value | translate }}
+                      </text>
                     }
                     <path [attr.d]="graph.left.path" class="first-line" />
                     <path [attr.d]="graph.right.path" class="second-line" />
@@ -207,47 +231,65 @@
                       />
                     }
                     @for (point of graph.rounds; track point.round) {
-                      <text [attr.x]="point.x" y="284" text-anchor="middle">{{ point.round }}</text>
+                      <text [attr.x]="point.x" y="284" text-anchor="middle">
+                        {{ point.round | translate }}
+                      </text>
                     }
                   </svg>
                 </div>
                 <p class="note">
-                  Етап. Сходи та пропуски не замінюються останнім місцем. Для пояснення результатів
-                  виберіть етап:
+                  {{
+                    'Етап. Сходи та пропуски не замінюються останнім місцем. Для пояснення результатів виберіть етап:'
+                      | translate
+                  }}
                 </p>
-                <div class="round-buttons" aria-label="Пояснення результатів за етапом">
+                <div
+                  class="round-buttons"
+                  [attr.aria-label]="'Пояснення результатів за етапом' | translate"
+                >
                   @for (row of data.rows; track row.round) {
                     <button
                       type="button"
-                      [attr.aria-label]="'Етап ' + row.round + ': ' + row.name"
+                      [attr.aria-label]="'Етап ' + row.round + ': ' + row.name | translate"
                       [attr.aria-pressed]="activeRound() === row.round"
                       (mouseenter)="activeRound.set(row.round)"
                       (focus)="activeRound.set(row.round)"
                       (click)="activeRound.set(row.round)"
                     >
-                      {{ row.round }}
+                      {{ row.round | translate }}
                     </button>
                   }
                 </div>
                 @if (selectedRow(); as selected) {
                   <div class="round-details" role="status">
-                    <strong>Етап {{ selected.round }} · {{ selected.name }}</strong>
-                    <p>{{ a.driver.name }}: {{ resultLabel(selected.left) }}</p>
-                    <p>{{ b.driver.name }}: {{ resultLabel(selected.right) }}</p>
+                    <strong>{{
+                      'Етап {0} · {1}' | translate: [selected.round, selected.name]
+                    }}</strong>
+                    <p>
+                      {{ a.driver.name | translate }}: {{ resultLabel(selected.left) | translate }}
+                    </p>
+                    <p>
+                      {{ b.driver.name | translate }}: {{ resultLabel(selected.right) | translate }}
+                    </p>
                   </div>
                 }
               </section>
             }
             <section class="panel">
-              <h2>Результати за етапами</h2>
-              <div class="table-scroll" role="region" tabindex="0" aria-label="Порівняння гонок">
+              <h2>{{ 'Результати за етапами' | translate }}</h2>
+              <div
+                class="table-scroll"
+                role="region"
+                tabindex="0"
+                [attr.aria-label]="'Порівняння гонок' | translate"
+              >
                 <table>
                   <thead>
                     <tr>
-                      <th scope="col">Гран-прі</th>
-                      <th scope="col">{{ a.driver.name }}</th>
-                      <th scope="col">{{ b.driver.name }}</th>
-                      <th scope="col">Попереду на фініші</th>
+                      <th scope="col">{{ 'Гран-прі' | translate }}</th>
+                      <th scope="col">{{ a.driver.name | translate }}</th>
+                      <th scope="col">{{ b.driver.name | translate }}</th>
+                      <th scope="col">{{ 'Попереду на фініші' | translate }}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -257,20 +299,21 @@
                           <a
                             [routerLink]="['/calendar', list.season, row.round]"
                             [queryParams]="{ session: 'race' }"
-                            >{{ row.round }} · {{ row.name }}</a
+                            >{{ row.round | translate }} · {{ row.name | translate }}</a
                           >
                         </th>
-                        <td>{{ resultLabel(row.left) }}</td>
-                        <td>{{ resultLabel(row.right) }}</td>
+                        <td>{{ resultLabel(row.left) | translate }}</td>
+                        <td>{{ resultLabel(row.right) | translate }}</td>
                         <td>
                           {{
-                            row.winner === 'left'
+                            (row.winner === 'left'
                               ? a.driver.name
                               : row.winner === 'right'
                                 ? b.driver.name
                                 : row.winner === 'tie'
                                   ? 'Однакова позиція'
                                   : 'Не порівнюється'
+                            ) | translate
                           }}
                         </td>
                       </tr>
@@ -281,20 +324,20 @@
             </section>
           } @else {
             <section class="feedback-panel">
-              <h2>Результатів гонок для цієї пари поки немає</h2>
-              <p>Показники заліку наведені вище.</p>
+              <h2>{{ 'Результатів гонок для цієї пари поки немає' | translate }}</h2>
+              <p>{{ 'Показники заліку наведені вище.' | translate }}</p>
             </section>
           }
-          <section class="source-pair" aria-label="Актуальність профілів">
+          <section class="source-pair" [attr.aria-label]="'Актуальність профілів' | translate">
             <div>
-              <h3>{{ a.driver.name }}</h3>
+              <h3>{{ a.driver.name | translate }}</h3>
               <app-source-note
                 [metadata]="a"
                 staleMessage="Профіль першого пілота містить збережені дані."
               />
             </div>
             <div>
-              <h3>{{ b.driver.name }}</h3>
+              <h3>{{ b.driver.name | translate }}</h3>
               <app-source-note
                 [metadata]="b"
                 staleMessage="Профіль другого пілота містить збережені дані."
@@ -305,8 +348,12 @@
       }
     } @else {
       <section class="feedback-panel">
-        <h2>Недостатньо пілотів для порівняння</h2>
-        <p>Джерело має надати щонайменше двох пілотів у заліку. Виберіть інший сезон.</p>
+        <h2>{{ 'Недостатньо пілотів для порівняння' | translate }}</h2>
+        <p>
+          {{
+            'Джерело має надати щонайменше двох пілотів у заліку. Виберіть інший сезон.' | translate
+          }}
+        </p>
       </section>
     }
     <app-source-note

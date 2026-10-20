@@ -179,6 +179,8 @@ def forecast(root: Path, records: list[dict], version: str, threads: int = 4, re
                    "through_round": through, "source_updated": snapshot["fetched_at"],
                    "generated": datetime.now(timezone.utc).isoformat(),
                    "artifact_sha256": artifact_hashes(directory),
+                   "input_snapshot": {"standings_calendar": snapshot, "history": known,
+                                      "model_metadata": metadata},
                    "uncertainty": {"residual_year": season if "uncertainty_pools" in metadata else 2024, "team_sd": float(np.std(pools[0])),
                                    "individual_sd": float(np.std(pools[1])), "persistent_team_correlation": .25},
                    "limitations": [

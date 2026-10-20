@@ -1,30 +1,30 @@
 <div class="schedule-page home-page">
   <div class="home-heading">
     <div>
-      <p class="section-eyebrow">ВАШ ПОГЛЯД НА ПЕРЕГОНИ</p>
+      <p class="section-eyebrow">{{ 'ВАШ ПОГЛЯД НА ПЕРЕГОНИ' | translate }}</p>
       <h2>
-        Сезон у фокусі
+        {{ 'Сезон у фокусі' | translate }}
         @if (season(); as year) {
-          <span>{{ year }}</span>
+          <span>{{ year | translate }}</span>
         }
       </h2>
     </div>
     <a class="text-link" routerLink="/calendar" [queryParams]="{ season: season() }"
-      >Відкрити календар <span aria-hidden="true">↗</span></a
+      >{{ 'Відкрити календар' | translate }} <span aria-hidden="true">↗</span></a
     >
   </div>
 
   @if (calendar.isLoading()) {
     <section class="home-card feedback-panel" role="status">
-      <h3>Завантажуємо календар…</h3>
-      <p>Готуємо огляд актуального сезону.</p>
+      <h3>{{ 'Завантажуємо календар…' | translate }}</h3>
+      <p>{{ 'Готуємо огляд актуального сезону.' | translate }}</p>
     </section>
   } @else if (calendar.error()) {
     <section class="home-card feedback-panel" role="alert">
-      <h3>Не вдалося завантажити календар</h3>
-      <p>Заліки та інші розділи доступні нижче.</p>
+      <h3>{{ 'Не вдалося завантажити календар' | translate }}</h3>
+      <p>{{ 'Заліки та інші розділи доступні нижче.' | translate }}</p>
       <button class="secondary-action" type="button" (click)="calendar.reload()">
-        Оновити календар
+        {{ 'Оновити календар' | translate }}
       </button>
     </section>
   } @else if (calendar.hasValue()) {
@@ -33,76 +33,84 @@
       <section class="race-hero" aria-labelledby="next-race-title">
         <div class="race-intro">
           <p class="section-eyebrow">
-            {{ past(race) ? 'ОЧІКУЄМО ОНОВЛЕННЯ РЕЗУЛЬТАТІВ' : 'НАСТУПНИЙ ГРАН-ПРІ' }}
+            {{ (past(race) ? 'ОЧІКУЄМО ОНОВЛЕННЯ РЕЗУЛЬТАТІВ' : 'НАСТУПНИЙ ГРАН-ПРІ') | translate }}
           </p>
           <p class="round-label">
-            ЕТАП {{ race.round }} <span aria-hidden="true">/</span>
-            {{ country(race.circuit.country) }}
+            {{ 'ЕТАП {0}' | translate: [race.round] }}<span aria-hidden="true">/</span>
+            {{ country(race.circuit.country) | translate }}
           </p>
-          <h3 id="next-race-title">{{ race.name }}</h3>
-          <p class="circuit-name">{{ race.circuit.name }} · {{ race.circuit.locality }}</p>
+          <h3 id="next-race-title">{{ race.name | translate }}</h3>
+          <p class="circuit-name">
+            {{ race.circuit.name | translate }} · {{ race.circuit.locality | translate }}
+          </p>
           <div class="race-start">
-            <span>{{ date(race) }}</span
-            ><strong>{{ time(race) }}</strong>
+            <span>{{ date(race) | translate }}</span
+            ><strong>{{ time(race) | translate }}</strong>
           </div>
           @if (past(race)) {
             <p class="home-note">
-              Час старту за розкладом минув. Підсумок етапу ще не підтверджений у завантаженому
-              заліку.
+              {{
+                'Час старту за розкладом минув. Підсумок етапу ще не підтверджений у завантаженому заліку.'
+                  | translate
+              }}
             </p>
           }
           <a class="primary-link" [routerLink]="['/calendar', race.season, race.round]"
-            >Сторінка Гран-прі <span aria-hidden="true">→</span></a
+            >{{ 'Сторінка Гран-прі' | translate }} <span aria-hidden="true">→</span></a
           >
         </div>
         <div class="weekend-schedule">
-          <h4>Розклад вікенду</h4>
-          <p class="home-note">Час у вашому часовому поясі</p>
+          <h4>{{ 'Розклад вікенду' | translate }}</h4>
+          <p class="home-note">{{ 'Час у вашому часовому поясі' | translate }}</p>
           @if (race.sessions.length) {
             <ul class="session-list">
               @for (session of race.sessions; track session.kind) {
                 <li>
                   <span
-                    >{{ session.name }}<small>{{ date(session) }}</small></span
+                    >{{ session.name | translate
+                    }}<small>{{ date(session) | translate }}</small></span
                   ><time [attr.datetime]="session.startsAt ?? session.date">{{
-                    time(session)
+                    time(session) | translate
                   }}</time>
                 </li>
               }
             </ul>
           } @else {
-            <p>Розклад сесій ще не опубліковано.</p>
+            <p>{{ 'Розклад сесій ще не опубліковано.' | translate }}</p>
           }
         </div>
       </section>
     } @else {
       <section class="home-card empty-calendar">
-        <p class="section-eyebrow">КАЛЕНДАР СЕЗОНУ</p>
+        <p class="section-eyebrow">{{ 'КАЛЕНДАР СЕЗОНУ' | translate }}</p>
         <h3>
           {{
-            data.races.length ? 'Майбутніх етапів у календарі немає' : 'Календар ще не опубліковано'
+            (data.races.length
+              ? 'Майбутніх етапів у календарі немає'
+              : 'Календар ще не опубліковано'
+            ) | translate
           }}
         </h3>
         <p class="home-note">
-          Історичні сезони й доступні результати можна переглянути в календарі.
+          {{ 'Історичні сезони й доступні результати можна переглянути в календарі.' | translate }}
         </p>
-        <a class="text-link" routerLink="/calendar" [queryParams]="{ season: data.season }"
-          >Переглянути етапи →</a
-        >
+        <a class="text-link" routerLink="/calendar" [queryParams]="{ season: data.season }">{{
+          'Переглянути етапи →' | translate
+        }}</a>
       </section>
     }
     <div class="season-progress">
       <div>
-        <strong>{{ data.races.length }}</strong
-        ><span>Гран-прі в календарі</span>
+        <strong>{{ data.races.length | translate }}</strong
+        ><span>{{ 'Гран-прі в календарі' | translate }}</span>
       </div>
       <div>
-        <strong>{{ confirmed() ?? '—' }}</strong
-        ><span>етапів у підтвердженому заліку</span>
+        <strong>{{ confirmed() ?? '—' | translate }}</strong
+        ><span>{{ 'етапів у підтвердженому заліку' | translate }}</span>
       </div>
       <div>
-        <strong>{{ remaining() ?? '—' }}</strong
-        ><span>етапів без підсумку в заліку</span>
+        <strong>{{ remaining() ?? '—' | translate }}</strong
+        ><span>{{ 'етапів без підсумку в заліку' | translate }}</span>
       </div>
     </div>
     <app-source-note [metadata]="data" />
@@ -111,7 +119,7 @@
   <div class="standings-grid">
     @for (item of standingPanels; track item.kind) {
       <app-standings-summary
-        [title]="item.title"
+        [title]="item.title | translate"
         [kind]="item.kind"
         [loading]="item.resource.isLoading()"
         [failed]="!!item.resource.error()"
@@ -123,8 +131,8 @@
 
   <section aria-labelledby="explore-title">
     <div class="card-heading explore-heading">
-      <h3 id="explore-title">Досліджуйте сезон</h3>
-      <span class="home-note">Від результатів до власних висновків</span>
+      <h3 id="explore-title">{{ 'Досліджуйте сезон' | translate }}</h3>
+      <span class="home-note">{{ 'Від результатів до власних висновків' | translate }}</span>
     </div>
     <div class="explore-grid">
       @for (section of sections; track section.path) {
@@ -132,8 +140,9 @@
           class="explore-card"
           [routerLink]="section.path"
           [queryParams]="section.path === '/predictions' ? null : { season: season() }"
-          ><span class="explore-title">{{ section.title }}<span aria-hidden="true">↗</span></span
-          ><span>{{ section.text }}</span></a
+          ><span class="explore-title"
+            >{{ section.title | translate }}<span aria-hidden="true">↗</span></span
+          ><span>{{ section.text | translate }}</span></a
         >
       }
     </div>

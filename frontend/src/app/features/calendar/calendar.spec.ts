@@ -95,9 +95,9 @@ describe('Calendar routes', () => {
     const harness = await RouterTestingHarness.create('/calendar?season=1950');
     http.expectOne('/api/seasons/1950/calendar').flush(archive);
     await settle(harness, 'Сезон 1950');
-    expect(harness.routeNativeElement!.querySelector<HTMLSelectElement>('select')!.value).toBe(
-      '1950',
-    );
+    expect(
+      harness.routeNativeElement!.querySelector<HTMLSelectElement>('.season-picker select')!.value,
+    ).toBe('1950');
     expect(harness.routeNativeElement!.querySelector('.next-race')).toBeNull();
     expect(harness.routeNativeElement!.querySelector('.race-card')?.getAttribute('href')).toBe(
       '/calendar/1950/1',
@@ -118,7 +118,7 @@ describe('Calendar routes', () => {
     const page = harness.routeNativeElement!;
     page.querySelectorAll<HTMLButtonElement>('.calendar-filters button')[1].click();
     harness.detectChanges();
-    const select = page.querySelector<HTMLSelectElement>('select')!;
+    const select = page.querySelector<HTMLSelectElement>('.season-picker select')!;
     select.value = '2025';
     select.dispatchEvent(new Event('change'));
     await vi.waitFor(() =>
@@ -145,7 +145,8 @@ describe('Calendar routes', () => {
       .expectOne('/api/seasons/2025/calendar')
       .flush({}, { status: 503, statusText: 'Unavailable' });
     await settle(harness, 'Не вдалося завантажити календар');
-    const select = harness.routeNativeElement!.querySelector<HTMLSelectElement>('select')!;
+    const select =
+      harness.routeNativeElement!.querySelector<HTMLSelectElement>('.season-picker select')!;
     select.value = '2026';
     select.dispatchEvent(new Event('change'));
     await vi.waitFor(() => http.expectOne('/api/seasons/current/calendar').flush(calendar));

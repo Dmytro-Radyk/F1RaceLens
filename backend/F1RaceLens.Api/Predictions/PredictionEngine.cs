@@ -5,10 +5,11 @@ namespace F1RaceLens.Api.Predictions;
 public static class PredictionEngine
 {
     public const string Version = "context-bootstrap-v2";
+    public const int DefaultSeed = 260019;
     private static readonly int[] RacePoints = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1];
     private static readonly int[] SprintPoints = [8, 7, 6, 5, 4, 3, 2, 1];
 
-    public static ForecastOutput Simulate(ForecastInput input, int simulations = 4000, int seed = 260019, CancellationToken token = default)
+    public static ForecastOutput Simulate(ForecastInput input, int simulations = 4000, int seed = DefaultSeed, CancellationToken token = default)
     {
         if (simulations < 1 || input.RemainingRaces < 0 || input.RemainingSprints < 0 || input.History.Count == 0)
             throw new ArgumentException("Invalid simulation input.");

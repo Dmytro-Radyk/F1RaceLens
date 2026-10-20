@@ -1,3 +1,4 @@
+import { TranslatePipe } from '../../../../core/i18n/translate.pipe';
 import { Component, computed, DestroyRef, inject, linkedSignal, signal } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -17,7 +18,7 @@ type CalendarFilter = 'all' | 'upcoming' | 'past';
 
 @Component({
   selector: 'app-season-calendar',
-  imports: [RouterLink, SourceNote],
+  imports: [TranslatePipe, RouterLink, SourceNote],
   templateUrl: './season-calendar.html',
 })
 export class SeasonCalendar {

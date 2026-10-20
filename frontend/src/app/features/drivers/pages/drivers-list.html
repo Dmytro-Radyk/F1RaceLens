@@ -6,29 +6,31 @@
   />
   @if (!season.valid()) {
     <section class="feedback-panel" role="alert">
-      <h2>Сезон не знайдено</h2>
-      <p>Виберіть рік зі списку.</p>
+      <h2>{{ 'Сезон не знайдено' | translate }}</h2>
+      <p>{{ 'Виберіть рік зі списку.' | translate }}</p>
     </section>
   } @else if (drivers.isLoading()) {
-    <section class="feedback-panel" role="status"><h2>Завантажуємо пілотів…</h2></section>
+    <section class="feedback-panel" role="status">
+      <h2>{{ 'Завантажуємо пілотів…' | translate }}</h2>
+    </section>
   } @else if (drivers.error()) {
     <section class="feedback-panel" role="alert">
-      <h2>Не вдалося завантажити пілотів</h2>
-      <p>Спробуйте ще раз або виберіть інший сезон.</p>
+      <h2>{{ 'Не вдалося завантажити пілотів' | translate }}</h2>
+      <p>{{ 'Спробуйте ще раз або виберіть інший сезон.' | translate }}</p>
       <button class="primary-link" type="button" (click)="drivers.reload()">
-        Спробувати ще раз
+        {{ 'Спробувати ще раз' | translate }}
       </button>
     </section>
   } @else if (drivers.hasValue()) {
     @let data = drivers.value();
     <div class="season-heading">
       <div>
-        <p class="section-eyebrow">ПІЛОТИ ЗІ ЗАЛІКУ СЕЗОНУ</p>
+        <p class="section-eyebrow">{{ 'ПІЛОТИ ЗІ ЗАЛІКУ СЕЗОНУ' | translate }}</p>
         <h2>
-          Сезон <span>{{ data.season }}</span>
+          {{ 'Сезон' | translate }} <span>{{ data.season | translate }}</span>
         </h2>
       </div>
-      <p class="driver-note">Відкрийте профіль, результати та графік форми.</p>
+      <p class="driver-note">{{ 'Відкрийте профіль, результати та графік форми.' | translate }}</p>
     </div>
     <div class="driver-grid">
       @for (entry of data.entries; track entry.id) {
@@ -38,18 +40,18 @@
           [queryParams]="{ season: data.season }"
         >
           <span class="section-eyebrow"
-            >{{ entry.code ?? 'F1' }} <span aria-hidden="true">↗</span></span
+            >{{ entry.code ?? 'F1' | translate }} <span aria-hidden="true">↗</span></span
           >
-          <h2>{{ entry.name }}</h2>
-          <p>{{ entry.teams.join(' · ') || 'Команда не вказана' }}</p>
-          <span class="driver-points"
-            >{{ points(entry.points) }} очок · перемог: {{ entry.wins }}</span
-          >
+          <h2>{{ entry.name | translate }}</h2>
+          <p>{{ entry.teams.join(' · ') || 'Команда не вказана' | translate }}</p>
+          <span class="driver-points">{{
+            '{0} очок · перемог: {1}' | translate: [points(entry.points), entry.wins]
+          }}</span>
         </a>
       } @empty {
         <section class="feedback-panel">
-          <h2>Список пілотів поки недоступний</h2>
-          <p>Джерело не надало заліку цього сезону. Виберіть інший рік.</p>
+          <h2>{{ 'Список пілотів поки недоступний' | translate }}</h2>
+          <p>{{ 'Джерело не надало заліку цього сезону. Виберіть інший рік.' | translate }}</p>
         </section>
       }
     </div>

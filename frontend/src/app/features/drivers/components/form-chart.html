@@ -1,29 +1,33 @@
 <figure class="form-chart">
   <figcaption>
-    <h2>Форма за етапами</h2>
-    <p>Старт і фактичний фініш. Менше число — вища позиція.</p>
+    <h2>{{ 'Форма за етапами' | translate }}</h2>
+    <p>{{ 'Старт і фактичний фініш. Менше число — вища позиція.' | translate }}</p>
   </figcaption>
   <div class="chart-legend">
-    <span class="finish-legend">● Фініш</span><span>┄ Старт</span><span>× Схід / інший статус</span>
+    <span class="finish-legend">{{ '● Фініш' | translate }}</span
+    ><span>{{ '┄ Старт' | translate }}</span
+    ><span>{{ '× Схід / інший статус' | translate }}</span>
   </div>
   <div class="chart-frame" (pointerleave)="hovered.set(null)">
     <div
       class="chart-scroll"
       tabindex="0"
       role="region"
-      aria-label="Графік позицій за етапами"
+      [attr.aria-label]="'Графік позицій за етапами' | translate"
       (scroll)="onChartScroll($event)"
     >
       <div class="chart-canvas">
         <svg viewBox="0 0 800 345" role="img" aria-labelledby="form-title form-description">
-          <title id="form-title">Стартові та фінішні позиції за етапами</title>
+          <title id="form-title">{{ 'Стартові та фінішні позиції за етапами' | translate }}</title>
           <desc id="form-description">
-            Повні числові значення наведені у таблиці результатів нижче. Сходи, невідомі значення,
-            пропуски та кілька результатів одного етапу розривають лінію.
+            {{
+              'Повні числові значення наведені у таблиці результатів нижче. Сходи, невідомі значення, пропуски та кілька результатів одного етапу розривають лінію.'
+                | translate
+            }}
           </desc>
           @for (tick of chart().ticks; track tick.value) {
             <line x1="55" x2="745" [attr.y1]="tick.y" [attr.y2]="tick.y" class="chart-grid" />
-            <text x="38" [attr.y]="tick.y + 4" text-anchor="end">{{ tick.value }}</text>
+            <text x="38" [attr.y]="tick.y + 4" text-anchor="end">{{ tick.value | translate }}</text>
           }
           <path [attr.d]="chart().start" class="start-line" />
           <path [attr.d]="chart().finish" class="finish-line" />
@@ -45,9 +49,11 @@
                 class="status-marker"
               ></path>
             }
-            <text [attr.x]="point.x" y="315" text-anchor="middle">{{ point.round }}</text>
+            <text [attr.x]="point.x" y="315" text-anchor="middle">
+              {{ point.round | translate }}
+            </text>
           }
-          <text x="400" y="340" text-anchor="middle">Етап</text>
+          <text x="400" y="340" text-anchor="middle">{{ 'Етап' | translate }}</text>
         </svg>
         @for (marker of markers(); track marker.id) {
           <div
@@ -60,7 +66,7 @@
             <button
               class="point-target"
               type="button"
-              [attr.aria-label]="marker.label"
+              [attr.aria-label]="marker.label | translate"
               [attr.aria-describedby]="active() === marker.id ? 'chart-point-tooltip' : null"
               (focus)="show(marker.id, $event, true)"
               (blur)="focused.set(null)"
@@ -79,15 +85,15 @@
         [style.top.px]="placement().top"
         [style.bottom.px]="placement().bottom"
       >
-        <strong>{{ marker.title }}</strong
-        ><span>{{ marker.detail }}</span>
+        <strong>{{ marker.title | translate }}</strong
+        ><span>{{ marker.detail | translate }}</span>
       </div>
     }
   </div>
   <p class="chart-help">
-    Хрестик під графіком не має числової позиції. Сходи не прирівнюються до останнього місця. Кілька
-    історичних записів одного етапу показано лише в таблиці. Наведіть на точку або виберіть її
-    клавішею Tab; на телефоні натисніть. Escape закриває підказку. На телефоні графік можна
-    прокручувати.
+    {{
+      'Хрестик під графіком не має числової позиції. Сходи не прирівнюються до останнього місця. Кілька історичних записів одного етапу показано лише в таблиці. Наведіть на точку або виберіть її клавішею Tab; на телефоні натисніть. Escape закриває підказку. На телефоні графік можна прокручувати.'
+        | translate
+    }}
   </p>
 </figure>

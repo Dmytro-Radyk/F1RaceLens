@@ -113,7 +113,8 @@ describe('Team routes', () => {
     http.expectOne('/api/seasons/2025/standings/constructors').flush(teams);
     await vi.waitFor(() => http.expectOne('/api/seasons/2025/standings/drivers').flush(drivers));
     await settle(harness, 'Transfer Driver');
-    const select = harness.routeNativeElement!.querySelector<HTMLSelectElement>('select')!;
+    const select =
+      harness.routeNativeElement!.querySelector<HTMLSelectElement>('.season-picker select')!;
     select.value = '1950';
     select.dispatchEvent(new Event('change'));
     await vi.waitFor(() =>

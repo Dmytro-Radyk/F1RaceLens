@@ -1,3 +1,5 @@
+import { currentLocale } from '../../../core/i18n/locale.service';
+import { TranslatePipe } from '../../../core/i18n/translate.pipe';
 import { Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SourceNote } from '../../calendar/components/source-note';
@@ -5,46 +7,59 @@ import type { StandingsResponse } from '../../standings/standings.types';
 
 @Component({
   selector: 'app-standings-summary',
-  imports: [RouterLink, SourceNote],
+  imports: [TranslatePipe, RouterLink, SourceNote],
   styleUrl: './standings-summary.css',
   template: `
-    <section [attr.aria-label]="title()">
+    <section [attr.aria-label]="title() | translate">
       <div class="card-heading">
-        <h3>{{ title() }}</h3>
-        <span class="section-eyebrow">ЗАЛІК</span>
+        <h3>{{ title() | translate }}</h3>
+        <span class="section-eyebrow">{{ 'ЗАЛІК' | translate }}</span>
       </div>
       @if (loading()) {
-        <p role="status">Завантажуємо залік…</p>
+        <p role="status">{{ 'Завантажуємо залік…' | translate }}</p>
       } @else if (failed()) {
         <div role="alert">
-          <p>Залік тимчасово недоступний.</p>
+          <p>{{ 'Залік тимчасово недоступний.' | translate }}</p>
           <button type="button" class="secondary-action" (click)="retry.emit()">
-            Оновити залік
+            {{ 'Оновити залік' | translate }}
           </button>
         </div>
       } @else if (data(); as standings) {
         <p class="note">
-          Сезон {{ standings.season }} ·
-          {{ standings.round === null ? 'Етап ще не вказаний' : 'Після етапу ' + standings.round }}
+          {{
+            'Сезон {0} · {1}'
+              | translate
+                : [
+                    standings.season,
+                    standings.round === null
+                      ? 'Етап ще не вказаний'
+                      : 'Після етапу ' + standings.round,
+                  ]
+          }}
         </p>
         @if (standings.entries.length) {
           <ol class="leaders-list">
             @for (entry of standings.entries.slice(0, 5); track entry.id) {
               <li>
-                <span class="leader-position">{{ entry.position ?? entry.positionText }}</span
+                <span class="leader-position">{{
+                  entry.position ?? entry.positionText | translate
+                }}</span
                 ><a
                   [routerLink]="['/' + kind(), entry.id]"
                   [queryParams]="{ season: standings.season }"
-                  >{{ entry.name }}
+                  >{{ entry.name | translate }}
                   @if (kind() === 'drivers') {
-                    <small>{{ entry.teams.join(' · ') }}</small>
+                    <small>{{ entry.teams.join(' · ') | translate }}</small>
                   }</a
-                ><span class="leader-points">{{ points(entry.points) }}<small>очок</small></span>
+                ><span class="leader-points"
+                  >{{ points(entry.points) | translate
+                  }}<small>{{ 'очок' | translate }}</small></span
+                >
               </li>
             }
           </ol>
         } @else {
-          <p>Залік сезону ще не опубліковано.</p>
+          <p>{{ 'Залік сезону ще не опубліковано.' | translate }}</p>
         }
         <a
           class="text-link"
@@ -53,7 +68,7 @@ import type { StandingsResponse } from '../../standings/standings.types';
             season: standings.season,
             table: kind() === 'drivers' ? 'drivers' : 'constructors',
           }"
-          >Повна таблиця <span aria-hidden="true">→</span></a
+          >{{ 'Повна таблиця' | translate }} <span aria-hidden="true">→</span></a
         >
         <app-source-note
           [metadata]="standings"
@@ -70,5 +85,6 @@ export class StandingsSummary {
   readonly title = input.required<string>();
   readonly kind = input.required<'drivers' | 'teams'>();
   readonly retry = output<void>();
-  protected readonly points = (value: number) => new Intl.NumberFormat('uk-UA').format(value);
+  protected readonly points = (value: number) =>
+    new Intl.NumberFormat(currentLocale()).format(value);
 }

@@ -1,47 +1,53 @@
 <div class="schedule-page" [attr.aria-busy]="teams.isLoading()">
   <div class="season-heading">
     <div>
-      <p class="section-eyebrow">КОНСТРУКТОРИ — УЧАСНИКИ СЕЗОНУ</p>
+      <p class="section-eyebrow">{{ 'КОНСТРУКТОРИ — УЧАСНИКИ СЕЗОНУ' | translate }}</p>
       <h2>
-        Сезон <span>{{ year() }}</span>
+        {{ 'Сезон' | translate }} <span>{{ year() | translate }}</span>
       </h2>
     </div>
   </div>
   <section class="team-hero">
-    <h2>Кубок конструкторів ще не проводився</h2>
+    <h2>{{ 'Кубок конструкторів ще не проводився' | translate }}</h2>
     <p class="team-note">
-      Показуємо конструкторів і їхніх пілотів за участю в гонках сезону. Командного заліку, очок і
-      місць немає.
+      {{
+        'Показуємо конструкторів і їхніх пілотів за участю в гонках сезону. Командного заліку, очок і місць немає.'
+          | translate
+      }}
     </p>
     <p class="team-note">
-      Конструктор — виробник машини; за нього могли виступати різні приватні заявники. Перелік
-      включає учасників Indianapolis 500, який у ці роки входив до чемпіонату світу.
+      {{
+        'Конструктор — виробник машини; за нього могли виступати різні приватні заявники. Перелік включає учасників Indianapolis 500, який у ці роки входив до чемпіонату світу.'
+          | translate
+      }}
     </p>
   </section>
   @if (teams.isLoading()) {
-    <p role="status">Завантажуємо учасників сезону…</p>
+    <p role="status">{{ 'Завантажуємо учасників сезону…' | translate }}</p>
   } @else if (teams.error()) {
     <section class="feedback-panel" role="alert">
-      <h2>Не вдалося завантажити команди</h2>
-      <button class="primary-link" type="button" (click)="teams.reload()">Спробувати ще раз</button>
+      <h2>{{ 'Не вдалося завантажити команди' | translate }}</h2>
+      <button class="primary-link" type="button" (click)="teams.reload()">
+        {{ 'Спробувати ще раз' | translate }}
+      </button>
     </section>
   } @else if (teams.hasValue()) {
     @if (teamId()) {
-      <a class="back-link" routerLink="/teams" [queryParams]="{ season: year() }"
-        >← Усі конструктори сезону</a
-      >
+      <a class="back-link" routerLink="/teams" [queryParams]="{ season: year() }">{{
+        '← Усі конструктори сезону' | translate
+      }}</a>
       @if (team(); as selected) {
         <section class="team-roster" [attr.aria-busy]="drivers.isLoading()">
-          <p class="section-eyebrow">КОНСТРУКТОР · {{ year() }}</p>
-          <h2>{{ selected.name }}</h2>
-          <h3>Пілоти конструктора за сезон</h3>
+          <p class="section-eyebrow">{{ 'КОНСТРУКТОР · {0}' | translate: [year()] }}</p>
+          <h2>{{ selected.name | translate }}</h2>
+          <h3>{{ 'Пілоти конструктора за сезон' | translate }}</h3>
           @if (drivers.isLoading()) {
-            <p role="status">Завантажуємо пілотів…</p>
+            <p role="status">{{ 'Завантажуємо пілотів…' | translate }}</p>
           } @else if (drivers.error()) {
             <div role="alert">
-              <p>Не вдалося завантажити пілотів.</p>
+              <p>{{ 'Не вдалося завантажити пілотів.' | translate }}</p>
               <button class="primary-link" type="button" (click)="drivers.reload()">
-                Повторити завантаження пілотів
+                {{ 'Повторити завантаження пілотів' | translate }}
               </button>
             </div>
           } @else if (drivers.hasValue()) {
@@ -51,11 +57,11 @@
                   class="team-card"
                   [routerLink]="['/drivers', driver.id]"
                   [queryParams]="{ season: year() }"
-                  ><span class="section-eyebrow">ПРОФІЛЬ ПІЛОТА ↗</span>
-                  <h3>{{ driver.name }}</h3></a
+                  ><span class="section-eyebrow">{{ 'ПРОФІЛЬ ПІЛОТА ↗' | translate }}</span>
+                  <h3>{{ driver.name | translate }}</h3></a
                 >
               } @empty {
-                <p>Джерело не надало пілотів цього конструктора.</p>
+                <p>{{ 'Джерело не надало пілотів цього конструктора.' | translate }}</p>
               }
             </div>
             <app-source-note
@@ -66,8 +72,8 @@
         </section>
       } @else {
         <section class="feedback-panel">
-          <h2>Конструктора немає серед учасників цього сезону</h2>
-          <p>Виберіть інший рік або поверніться до списку.</p>
+          <h2>{{ 'Конструктора немає серед учасників цього сезону' | translate }}</h2>
+          <p>{{ 'Виберіть інший рік або поверніться до списку.' | translate }}</p>
         </section>
       }
     } @else {
@@ -77,14 +83,14 @@
             class="team-card"
             [routerLink]="['/teams', entry.id]"
             [queryParams]="{ season: year() }"
-            ><span class="section-eyebrow">УЧАСНИК СЕЗОНУ ↗</span>
-            <h2>{{ entry.name }}</h2>
-            <p>Відкрити пілотів конструктора</p></a
+            ><span class="section-eyebrow">{{ 'УЧАСНИК СЕЗОНУ ↗' | translate }}</span>
+            <h2>{{ entry.name | translate }}</h2>
+            <p>{{ 'Відкрити пілотів конструктора' | translate }}</p></a
           >
         } @empty {
           <section class="feedback-panel">
-            <h2>Список учасників недоступний</h2>
-            <p>Джерело не надало даних за цей рік.</p>
+            <h2>{{ 'Список учасників недоступний' | translate }}</h2>
+            <p>{{ 'Джерело не надало даних за цей рік.' | translate }}</p>
           </section>
         }
       </div>

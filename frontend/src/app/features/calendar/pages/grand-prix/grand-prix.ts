@@ -1,3 +1,4 @@
+import { TranslatePipe } from '../../../../core/i18n/translate.pipe';
 import { Component, computed, inject } from '@angular/core';
 import { HttpErrorResponse, httpResource } from '@angular/common/http';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -16,7 +17,7 @@ import {
 
 @Component({
   selector: 'app-grand-prix',
-  imports: [RouterLink, SourceNote, ResultsTable],
+  imports: [TranslatePipe, RouterLink, SourceNote, ResultsTable],
   templateUrl: './grand-prix.html',
 })
 export class GrandPrix {

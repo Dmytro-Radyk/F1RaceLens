@@ -1,17 +1,21 @@
+import { currentLocale } from '../../../core/i18n/locale.service';
 import type { SessionSchedule } from '../models/calendar.types';
 
 type ScheduledDate = Pick<SessionSchedule, 'date' | 'startsAt'>;
-const dateFormat = new Intl.DateTimeFormat('uk-UA', { day: 'numeric', month: 'long' });
-const weekdayFormat = new Intl.DateTimeFormat('uk-UA', {
-  weekday: 'long',
-  day: 'numeric',
-  month: 'long',
-});
-const timeFormat = new Intl.DateTimeFormat('uk-UA', {
-  hour: '2-digit',
-  minute: '2-digit',
-  hour12: false,
-});
+const dateFormat = () =>
+  new Intl.DateTimeFormat(currentLocale(), { day: 'numeric', month: 'long' });
+const weekdayFormat = () =>
+  new Intl.DateTimeFormat(currentLocale(), {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  });
+const timeFormat = () =>
+  new Intl.DateTimeFormat(currentLocale(), {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  });
 
 function displayDate(schedule: ScheduledDate): Date {
   if (schedule.startsAt) return new Date(schedule.startsAt);
@@ -20,13 +24,13 @@ function displayDate(schedule: ScheduledDate): Date {
 }
 
 export function formatScheduleDate(schedule: ScheduledDate): string {
-  return dateFormat.format(displayDate(schedule));
+  return dateFormat().format(displayDate(schedule));
 }
 export function formatSessionDay(schedule: ScheduledDate): string {
-  return weekdayFormat.format(displayDate(schedule));
+  return weekdayFormat().format(displayDate(schedule));
 }
 export function formatScheduleTime(schedule: ScheduledDate): string {
-  return schedule.startsAt ? timeFormat.format(new Date(schedule.startsAt)) : 'Час не вказано';
+  return schedule.startsAt ? timeFormat().format(new Date(schedule.startsAt)) : 'Час не вказано';
 }
 
 export function isPastSchedule(schedule: ScheduledDate, now: number): boolean {
@@ -84,7 +88,7 @@ export function countryName(name: string): string {
 export const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 export function formatUpdatedAt(value: string): string {
-  return new Intl.DateTimeFormat('uk-UA', {
+  return new Intl.DateTimeFormat(currentLocale(), {
     day: 'numeric',
     month: 'short',
     hour: '2-digit',

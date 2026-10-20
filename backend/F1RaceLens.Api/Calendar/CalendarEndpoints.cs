@@ -4,7 +4,7 @@ namespace F1RaceLens.Api.Calendar;
 
 public static class CalendarEndpoints
 {
-    public static void MapCalendarEndpoints(this WebApplication app)
+    public static void MapCalendarEndpoints(this IEndpointRouteBuilder app)
     {
         app.MapGet("/api/seasons/{season}/calendar", async (
             string season, CalendarService calendar, TimeProvider clock, HttpContext context, ILoggerFactory logger) =>

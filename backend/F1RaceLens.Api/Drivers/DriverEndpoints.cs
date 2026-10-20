@@ -6,7 +6,7 @@ namespace F1RaceLens.Api.Drivers;
 
 public static partial class DriverEndpoints
 {
-    public static void MapDriverEndpoints(this WebApplication app)
+    public static void MapDriverEndpoints(this IEndpointRouteBuilder app)
     {
         app.MapGet("/api/seasons/{season}/drivers/{id}", async (string season, string id,
             DriverService profiles, TimeProvider clock, HttpContext context, ILoggerFactory logger) =>

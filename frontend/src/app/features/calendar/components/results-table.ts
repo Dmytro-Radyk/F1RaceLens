@@ -1,3 +1,5 @@
+import { currentLocale } from '../../../core/i18n/locale.service';
+import { TranslatePipe } from '../../../core/i18n/translate.pipe';
 import { Component, computed, input } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
@@ -8,7 +10,7 @@ import { isPastSchedule } from '../utils/schedule-format';
 
 @Component({
   selector: 'app-results-table',
-  imports: [SourceNote, RouterLink],
+  imports: [TranslatePipe, SourceNote, RouterLink],
   templateUrl: './results-table.html',
   styleUrl: './results-table.css',
 })
@@ -28,5 +30,5 @@ export class ResultsTable {
   );
   protected readonly isPast = computed(() => isPastSchedule(this.race(), Date.now()));
   protected readonly points = (value: number | null) =>
-    value === null ? '—' : new Intl.NumberFormat('uk-UA').format(value);
+    value === null ? '—' : new Intl.NumberFormat(currentLocale()).format(value);
 }

@@ -3,7 +3,7 @@
     <button
       class="menu-backdrop"
       type="button"
-      aria-label="Закрити меню навігації"
+      [attr.aria-label]="'Закрити меню навігації' | translate"
       (click)="closeMenu()"
     ></button>
   }
@@ -14,19 +14,28 @@
     #sideNavigation
     [attr.role]="isMenuOpen() ? 'dialog' : 'complementary'"
     [attr.aria-modal]="isMenuOpen() ? 'true' : null"
-    [attr.aria-label]="isMenuOpen() ? 'Меню навігації' : null"
+    [attr.aria-label]="(isMenuOpen() ? 'Меню навігації' : null) | translate"
     (keydown)="trapMenuFocus($event)"
   >
-    <button class="sidebar-close" type="button" aria-label="Закрити меню" (click)="closeMenu()">
+    <button
+      class="sidebar-close"
+      type="button"
+      [attr.aria-label]="'Закрити меню' | translate"
+      (click)="closeMenu()"
+    >
       <svg class="nav-icon" aria-hidden="true"><use href="#icon-close" /></svg>
     </button>
     <div class="brand">
       <span class="brand-badge" aria-hidden="true">F1</span>
-      <span>F1 Race Lens<span class="brand-caption">ВАШ ПОГЛЯД НА ПЕРЕГОНИ</span></span>
+      <span
+        >F1 Race Lens<span class="brand-caption">{{
+          'ВАШ ПОГЛЯД НА ПЕРЕГОНИ' | translate
+        }}</span></span
+      >
     </div>
 
-    <nav class="primary-nav" aria-label="Головна навігація">
-      <p class="nav-heading">Огляд</p>
+    <nav class="primary-nav" [attr.aria-label]="'Головна навігація' | translate">
+      <p class="nav-heading">{{ 'Огляд' | translate }}</p>
       <ul class="nav-list">
         @for (item of menuItems; track item.id) {
           <li>
@@ -49,7 +58,7 @@
               (click)="closeMenu()"
             >
               <svg class="nav-icon" aria-hidden="true"><use [attr.href]="item.icon" /></svg>
-              <span>{{ item.label }}</span>
+              <span>{{ item.label | translate }}</span>
             </a>
           </li>
         }
@@ -57,16 +66,21 @@
     </nav>
 
     <div class="sidebar-bottom">
-      <p class="nav-heading">Інструменти</p>
-      <button class="nav-item tool-item" type="button" disabled title="Пошук з’явиться згодом">
+      <p class="nav-heading">{{ 'Інструменти' | translate }}</p>
+      <button
+        class="nav-item tool-item"
+        type="button"
+        disabled
+        [attr.title]="'Пошук з’явиться згодом' | translate"
+      >
         <svg class="nav-icon" aria-hidden="true"><use href="#icon-search" /></svg>
-        <span>Пошук</span>
+        <span>{{ 'Пошук' | translate }}</span>
       </button>
       <button class="nav-item tool-item" type="button" (click)="toggleTheme()">
         <svg class="nav-icon" aria-hidden="true">
           <use [attr.href]="theme.isDark() ? '#icon-sun' : '#icon-moon'" />
         </svg>
-        <span>{{ theme.isDark() ? 'Світла тема' : 'Темна тема' }}</span>
+        <span>{{ (theme.isDark() ? 'Світла тема' : 'Темна тема') | translate }}</span>
       </button>
     </div>
   </div>
@@ -77,7 +91,7 @@
         #menuToggle
         class="menu-toggle"
         type="button"
-        aria-label="Перемкнути меню навігації"
+        [attr.aria-label]="'Перемкнути меню навігації' | translate"
         aria-controls="sidebar"
         [attr.aria-expanded]="isMenuOpen()"
         (click)="toggleMenu()"
@@ -88,20 +102,23 @@
       <div class="page-heading">
         <p class="eyebrow">
           <span class="header-mark" aria-hidden="true"></span> F1 Race Lens
-          <span aria-hidden="true">/</span> Огляд
+          <span aria-hidden="true">/</span> {{ 'Огляд' | translate }}
         </p>
-        <h1 id="page-heading" tabindex="-1">{{ activeLabel() }}</h1>
+        <h1 id="page-heading" tabindex="-1">{{ activeLabel() | translate }}</h1>
       </div>
+      <app-language-picker />
       @if (auth.isAuthenticated()) {
-        <button class="logout-button" type="button" (click)="logout()">Вийти</button>
+        <button class="logout-button" type="button" (click)="logout()">
+          {{ 'Вийти' | translate }}
+        </button>
       } @else {
-        <a class="logout-button" routerLink="/login" [queryParams]="{ returnUrl: router.url }"
-          >Увійти</a
-        >
+        <a class="logout-button" routerLink="/login" [queryParams]="{ returnUrl: router.url }">{{
+          'Увійти' | translate
+        }}</a>
       }
     </header>
 
-    <main class="workspace" id="main-content" aria-label="Вміст сторінки">
+    <main class="workspace" id="main-content" [attr.aria-label]="'Вміст сторінки' | translate">
       <router-outlet (activate)="onPageActivated()" />
     </main>
   </div>

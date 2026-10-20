@@ -1,8 +1,10 @@
+import { TranslatePipe } from '../../../core/i18n/translate.pipe';
 import { Component, computed, input, linkedSignal, signal } from '@angular/core';
 import type { DriverRace } from '../models/driver-profile.types';
 import { buildFormChart } from '../utils/form-chart';
 
 @Component({
+  imports: [TranslatePipe],
   selector: 'app-form-chart',
   templateUrl: './form-chart.html',
   styleUrl: './form-chart.css',

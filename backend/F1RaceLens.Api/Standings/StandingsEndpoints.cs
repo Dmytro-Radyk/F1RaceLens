@@ -4,7 +4,7 @@ namespace F1RaceLens.Api.Standings;
 
 public static class StandingsEndpoints
 {
-    public static void MapStandingsEndpoints(this WebApplication app)
+    public static void MapStandingsEndpoints(this IEndpointRouteBuilder app)
     {
         app.MapGet("/api/seasons/{season}/standings/{kind}", async (
             string season, string kind, StandingsService standings, TimeProvider clock,

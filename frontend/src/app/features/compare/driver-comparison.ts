@@ -1,3 +1,5 @@
+import { currentLocale } from '../../core/i18n/locale.service';
+import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { Component, computed, inject, linkedSignal } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -12,7 +14,7 @@ import { isFinish } from '../drivers/utils/form-chart';
 
 @Component({
   selector: 'app-driver-comparison',
-  imports: [RouterLink, SeasonPicker, SourceNote],
+  imports: [TranslatePipe, RouterLink, SeasonPicker, SourceNote],
   templateUrl: './driver-comparison.html',
   styleUrl: './driver-comparison.css',
 })
@@ -130,5 +132,5 @@ export class DriverComparison {
   protected readonly number = (value: number | null | undefined) =>
     value == null
       ? '—'
-      : new Intl.NumberFormat('uk-UA', { maximumFractionDigits: 2 }).format(value);
+      : new Intl.NumberFormat(currentLocale(), { maximumFractionDigits: 2 }).format(value);
 }

@@ -1,11 +1,11 @@
 <div class="auth-form-content">
-  <p class="auth-eyebrow">З поверненням</p>
-  <h1 id="auth-heading" tabindex="-1">Увійти</h1>
-  <p class="auth-intro">Увійдіть, щоб переглядати F1 Race Lens.</p>
+  <p class="auth-eyebrow">{{ 'З поверненням' | translate }}</p>
+  <h1 id="auth-heading" tabindex="-1">{{ 'Увійти' | translate }}</h1>
+  <p class="auth-intro">{{ 'Увійдіть, щоб переглядати F1 Race Lens.' | translate }}</p>
 
   <form novalidate (submit)="submit($event)">
     <div class="auth-field">
-      <label for="login">Логін</label>
+      <label for="login">{{ 'Логін' | translate }}</label>
       <input
         id="login"
         autocomplete="username"
@@ -16,12 +16,14 @@
         "
       />
       @if (loginForm.login().touched() && loginForm.login().invalid()) {
-        <p class="field-error" id="login-error">{{ loginForm.login().errors()[0].message }}</p>
+        <p class="field-error" id="login-error">
+          {{ loginForm.login().errors()[0].message | translate }}
+        </p>
       }
     </div>
 
     <div class="auth-field">
-      <label for="login-password">Пароль</label>
+      <label for="login-password">{{ 'Пароль' | translate }}</label>
       <input
         id="login-password"
         type="password"
@@ -34,29 +36,41 @@
       />
       @if (loginForm.password().touched() && loginForm.password().invalid()) {
         <p class="field-error" id="password-error">
-          {{ loginForm.password().errors()[0].message }}
+          {{ loginForm.password().errors()[0].message | translate }}
         </p>
       }
     </div>
 
-    <div class="auth-helper"><a href="#" (click)="showResetNotice($event)">Забули пароль?</a></div>
+    <div class="auth-helper">
+      <a href="#" (click)="showResetNotice($event)">{{ 'Забули пароль?' | translate }}</a>
+    </div>
     @if (error()) {
-      <p class="form-error" role="alert">{{ error() }}</p>
+      <p class="form-error" role="alert">{{ error() | translate }}</p>
     }
     @if (notice()) {
-      <p class="form-notice" role="status">{{ notice() }}</p>
+      <p class="form-notice" role="status">{{ notice() | translate }}</p>
     }
-    <button class="auth-primary" type="submit">Увійти</button>
+    <button class="auth-primary" type="submit">{{ 'Увійти' | translate }}</button>
   </form>
 
-  <p class="auth-divider"><span>або продовжити через</span></p>
+  <p class="auth-divider">
+    <span>{{ 'або продовжити через' | translate }}</span>
+  </p>
   <div class="auth-social">
-    <button type="button" disabled title="Вхід через Google з’явиться згодом">Google</button>
-    <button type="button" disabled title="Вхід через GitHub з’явиться згодом">GitHub</button>
+    <button type="button" disabled [attr.title]="'Вхід через Google з’явиться згодом' | translate">
+      Google
+    </button>
+    <button type="button" disabled [attr.title]="'Вхід через GitHub з’явиться згодом' | translate">
+      GitHub
+    </button>
   </div>
   <p class="auth-switch">
-    Немає облікового запису?
-    <button type="button" (click)="registerRequested.emit()">Зареєструватися</button>
+    {{ 'Немає облікового запису?' | translate }}
+    <button type="button" (click)="registerRequested.emit()">
+      {{ 'Зареєструватися' | translate }}
+    </button>
   </p>
-  <p class="auth-demo-note"><span>Демо-доступ</span> <code>admin</code> / <code>12345</code></p>
+  <p class="auth-demo-note">
+    <span>{{ 'Демо-доступ' | translate }}</span> <code>admin</code> / <code>12345</code>
+  </p>
 </div>

@@ -1,54 +1,61 @@
 @if (data().factors; as context) {
   <section class="panel scenario-panel" aria-labelledby="scenario-heading">
-    <h2 id="scenario-heading" tabindex="-1">Перевірити сценарій</h2>
+    <h2 id="scenario-heading" tabindex="-1">{{ 'Перевірити сценарій' | translate }}</h2>
     <p class="note">
-      Це ваші припущення, а не підтверджені новини про оновлення чи заміни. Сценарій не зберігається
-      в БД. Базовий прогноз можна повернути однією кнопкою.
+      {{
+        'Це ваші припущення, а не підтверджені новини про оновлення чи заміни. Сценарій не зберігається в БД. Базовий прогноз можна повернути однією кнопкою.'
+          | translate
+      }}
     </p>
     <div class="scenario-grid">
       <label for="scenario-weather"
-        >Погода<select id="scenario-weather" [value]="weather()" (change)="selectWeather($event)">
+        >{{ 'Погода' | translate
+        }}<select id="scenario-weather" [value]="weather()" (change)="selectWeather($event)">
           <option value="auto" [selected]="weather() === 'auto'">
-            Авто: прогноз, де доступний
+            {{ 'Авто: прогноз, де доступний' | translate }}
           </option>
           <option value="dry" [selected]="weather() === 'dry'">
-            Сухий сценарій: базовий розкид
+            {{ 'Сухий сценарій: базовий розкид' | translate }}
           </option>
           <option value="wet" [selected]="weather() === 'wet'">
-            Дощовий сценарій: підвищений розкид
+            {{ 'Дощовий сценарій: підвищений розкид' | translate }}
           </option>
         </select></label
       >
       <label for="scenario-team"
-        >Команда з оновленням<select
-          id="scenario-team"
-          [value]="team()"
-          (change)="team.set(select($event))"
-        >
-          <option value="">Без поправки</option>
+        >{{ 'Команда з оновленням' | translate
+        }}<select id="scenario-team" [value]="team()" (change)="team.set(select($event))">
+          <option value="">{{ 'Без поправки' | translate }}</option>
           @for (entry of data().teams; track entry.id) {
-            <option [value]="entry.id" [selected]="entry.id === team()">{{ entry.name }}</option>
+            <option [value]="entry.id" [selected]="entry.id === team()">
+              {{ entry.name | translate }}
+            </option>
           }
         </select></label
       >
       <label for="scenario-development"
-        >Поправка темпу до фіналу<select
+        >{{ 'Поправка темпу до фіналу' | translate
+        }}<select
           id="scenario-development"
           [value]="development()"
           (change)="development.set(+select($event))"
         >
           @for (gain of gains; track gain) {
             <option [value]="gain" [selected]="gain === development()">
-              {{ gain > 0 ? '+' : '' }}{{ gain }}
-              {{ gain > 0 ? '— покращення' : gain < 0 ? '— погіршення' : '— без зміни' }}
+              {{ (gain > 0 ? '+' : '') | translate }}{{ gain | translate }}
+              {{
+                (gain > 0 ? '— покращення' : gain < 0 ? '— погіршення' : '— без зміни') | translate
+              }}
             </option>
           }
         </select></label
       >
     </div>
     <p class="note">
-      Поправка наростає поступово до кінця сезону в умовній шкалі позицій моделі. Вона не гарантує
-      виграшу відповідної кількості місць.
+      {{
+        'Поправка наростає поступово до кінця сезону в умовній шкалі позицій моделі. Вона не гарантує виграшу відповідної кількості місць.'
+          | translate
+      }}
     </p>
     <label class="replacement-toggle"
       ><input
@@ -56,133 +63,149 @@
         [checked]="replacementEnabled()"
         [disabled]="incomingOptions().length === 0"
         (change)="toggleReplacement($event)"
-      />Заміна пілота в майбутньому</label
+      />{{ 'Заміна пілота в майбутньому' | translate }}</label
     >
     @if (!incomingOptions().length) {
       <p class="note">
-        У заліку немає пілотів поза поточним складом. Додавання новачків, яких ще немає в сезонних
-        даних, поки не підтримується.
+        {{
+          'У заліку немає пілотів поза поточним складом. Додавання новачків, яких ще немає в сезонних даних, поки не підтримується.'
+            | translate
+        }}
       </p>
     }
     @if (replacementEnabled()) {
       <div class="scenario-grid">
         <label for="scenario-outgoing"
-          >Кого замінити<select
+          >{{ 'Кого замінити' | translate
+          }}<select
             id="scenario-outgoing"
             [value]="outgoing()"
             (change)="outgoing.set(select($event))"
           >
-            <option value="">Виберіть пілота</option>
+            <option value="">{{ 'Виберіть пілота' | translate }}</option>
             @for (entry of outgoingOptions(); track entry.id) {
               <option [value]="entry.id" [selected]="entry.id === outgoing()">
-                {{ entry.name }}
+                {{ entry.name | translate }}
               </option>
             }
           </select></label
         >
         <label for="scenario-incoming"
-          >Хто займе його місце<select
+          >{{ 'Хто займе його місце' | translate
+          }}<select
             id="scenario-incoming"
             [value]="incoming()"
             (change)="incoming.set(select($event))"
           >
-            <option value="">Виберіть пілота поза складом</option>
+            <option value="">{{ 'Виберіть пілота поза складом' | translate }}</option>
             @for (entry of incomingOptions(); track entry.id) {
               <option [value]="entry.id" [selected]="entry.id === incoming()">
-                {{ entry.name }}
+                {{ entry.name | translate }}
               </option>
             }
           </select></label
         >
         <label for="scenario-round"
-          >Починаючи з етапу<select
+          >{{ 'Починаючи з етапу' | translate
+          }}<select
             id="scenario-round"
             [value]="fromRound()"
             (change)="fromRound.set(+select($event))"
           >
             @for (round of rounds(); track round) {
-              <option [value]="round" [selected]="round === fromRound()">{{ round }}</option>
+              <option [value]="round" [selected]="round === fromRound()">
+                {{ round | translate }}
+              </option>
             }
           </select></label
         >
       </div>
       <p class="note">
-        Команда місця зберігається. Набрані очки не переносяться між пілотами. Якщо виступів
-        замінника за цю команду замало, використовується його наявна статистика з поправкою на форму
-        команди; без власних даних — вибірка команди.
+        {{
+          'Команда місця зберігається. Набрані очки не переносяться між пілотами. Якщо виступів замінника за цю команду замало, використовується його наявна статистика з поправкою на форму команди; без власних даних — вибірка команди.'
+            | translate
+        }}
       </p>
     }
     @if (error()) {
-      <p role="alert">{{ error() }}</p>
+      <p role="alert">{{ error() | translate }}</p>
     }
     <div class="scenario-actions">
-      <button class="primary-link" type="button" (click)="submit()">Розрахувати сценарій</button
+      <button class="primary-link" type="button" (click)="submit()">
+        {{ 'Розрахувати сценарій' | translate }}</button
       ><button class="secondary-action" type="button" (click)="reset.emit()">
-        Повернути базовий прогноз
+        {{ 'Повернути базовий прогноз' | translate }}
       </button>
     </div>
   </section>
   <section class="panel" aria-labelledby="factors-heading">
-    <h2 id="factors-heading">Чинники майбутніх сесій</h2>
+    <h2 id="factors-heading">{{ 'Чинники майбутніх сесій' | translate }}</h2>
     <p class="note">
-      Історія трас:
-      {{ context.historicalSeasons.join(', ') || 'не завантажена — нейтральні поправки' }}.
-      Особливості оцінюються за зміною старт/класифікація і некласифікаціями; це не геометрія
-      поворотів і не кількість обгонів.
+      {{
+        'Історія трас: {0}. Особливості оцінюються за зміною старт/класифікація і некласифікаціями; це не геометрія поворотів і не кількість обгонів.'
+          | translate
+            : [context.historicalSeasons.join(', ') || 'не завантажена — нейтральні поправки']
+      }}
     </p>
     <div
       class="table-scroll"
       role="region"
       tabindex="0"
-      aria-label="Траси та погода майбутніх сесій"
+      [attr.aria-label]="'Траси та погода майбутніх сесій' | translate"
     >
       <table>
         <thead>
           <tr>
-            <th scope="col">Етап і сесія</th>
-            <th scope="col">Дата</th>
-            <th scope="col">Гонок у вибірці траси</th>
-            <th scope="col">Середня зміна старт/класифікація*</th>
-            <th scope="col">Некласифікації</th>
-            <th scope="col">Індикатор опадів**</th>
-            <th scope="col">Температура / вітер</th>
-            <th scope="col">Дані погоди</th>
+            <th scope="col">{{ 'Етап і сесія' | translate }}</th>
+            <th scope="col">{{ 'Дата' | translate }}</th>
+            <th scope="col">{{ 'Гонок у вибірці траси' | translate }}</th>
+            <th scope="col">{{ 'Середня зміна старт/класифікація*' | translate }}</th>
+            <th scope="col">{{ 'Некласифікації' | translate }}</th>
+            <th scope="col">{{ 'Індикатор опадів**' | translate }}</th>
+            <th scope="col">{{ 'Температура / вітер' | translate }}</th>
+            <th scope="col">{{ 'Дані погоди' | translate }}</th>
           </tr>
         </thead>
         <tbody>
           @for (item of context.events; track item.round + '-' + item.sprint) {
             <tr>
               <th scope="row">
-                {{ item.round }} · {{ item.name
+                {{ item.round | translate }} · {{ item.name | translate
                 }}<span class="row-note"
-                  >{{ item.sprint ? 'Спринт' : 'Гонка' }} · {{ item.circuitId }}</span
+                  >{{ (item.sprint ? 'Спринт' : 'Гонка') | translate }} ·
+                  {{ item.circuitId | translate }}</span
                 >
               </th>
-              <td>{{ item.date }}</td>
-              <td>{{ item.historicalRaces }}</td>
-              <td>{{ number(item.averageGridChange) }}</td>
-              <td>{{ percent(item.nonClassificationRate) }}</td>
-              <td>{{ percent(item.rainProbability) }}</td>
-              <td>{{ number(item.temperature) }} °C / {{ number(item.wind) }} км/год</td>
-              <td>{{ weatherLabel(item.weatherStatus) }}</td>
+              <td>{{ item.date | localDate }}</td>
+              <td>{{ item.historicalRaces | translate }}</td>
+              <td>{{ number(item.averageGridChange) | translate }}</td>
+              <td>{{ percent(item.nonClassificationRate) | translate }}</td>
+              <td>{{ percent(item.rainProbability) | translate }}</td>
+              <td>
+                {{
+                  '{0} °C / {1} км/год' | translate: [number(item.temperature), number(item.wind)]
+                }}
+              </td>
+              <td>{{ weatherLabel(item.weatherStatus) | translate }}</td>
             </tr>
           }
         </tbody>
       </table>
     </div>
     <p class="note">
-      * Середній модуль різниці стартової та позиції класифікації для класифікованих результатів із
-      відомим стартом. ** Для прогнозу — максимум погодинних шансів опадів у тригодинному вікні
-      сесії; це не ймовірність дощу протягом усієї гонки. Дощовий сценарій підвищує розкид і ризик
-      некласифікації, але не оцінює індивідуальну майстерність у дощ. Температура й вітер наведені
-      для контексту та поки не змінюють темп.
+      {{
+        '* Середній модуль різниці стартової та позиції класифікації для класифікованих результатів із відомим стартом. ** Для прогнозу — максимум погодинних шансів опадів у тригодинному вікні сесії; це не ймовірність дощу протягом усієї гонки. Дощовий сценарій підвищує розкид і ризик некласифікації, але не оцінює індивідуальну майстерність у дощ. Температура й вітер наведені для контексту та поки не змінюють темп.'
+          | translate
+      }}
     </p>
     <p class="note">
-      Погода доступна лише в межах горизонту до 16 днів і за відомого часу та координат. За
-      відсутності прогнозу використовується базова історична варіативність. Погодні дані:
+      {{
+        'Погода доступна лише в межах горизонту до 16 днів і за відомого часу та координат. За відсутності прогнозу використовується базова історична варіативність. Погодні дані:'
+          | translate
+      }}
       <a href="https://open-meteo.com/">Open-Meteo</a>,
-      <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>; погодинні значення
-      агреговано для сесії.
+      <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a
+      >{{ '; погодинні значення агреговано для сесії.' | translate }}
     </p>
   </section>
 }

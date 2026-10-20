@@ -1,3 +1,4 @@
+import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { Component, computed, input } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
@@ -10,7 +11,7 @@ interface ParticipantsResponse extends ScheduleMetadata {
 
 @Component({
   selector: 'app-historical-teams',
-  imports: [RouterLink, SourceNote],
+  imports: [TranslatePipe, RouterLink, SourceNote],
   templateUrl: './historical-teams.html',
   styleUrl: './season-teams.css',
 })

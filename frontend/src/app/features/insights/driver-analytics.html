@@ -6,68 +6,68 @@
   />
   @if (!season.valid()) {
     <section class="feedback-panel" role="alert">
-      <h2>Сезон не знайдено</h2>
-      <p>Виберіть рік зі списку.</p>
+      <h2>{{ 'Сезон не знайдено' | translate }}</h2>
+      <p>{{ 'Виберіть рік зі списку.' | translate }}</p>
     </section>
   } @else if (drivers.isLoading()) {
-    <p role="status">Завантажуємо пілотів сезону…</p>
+    <p role="status">{{ 'Завантажуємо пілотів сезону…' | translate }}</p>
   } @else if (drivers.error()) {
     <section class="feedback-panel" role="alert">
-      <h2>Не вдалося завантажити пілотів</h2>
+      <h2>{{ 'Не вдалося завантажити пілотів' | translate }}</h2>
       <button class="primary-link" type="button" (click)="drivers.reload()">
-        Спробувати ще раз
+        {{ 'Спробувати ще раз' | translate }}
       </button>
     </section>
   } @else if (drivers.hasValue()) {
     @let list = drivers.value();
     <div class="season-heading">
       <div>
-        <p class="section-eyebrow">ФОРМА · ФІНІШІ · ЗМІНА ПОЗИЦІЙ</p>
+        <p class="section-eyebrow">{{ 'ФОРМА · ФІНІШІ · ЗМІНА ПОЗИЦІЙ' | translate }}</p>
         <h2>
-          Аналітика <span>{{ list.season }}</span>
+          {{ 'Аналітика' | translate }} <span>{{ list.season | translate }}</span>
         </h2>
       </div>
-      <p class="note">Статистика гонок без прогнозів і вигаданих результатів.</p>
+      <p class="note">
+        {{ 'Статистика гонок без прогнозів і вигаданих результатів.' | translate }}
+      </p>
     </div>
     @if (list.entries.length) {
-      <section class="analytics-picker" aria-label="Параметри аналітики">
+      <section class="analytics-picker" [attr.aria-label]="'Параметри аналітики' | translate">
         <label for="analytics-driver"
-          >Пілот<select
-            id="analytics-driver"
-            [value]="driverId()"
-            (change)="select('driver', $event)"
-          >
-            <option value="">Виберіть пілота</option>
+          >{{ 'Пілот' | translate
+          }}<select id="analytics-driver" [value]="driverId()" (change)="select('driver', $event)">
+            <option value="">{{ 'Виберіть пілота' | translate }}</option>
             @for (driver of list.entries; track driver.id) {
               <option [value]="driver.id" [selected]="driver.id === driverId()">
-                {{ driver.name }}
+                {{ driver.name | translate }}
               </option>
             }
           </select></label
         >
         <label for="analytics-window"
-          >Відрізок<select
-            id="analytics-window"
-            [value]="window()"
-            (change)="select('window', $event)"
-          >
-            <option value="5" [selected]="window() === 5">Останні 5 етапів участі</option>
-            <option value="10" [selected]="window() === 10">Останні 10 етапів участі</option>
+          >{{ 'Відрізок' | translate
+          }}<select id="analytics-window" [value]="window()" (change)="select('window', $event)">
+            <option value="5" [selected]="window() === 5">
+              {{ 'Останні 5 етапів участі' | translate }}
+            </option>
+            <option value="10" [selected]="window() === 10">
+              {{ 'Останні 10 етапів участі' | translate }}
+            </option>
           </select></label
         >
       </section>
       @if (!driverId()) {
         <section class="feedback-panel" role="status">
-          <h2>Виберіть пілота цього сезону</h2>
-          <p>Попереднього пілота може не бути в заліку вибраного року.</p>
+          <h2>{{ 'Виберіть пілота цього сезону' | translate }}</h2>
+          <p>{{ 'Попереднього пілота може не бути в заліку вибраного року.' | translate }}</p>
         </section>
       } @else if (profile.isLoading()) {
-        <p role="status">Розраховуємо показники за результатами гонок…</p>
+        <p role="status">{{ 'Розраховуємо показники за результатами гонок…' | translate }}</p>
       } @else if (profile.error()) {
         <section class="feedback-panel" role="alert">
-          <h2>Не вдалося завантажити аналітику</h2>
+          <h2>{{ 'Не вдалося завантажити аналітику' | translate }}</h2>
           <button class="primary-link" type="button" (click)="profile.reload()">
-            Повторити завантаження профілю
+            {{ 'Повторити завантаження профілю' | translate }}
           </button>
         </section>
       } @else if (profile.hasValue()) {
@@ -75,148 +75,183 @@
         @if (analytics(); as data) {
           <section class="panel driver-heading">
             <div>
-              <p class="section-eyebrow">ОБРАНИЙ ПІЛОТ</p>
-              <h2>{{ pilot.driver.name }}</h2>
-              <p class="note">{{ pilot.standing?.teams?.join(' · ') || 'Команда не вказана' }}</p>
+              <p class="section-eyebrow">{{ 'ОБРАНИЙ ПІЛОТ' | translate }}</p>
+              <h2>{{ pilot.driver.name | translate }}</h2>
+              <p class="note">
+                {{ pilot.standing?.teams?.join(' · ') || 'Команда не вказана' | translate }}
+              </p>
             </div>
             <a
               class="primary-link"
               [routerLink]="['/drivers', pilot.driver.id]"
               [queryParams]="{ season: list.season }"
-              >Профіль пілота ↗</a
+              >{{ 'Профіль пілота ↗' | translate }}</a
             >
           </section>
           @if (data.recent.recorded) {
             <p class="note period-note">
-              Останні {{ data.recent.recorded }} із {{ window() }} запитаних етапів участі, де
-              джерело має записи. Пропущені гонки календаря не додаються як нульові результати.
+              {{
+                'Останні {0} із {1} запитаних етапів участі, де джерело має записи. Пропущені гонки календаря не додаються як нульові результати.'
+                  | translate: [data.recent.recorded, window()]
+              }}
             </p>
             <dl class="metric-grid">
               <div>
-                <dt>Середній фактичний фініш</dt>
+                <dt>{{ 'Середній фактичний фініш' | translate }}</dt>
                 <dd>
-                  {{ number(data.recent.average) }}
-                  <p>За {{ data.recent.finishes }} фінішами · менше — краще</p>
+                  {{ number(data.recent.average) | translate }}
+                  <p>{{ 'За {0} фінішами · менше — краще' | translate: [data.recent.finishes] }}</p>
                 </dd>
               </div>
               <div>
-                <dt>Фактичні фініші</dt>
+                <dt>{{ 'Фактичні фініші' | translate }}</dt>
                 <dd>
-                  {{ data.recent.finishes }} / {{ data.recent.eligible }}
-                  <p>Серед етапів з одним записом</p>
+                  {{ data.recent.finishes | translate }} / {{ data.recent.eligible | translate }}
+                  <p>{{ 'Серед етапів з одним записом' | translate }}</p>
                 </dd>
               </div>
               <div>
-                <dt>Середня зміна позиції</dt>
+                <dt>{{ 'Середня зміна позиції' | translate }}</dt>
                 <dd>
-                  {{ signed(data.recent.averageGain) }}
-                  <p>За {{ data.recent.gainSample }} фінішами з відомим стартом</p>
+                  {{ signed(data.recent.averageGain) | translate }}
+                  <p>
+                    {{ 'За {0} фінішами з відомим стартом' | translate: [data.recent.gainSample] }}
+                  </p>
                 </dd>
               </div>
               <div>
-                <dt>Найкращий фініш відрізка</dt>
+                <dt>{{ 'Найкращий фініш відрізка' | translate }}</dt>
                 <dd>
-                  {{ number(data.recent.best) }}
-                  <p>Місце за фактичним фінішем</p>
+                  {{ number(data.recent.best) | translate }}
+                  <p>{{ 'Місце за фактичним фінішем' | translate }}</p>
                 </dd>
               </div>
             </dl>
             <section class="panel" aria-labelledby="insights-heading">
-              <p class="section-eyebrow">ЩО ПОКАЗУЮТЬ ДАНІ</p>
-              <h2 id="insights-heading">Короткі висновки</h2>
+              <p class="section-eyebrow">{{ 'ЩО ПОКАЗУЮТЬ ДАНІ' | translate }}</p>
+              <h2 id="insights-heading">{{ 'Короткі висновки' | translate }}</h2>
               <ul class="insight-list">
                 <li>
-                  На цьому відрізку: {{ data.recent.finishes }} фактичних фінішів;
-                  {{ data.recent.otherStatuses }} записів з іншими або невідомими статусами. Не
-                  кожен такий статус означає технічний схід.
+                  {{
+                    'На цьому відрізку: {0} фактичних фінішів; {1} записів з іншими або невідомими статусами. Не кожен такий статус означає технічний схід.'
+                      | translate: [data.recent.finishes, data.recent.otherStatuses]
+                  }}
                 </li>
                 @if (data.recent.averageGain !== null) {
                   <li>
                     @if (data.recent.averageGain > 0) {
-                      На фініші пілот у середньому відігравав
-                      {{ number(data.recent.averageGain) }} позиції від старту.
+                      {{
+                        'На фініші пілот у середньому відігравав {0} позиції від старту.'
+                          | translate: [number(data.recent.averageGain)]
+                      }}
                     } @else if (data.recent.averageGain < 0) {
-                      На фініші пілот у середньому втрачав
-                      {{ number(-data.recent.averageGain) }} позиції від старту.
+                      {{
+                        'На фініші пілот у середньому втрачав {0} позиції від старту.'
+                          | translate: [number(-data.recent.averageGain)]
+                      }}
                     } @else {
-                      Середня зміна позиції від старту до фінішу — нуль.
+                      {{ 'Середня зміна позиції від старту до фінішу — нуль.' | translate }}
                     }
-                    Це зміна позиції, а не кількість обгонів.
+                    {{ 'Це зміна позиції, а не кількість обгонів.' | translate }}
                   </li>
                 } @else {
                   <li>
-                    Для зміни позицій бракує фактичних фінішів із відомою додатною стартовою
-                    позицією.
+                    {{
+                      'Для зміни позицій бракує фактичних фінішів із відомою додатною стартовою позицією.'
+                        | translate
+                    }}
                   </li>
                 }
                 @if (data.improvement !== null) {
                   <li>
                     @if (data.improvement > 0) {
-                      Середній фініш кращий за попередні {{ window() }} етапів участі на
-                      {{ number(data.improvement) }} позиції.
+                      {{
+                        'Середній фініш кращий за попередні {0} етапів участі на {1} позиції.'
+                          | translate: [window(), number(data.improvement)]
+                      }}
                     } @else if (data.improvement < 0) {
-                      Середній фініш гірший за попередні {{ window() }} етапів участі на
-                      {{ number(-data.improvement) }} позиції.
+                      {{
+                        'Середній фініш гірший за попередні {0} етапів участі на {1} позиції.'
+                          | translate: [window(), number(-data.improvement)]
+                      }}
                     } @else {
-                      Середній фініш збігається з попереднім відрізком.
+                      {{ 'Середній фініш збігається з попереднім відрізком.' | translate }}
                     }
-                    Різні траси та кількість фінішів впливають на порівняння; це не оцінка швидкості
-                    машини.
+                    {{
+                      'Різні траси та кількість фінішів впливають на порівняння; це не оцінка швидкості машини.'
+                        | translate
+                    }}
                   </li>
                 } @else {
                   <li>
-                    Висновок про зміну середнього фінішу недоступний: потрібні два повні відрізки по
-                    {{ window() }} етапів із щонайменше трьома фактичними фінішами в кожному.
+                    {{
+                      'Висновок про зміну середнього фінішу недоступний: потрібні два повні відрізки по {0} етапів із щонайменше трьома фактичними фінішами в кожному.'
+                        | translate: [window()]
+                    }}
                   </li>
                 }
                 @if (data.recent.ambiguous) {
                   <li>
-                    {{ data.recent.ambiguous }} етапів мають кілька історичних записів. Їх виключено
-                    з агрегатів; усі результати залишені в таблиці.
+                    {{
+                      '{0} етапів мають кілька історичних записів. Їх виключено з агрегатів; усі результати залишені в таблиці.'
+                        | translate: [data.recent.ambiguous]
+                    }}
                   </li>
                 }
               </ul>
             </section>
             <section class="panel">
-              <h2>Поточний і попередній відрізки</h2>
+              <h2>{{ 'Поточний і попередній відрізки' | translate }}</h2>
               <div
                 class="table-scroll"
                 role="region"
                 tabindex="0"
-                aria-label="Порівняння відрізків форми"
+                [attr.aria-label]="'Порівняння відрізків форми' | translate"
               >
                 <table>
                   <thead>
                     <tr>
-                      <th scope="col">Показник</th>
-                      <th scope="col">Останній відрізок</th>
-                      <th scope="col">Попередній відрізок</th>
+                      <th scope="col">{{ 'Показник' | translate }}</th>
+                      <th scope="col">{{ 'Останній відрізок' | translate }}</th>
+                      <th scope="col">{{ 'Попередній відрізок' | translate }}</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <th scope="row">Етапів із записами</th>
-                      <td>{{ data.recent.recorded }}</td>
-                      <td>{{ data.previous.recorded }}</td>
+                      <th scope="row">{{ 'Етапів із записами' | translate }}</th>
+                      <td>{{ data.recent.recorded | translate }}</td>
+                      <td>{{ data.previous.recorded | translate }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Фактичні фініші / однозначні етапи</th>
-                      <td>{{ data.recent.finishes }} / {{ data.recent.eligible }}</td>
-                      <td>{{ data.previous.finishes }} / {{ data.previous.eligible }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Середня фінішна позиція</th>
-                      <td>{{ number(data.recent.average) }}</td>
-                      <td>{{ number(data.previous.average) }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Середня зміна позиції</th>
+                      <th scope="row">{{ 'Фактичні фініші / однозначні етапи' | translate }}</th>
                       <td>
-                        {{ signed(data.recent.averageGain) }} ({{ data.recent.gainSample }} записів)
+                        {{ data.recent.finishes | translate }} /
+                        {{ data.recent.eligible | translate }}
                       </td>
                       <td>
-                        {{ signed(data.previous.averageGain) }} ({{ data.previous.gainSample }}
-                        записів)
+                        {{ data.previous.finishes | translate }} /
+                        {{ data.previous.eligible | translate }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">{{ 'Середня фінішна позиція' | translate }}</th>
+                      <td>{{ number(data.recent.average) | translate }}</td>
+                      <td>{{ number(data.previous.average) | translate }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">{{ 'Середня зміна позиції' | translate }}</th>
+                      <td>
+                        {{
+                          '{0} ({1} записів)'
+                            | translate: [signed(data.recent.averageGain), data.recent.gainSample]
+                        }}
+                      </td>
+                      <td>
+                        {{
+                          '{0} ({1} записів)'
+                            | translate
+                              : [signed(data.previous.averageGain), data.previous.gainSample]
+                        }}
                       </td>
                     </tr>
                   </tbody>
@@ -224,15 +259,21 @@
               </div>
             </section>
             <section class="panel" aria-labelledby="gain-heading">
-              <h2 id="gain-heading">Від старту до фінішу</h2>
+              <h2 id="gain-heading">{{ 'Від старту до фінішу' | translate }}</h2>
               <p class="note">
-                Праворуч — відіграні позиції, ліворуч — втрачені. «—» означає, що зміна не
-                розраховується. Етапи наведені від найновішого.
+                {{
+                  'Праворуч — відіграні позиції, ліворуч — втрачені. «—» означає, що зміна не розраховується. Етапи наведені від найновішого.'
+                    | translate
+                }}
               </p>
-              <div class="gain-chart" role="list" aria-label="Зміна позицій за останніми етапами">
+              <div
+                class="gain-chart"
+                role="list"
+                [attr.aria-label]="'Зміна позицій за останніми етапами' | translate"
+              >
                 @for (row of data.recent.events; track row.round) {
                   <div class="gain-row" role="listitem">
-                    <span>Етап {{ row.round }}</span>
+                    <span>{{ 'Етап {0}' | translate: [row.round] }}</span>
                     <div class="gain-track" aria-hidden="true">
                       <span class="zero-line"></span>
                       @if (row.gain !== null) {
@@ -245,26 +286,26 @@
                         ></span>
                       }
                     </div>
-                    <strong>{{ signed(row.gain) }}</strong>
+                    <strong>{{ signed(row.gain) | translate }}</strong>
                   </div>
                 }
               </div>
             </section>
             <section class="panel">
-              <h2>Результати останнього відрізка</h2>
+              <h2>{{ 'Результати останнього відрізка' | translate }}</h2>
               <div
                 class="table-scroll"
                 role="region"
                 tabindex="0"
-                aria-label="Результати аналітичного відрізка"
+                [attr.aria-label]="'Результати аналітичного відрізка' | translate"
               >
                 <table>
                   <thead>
                     <tr>
-                      <th scope="col">Гран-прі</th>
-                      <th scope="col">Старт</th>
-                      <th scope="col">Результат і статус</th>
-                      <th scope="col">Зміна позиції</th>
+                      <th scope="col">{{ 'Гран-прі' | translate }}</th>
+                      <th scope="col">{{ 'Старт' | translate }}</th>
+                      <th scope="col">{{ 'Результат і статус' | translate }}</th>
+                      <th scope="col">{{ 'Зміна позиції' | translate }}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -274,46 +315,50 @@
                           <a
                             [routerLink]="['/calendar', list.season, row.round]"
                             [queryParams]="{ session: 'race' }"
-                            >{{ row.round }} · {{ row.name }}</a
+                            >{{ row.round | translate }} · {{ row.name | translate }}</a
                           >
                         </th>
                         <td>
                           @for (race of row.entries; track $index) {
                             <span class="entry-line">{{
-                              race.result.grid === 0 ? '0*' : number(race.result.grid)
+                              (race.result.grid === 0 ? '0*' : number(race.result.grid)) | translate
                             }}</span>
                           }
                         </td>
                         <td>
-                          {{ resultLabel(row.entries) }}
+                          {{ resultLabel(row.entries) | translate }}
                           @if (!row.unique) {
-                            <span class="entry-line note">Кілька записів — поза агрегатами</span>
+                            <span class="entry-line note">{{
+                              'Кілька записів — поза агрегатами' | translate
+                            }}</span>
                           }
                         </td>
-                        <td>{{ signed(row.gain) }}</td>
+                        <td>{{ signed(row.gain) | translate }}</td>
                       </tr>
                     }
                   </tbody>
                 </table>
               </div>
               <p class="note">
-                0* — старт із піт-лейну або невизначений старт за даними джерела. Для зміни позицій
-                він не використовується.
+                {{
+                  '0* — старт із піт-лейну або невизначений старт за даними джерела. Для зміни позицій він не використовується.'
+                    | translate
+                }}
               </p>
             </section>
             <section class="panel methodology">
-              <h2>Як рахуємо</h2>
+              <h2>{{ 'Як рахуємо' | translate }}</h2>
               <p class="note">
-                Фініш — статус Finished або відставання на кола. Сходи, дискваліфікації та невідомі
-                статуси не перетворюються на останнє місце. Зміна позиції = старт мінус фініш, лише
-                для фактичного фінішу з відомим стартом понад нуль. Кілька записів одного етапу
-                виключаються з агрегатів. Спринти та кваліфікації в ці розрахунки не входять.
+                {{
+                  'Фініш — статус Finished або відставання на кола. Сходи, дискваліфікації та невідомі статуси не перетворюються на останнє місце. Зміна позиції = старт мінус фініш, лише для фактичного фінішу з відомим стартом понад нуль. Кілька записів одного етапу виключаються з агрегатів. Спринти та кваліфікації в ці розрахунки не входять.'
+                    | translate
+                }}
               </p>
             </section>
           } @else {
             <section class="feedback-panel">
-              <h2>Немає результатів для аналітики</h2>
-              <p>Джерело ще не надало гонок цього пілота за вибраний сезон.</p>
+              <h2>{{ 'Немає результатів для аналітики' | translate }}</h2>
+              <p>{{ 'Джерело ще не надало гонок цього пілота за вибраний сезон.' | translate }}</p>
             </section>
           }
           <app-source-note
@@ -324,8 +369,8 @@
       }
     } @else {
       <section class="feedback-panel">
-        <h2>Список пілотів недоступний</h2>
-        <p>Виберіть інший сезон.</p>
+        <h2>{{ 'Список пілотів недоступний' | translate }}</h2>
+        <p>{{ 'Виберіть інший сезон.' | translate }}</p>
       </section>
     }
     <app-source-note

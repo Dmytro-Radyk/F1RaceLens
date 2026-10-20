@@ -3,94 +3,95 @@
   [attr.aria-busy]="results.isLoading()"
   aria-labelledby="results-heading"
 >
-  <h2 id="results-heading">{{ title() }}</h2>
+  <h2 id="results-heading">{{ title() | translate }}</h2>
   @if (results.isLoading()) {
-    <p role="status">Завантажуємо результати…</p>
+    <p role="status">{{ 'Завантажуємо результати…' | translate }}</p>
   } @else if (results.error()) {
     <div role="alert">
-      <h3>Не вдалося завантажити результати</h3>
-      <p>Джерело тимчасово недоступне. Спробуйте ще раз.</p>
+      <h3>{{ 'Не вдалося завантажити результати' | translate }}</h3>
+      <p>{{ 'Джерело тимчасово недоступне. Спробуйте ще раз.' | translate }}</p>
       <button class="primary-link" type="button" (click)="results.reload()">
-        Спробувати ще раз
+        {{ 'Спробувати ще раз' | translate }}
       </button>
     </div>
   } @else if (results.hasValue()) {
     @let data = results.value();
     @if (data.entries.length) {
       <p class="results-hint" id="results-help">
-        На вузькому екрані таблицю можна прокручувати горизонтально.
+        {{ 'На вузькому екрані таблицю можна прокручувати горизонтально.' | translate }}
       </p>
       <div
         class="results-scroll"
         tabindex="0"
         role="region"
-        [attr.aria-label]="'Таблиця: ' + title()"
+        [attr.aria-label]="'Таблиця: ' + title() | translate"
         aria-describedby="results-help"
       >
         <table>
           <caption>
             {{
-              title()
+              title() | translate
             }}
             ·
             {{
-              race().name
+              race().name | translate
             }}
             ·
             {{
-              race().season
+              race().season | translate
             }}
           </caption>
           <thead>
             <tr>
-              <th scope="col">Місце</th>
-              <th scope="col">Пілот</th>
-              <th scope="col">Команда</th>
+              <th scope="col">{{ 'Місце' | translate }}</th>
+              <th scope="col">{{ 'Пілот' | translate }}</th>
+              <th scope="col">{{ 'Команда' | translate }}</th>
               @if (kind() === 'qualifying') {
                 <th scope="col">Q1</th>
                 <th scope="col">Q2</th>
                 <th scope="col">Q3</th>
               } @else {
-                <th scope="col">Старт</th>
-                <th scope="col">Кола</th>
-                <th scope="col">Час / відставання</th>
-                <th scope="col">Статус</th>
-                <th scope="col">Очки</th>
+                <th scope="col">{{ 'Старт' | translate }}</th>
+                <th scope="col">{{ 'Кола' | translate }}</th>
+                <th scope="col">{{ 'Час / відставання' | translate }}</th>
+                <th scope="col">{{ 'Статус' | translate }}</th>
+                <th scope="col">{{ 'Очки' | translate }}</th>
               }
             </tr>
           </thead>
           <tbody>
             @for (row of data.entries; track $index) {
               <tr [class.podium]="row.position <= 3">
-                <td class="result-position">{{ row.position }}</td>
+                <td class="result-position">{{ row.position | translate }}</td>
                 <th scope="row">
                   <a
                     class="profile-link"
                     [routerLink]="['/drivers', row.driverId]"
                     [queryParams]="{ season: race().season }"
-                    >{{ row.driverName }}</a
+                    >{{ row.driverName | translate }}</a
                   >
                   @if (row.driverCode) {
-                    <span class="driver-code">{{ row.driverCode }}</span>
+                    <span class="driver-code">{{ row.driverCode | translate }}</span>
                   }
                 </th>
-                <td>{{ row.team ?? '—' }}</td>
+                <td>{{ row.team ?? '—' | translate }}</td>
                 @if (kind() === 'qualifying') {
-                  <td>{{ row.q1 ?? '—' }}</td>
-                  <td>{{ row.q2 ?? '—' }}</td>
-                  <td>{{ row.q3 ?? '—' }}</td>
+                  <td>{{ row.q1 ?? '—' | translate }}</td>
+                  <td>{{ row.q2 ?? '—' | translate }}</td>
+                  <td>{{ row.q3 ?? '—' | translate }}</td>
                 } @else {
-                  <td>{{ row.grid === 0 ? '0*' : (row.grid ?? '—') }}</td>
-                  <td>{{ row.laps ?? '—' }}</td>
-                  <td>{{ row.time ?? '—' }}</td>
+                  <td>{{ (row.grid === 0 ? '0*' : (row.grid ?? '—')) | translate }}</td>
+                  <td>{{ row.laps ?? '—' | translate }}</td>
+                  <td>{{ row.time ?? '—' | translate }}</td>
                   <td>
                     {{
-                      row.status === 'Finished'
+                      (row.status === 'Finished'
                         ? 'Фінішував'
                         : (row.status ?? row.positionText ?? '—')
+                      ) | translate
                     }}
                   </td>
-                  <td class="result-points">{{ points(row.points) }}</td>
+                  <td class="result-points">{{ points(row.points) | translate }}</td>
                 }
               </tr>
             }
@@ -98,28 +99,37 @@
         </table>
       </div>
       <p class="results-hint">
-        Тире означає, що значення відсутнє у джерелі або не застосовується.
+        {{ 'Тире означає, що значення відсутнє у джерелі або не застосовується.' | translate }}
         @if (kind() === 'qualifying') {
-          Q1/Q2/Q3 відображаються лише за наявності; формат старих кваліфікацій відрізнявся.
+          {{
+            'Q1/Q2/Q3 відображаються лише за наявності; формат старих кваліфікацій відрізнявся.'
+              | translate
+          }}
         } @else {
-          0* на старті — позначення джерела: піт-лейн або невказана позиція. Причини сходу наведено
-          мовою джерела.
+          {{
+            '0* на старті — позначення джерела: піт-лейн або невказана позиція. Причини сходу наведено мовою джерела.'
+              | translate
+          }}
         }
       </p>
     } @else {
       <div class="results-empty" role="status">
         <h3>
-          {{ isPast() ? 'Джерело не надало результатів цієї сесії' : 'Результатів ще немає' }}
+          {{
+            (isPast() ? 'Джерело не надало результатів цієї сесії' : 'Результатів ще немає')
+              | translate
+          }}
         </h3>
         <p>
           {{
-            isPast()
+            (isPast()
               ? 'Історичні дані можуть бути неповними. Спробуйте іншу сесію або оновіть дані пізніше.'
               : 'Результати з’являться після сесії та публікації у джерелі.'
+            ) | translate
           }}
         </p>
         <button class="primary-link" type="button" (click)="results.reload()">
-          Оновити результати
+          {{ 'Оновити результати' | translate }}
         </button>
       </div>
     }

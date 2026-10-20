@@ -15,7 +15,14 @@ public sealed record ForecastOutput(IReadOnlyList<ForecastRow> Drivers, IReadOnl
 public sealed record PredictionResponse(int Season, DateTimeOffset UpdatedAt, bool IsStale, string Source,
     string Status, string? Message, int ThroughRound, int RemainingRaces, int RemainingSprints,
     int Simulations, string ModelVersion, IReadOnlyList<ForecastRow> Drivers, IReadOnlyList<ForecastRow> Teams,
-    PredictionFactors? Factors = null, IReadOnlyList<RaceForecast>? Races = null);
+    PredictionFactors? Factors = null, IReadOnlyList<RaceForecast>? Races = null)
+{
+    public DateTimeOffset? GeneratedAt { get; init; }
+    public Guid? RunId { get; init; }
+    public DateTimeOffset? RecordedAt { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore] public string? InputsJson { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore] public IReadOnlyList<ForecastEvent>? Schedule { get; init; }
+}
 public sealed record ForecastInput(IReadOnlyList<StandingsEntry> Drivers, IReadOnlyList<StandingsEntry> Teams,
     IReadOnlyList<ForecastObservation> History, int RemainingRaces, int RemainingSprints,
     IReadOnlyList<ForecastEvent>? Events = null, IReadOnlyList<ForecastObservation>? PriorHistory = null,

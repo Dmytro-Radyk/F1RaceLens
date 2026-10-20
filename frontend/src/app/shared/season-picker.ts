@@ -1,16 +1,18 @@
+import { TranslatePipe } from '../core/i18n/translate.pipe';
 import { Component, input, output } from '@angular/core';
 
 @Component({
+  imports: [TranslatePipe],
   selector: 'app-season-picker',
   template: `<div class="season-picker">
-    <label for="driver-season">Сезон</label>
+    <label for="driver-season">{{ 'Сезон' | translate }}</label>
     <select id="driver-season" (change)="select($event)">
       @if (!valid()) {
-        <option value="" selected disabled>Невідомий сезон</option>
+        <option value="" selected disabled>{{ 'Невідомий сезон' | translate }}</option>
       }
       @for (item of seasons; track item) {
         <option [value]="item" [selected]="item === year()">
-          {{ item }}{{ item === currentYear ? ' · поточний' : '' }}
+          {{ item | translate }}{{ (item === currentYear ? ' · поточний' : '') | translate }}
         </option>
       }
     </select>

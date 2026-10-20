@@ -1,3 +1,4 @@
+import { TranslatePipe } from '../../../core/i18n/translate.pipe';
 import { Component, inject, output, signal } from '@angular/core';
 import { form, FormField, required } from '@angular/forms/signals';
 import { AuthService } from '../../services/auth.service';
@@ -6,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
-  imports: [FormField],
+  imports: [TranslatePipe, FormField],
   templateUrl: './login-form.html',
 })
 export class LoginForm {

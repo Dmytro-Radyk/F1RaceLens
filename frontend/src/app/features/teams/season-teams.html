@@ -6,42 +6,48 @@
   />
   @if (!valid()) {
     <section class="feedback-panel" role="alert">
-      <h2>Сторінку не знайдено</h2>
-      <p>Перевірте адресу або виберіть інший сезон.</p>
+      <h2>{{ 'Сторінку не знайдено' | translate }}</h2>
+      <p>{{ 'Перевірте адресу або виберіть інший сезон.' | translate }}</p>
     </section>
   } @else if (historical()) {
     <app-historical-teams [year]="season.year()" [teamId]="teamId()" />
   } @else if (teams.isLoading()) {
-    <section class="feedback-panel" role="status"><h2>Завантажуємо команди…</h2></section>
+    <section class="feedback-panel" role="status">
+      <h2>{{ 'Завантажуємо команди…' | translate }}</h2>
+    </section>
   } @else if (teams.error()) {
     <section class="feedback-panel" role="alert">
-      <h2>Не вдалося завантажити команди</h2>
-      <p>Спробуйте ще раз або виберіть інший сезон.</p>
-      <button type="button" class="primary-link" (click)="teams.reload()">Спробувати ще раз</button>
+      <h2>{{ 'Не вдалося завантажити команди' | translate }}</h2>
+      <p>{{ 'Спробуйте ще раз або виберіть інший сезон.' | translate }}</p>
+      <button type="button" class="primary-link" (click)="teams.reload()">
+        {{ 'Спробувати ще раз' | translate }}
+      </button>
     </section>
   } @else if (teams.hasValue()) {
     @let data = teams.value();
     @if (teamId()) {
-      <a class="back-link" routerLink="/teams" [queryParams]="{ season: data.season }"
-        >← Усі команди сезону</a
-      >
+      <a class="back-link" routerLink="/teams" [queryParams]="{ season: data.season }">{{
+        '← Усі команди сезону' | translate
+      }}</a>
       @if (team(); as entry) {
         <section class="team-hero">
-          <p class="section-eyebrow">КОМАНДА · {{ data.season }}</p>
-          <h2>{{ entry.name }}</h2>
-          <p class="team-note">Залік конструкторів · після етапу {{ data.round ?? '—' }}</p>
+          <p class="section-eyebrow">{{ 'КОМАНДА · {0}' | translate: [data.season] }}</p>
+          <h2>{{ entry.name | translate }}</h2>
+          <p class="team-note">
+            {{ 'Залік конструкторів · після етапу {0}' | translate: [data.round ?? '—'] }}
+          </p>
           <dl class="team-stats">
             <div>
-              <dt>Місце в заліку</dt>
-              <dd>{{ position(entry) }}</dd>
+              <dt>{{ 'Місце в заліку' | translate }}</dt>
+              <dd>{{ position(entry) | translate }}</dd>
             </div>
             <div>
-              <dt>Очки команди</dt>
-              <dd>{{ points(entry.points) }}</dd>
+              <dt>{{ 'Очки команди' | translate }}</dt>
+              <dd>{{ points(entry.points) | translate }}</dd>
             </div>
             <div>
-              <dt>Перемоги</dt>
-              <dd>{{ entry.wins }}</dd>
+              <dt>{{ 'Перемоги' | translate }}</dt>
+              <dd>{{ entry.wins | translate }}</dd>
             </div>
           </dl>
         </section>
@@ -50,22 +56,31 @@
           [attr.aria-busy]="drivers.isLoading()"
           aria-labelledby="roster-heading"
         >
-          <h2 id="roster-heading">Пілоти команди за сезон</h2>
+          <h2 id="roster-heading">{{ 'Пілоти команди за сезон' | translate }}</h2>
           <p class="team-note">
-            Усі пілоти, пов’язані з командою в заліку сезону, включно із замінами й переходами. Очки
-            пілота наведені за весь сезон, а не лише за цю команду.
+            {{
+              'Усі пілоти, пов’язані з командою в заліку сезону, включно із замінами й переходами. Очки пілота наведені за весь сезон, а не лише за цю команду.'
+                | translate
+            }}
           </p>
           @if (drivers.isLoading()) {
-            <p role="status">Завантажуємо пілотів…</p>
+            <p role="status">{{ 'Завантажуємо пілотів…' | translate }}</p>
           } @else if (drivers.error()) {
             <div role="alert">
-              <p>Не вдалося завантажити пілотів. Показники команди залишаються доступними.</p>
+              <p>
+                {{
+                  'Не вдалося завантажити пілотів. Показники команди залишаються доступними.'
+                    | translate
+                }}
+              </p>
               <button class="primary-link" type="button" (click)="drivers.reload()">
-                Повторити завантаження пілотів
+                {{ 'Повторити завантаження пілотів' | translate }}
               </button>
             </div>
           } @else if (drivers.hasValue()) {
-            <p class="team-note">Залік пілотів після етапу {{ drivers.value().round ?? '—' }}.</p>
+            <p class="team-note">
+              {{ 'Залік пілотів після етапу {0}.' | translate: [drivers.value().round ?? '—'] }}
+            </p>
             <div class="team-grid">
               @for (driver of roster(); track driver.id) {
                 <a
@@ -74,16 +89,17 @@
                   [queryParams]="{ season: data.season }"
                 >
                   <span class="section-eyebrow"
-                    >ПРОФІЛЬ ПІЛОТА <span aria-hidden="true">↗</span></span
+                    >{{ 'ПРОФІЛЬ ПІЛОТА' | translate }} <span aria-hidden="true">↗</span></span
                   >
-                  <h3>{{ driver.name }}</h3>
-                  <p>{{ driver.teams.join(' · ') }}</p>
-                  <span
-                    >{{ points(driver.points) }} очок за сезон · перемог: {{ driver.wins }}</span
-                  >
+                  <h3>{{ driver.name | translate }}</h3>
+                  <p>{{ driver.teams.join(' · ') | translate }}</p>
+                  <span>{{
+                    '{0} очок за сезон · перемог: {1}'
+                      | translate: [points(driver.points), driver.wins]
+                  }}</span>
                 </a>
               } @empty {
-                <p>Джерело не надало пілотів цієї команди в заліку сезону.</p>
+                <p>{{ 'Джерело не надало пілотів цієї команди в заліку сезону.' | translate }}</p>
               }
             </div>
             <app-source-note
@@ -94,23 +110,28 @@
         </section>
       } @else {
         <section class="feedback-panel">
-          <h2>Команди немає в заліку цього сезону</h2>
+          <h2>{{ 'Команди немає в заліку цього сезону' | translate }}</h2>
           <p>
-            Виберіть інший рік або поверніться до списку команд. Відсутність у заліку не означає
-            відсутність участі в гонках.
+            {{
+              'Виберіть інший рік або поверніться до списку команд. Відсутність у заліку не означає відсутність участі в гонках.'
+                | translate
+            }}
           </p>
         </section>
       }
     } @else {
       <div class="season-heading">
         <div>
-          <p class="section-eyebrow">КОМАНДИ ЗІ ЗАЛІКУ КОНСТРУКТОРІВ</p>
+          <p class="section-eyebrow">{{ 'КОМАНДИ ЗІ ЗАЛІКУ КОНСТРУКТОРІВ' | translate }}</p>
           <h2>
-            Сезон <span>{{ data.season }}</span>
+            {{ 'Сезон' | translate }} <span>{{ data.season | translate }}</span>
           </h2>
         </div>
         <p class="team-note">
-          Після етапу {{ data.round ?? '—' }} · відкрийте команду, щоб переглянути її пілотів.
+          {{
+            'Після етапу {0} · відкрийте команду, щоб переглянути її пілотів.'
+              | translate: [data.round ?? '—']
+          }}
         </p>
       </div>
       <div class="team-grid">
@@ -121,26 +142,29 @@
             [queryParams]="{ season: data.season }"
           >
             <span class="section-eyebrow"
-              >{{ position(entry) }} · У ЗАЛІКУ <span aria-hidden="true">↗</span></span
+              >{{ '{0} · У ЗАЛІКУ' | translate: [position(entry)]
+              }}<span aria-hidden="true">↗</span></span
             >
-            <h2>{{ entry.name }}</h2>
+            <h2>{{ entry.name | translate }}</h2>
             <dl class="team-stats">
               <div>
-                <dt>Очки</dt>
-                <dd>{{ points(entry.points) }}</dd>
+                <dt>{{ 'Очки' | translate }}</dt>
+                <dd>{{ points(entry.points) | translate }}</dd>
               </div>
               <div>
-                <dt>Перемоги</dt>
-                <dd>{{ entry.wins }}</dd>
+                <dt>{{ 'Перемоги' | translate }}</dt>
+                <dd>{{ entry.wins | translate }}</dd>
               </div>
             </dl>
           </a>
         } @empty {
           <section class="feedback-panel">
-            <h2>Залік команд недоступний</h2>
+            <h2>{{ 'Залік команд недоступний' | translate }}</h2>
             <p>
-              Джерело не надало даних за цей сезон. До 1958 року Кубок конструкторів не проводився;
-              відсутній залік не означає відсутність команд.
+              {{
+                'Джерело не надало даних за цей сезон. До 1958 року Кубок конструкторів не проводився; відсутній залік не означає відсутність команд.'
+                  | translate
+              }}
             </p>
           </section>
         }
