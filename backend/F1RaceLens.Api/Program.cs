@@ -25,14 +25,21 @@ if (persistenceEnabled)
 }
 builder.Services.AddProblemDetails();
 builder.Services.AddSingleton(TimeProvider.System);
+var isForecastUpdate = args.Contains("--refresh-data", StringComparer.Ordinal) || args.Contains("--publish-forecasts", StringComparer.Ordinal);
+if (isForecastUpdate)
+{
+    builder.Services.AddSingleton<F1RaceLens.Api.Predictions.Updates.UpdateRequestGate>();
+    builder.Services.AddTransient<F1RaceLens.Api.Predictions.Updates.JolpicaUpdateHandler>();
+}
 var jolpicaClient = builder.Services.AddHttpClient("Jolpica", client =>
 {
     client.BaseAddress = new Uri("https://api.jolpi.ca/ergast/f1/");
-    client.Timeout = TimeSpan.FromSeconds(12);
+    client.Timeout = isForecastUpdate ? TimeSpan.FromMinutes(10) : TimeSpan.FromSeconds(12);
     client.DefaultRequestHeaders.UserAgent.ParseAdd("F1RaceLens/0.1.0");
     client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
 });
 if (persistenceEnabled) jolpicaClient.AddHttpMessageHandler<SourceCaptureHandler>();
+if (isForecastUpdate) jolpicaClient.AddHttpMessageHandler<F1RaceLens.Api.Predictions.Updates.JolpicaUpdateHandler>();
 builder.Services.AddSingleton<JolpicaCalendarClient>();
 builder.Services.AddSingleton<CalendarService>();
 builder.Services.AddSingleton<JolpicaResultsClient>();
@@ -50,8 +57,27 @@ builder.Services.AddHttpClient("OpenMeteo", client => {
 builder.Services.AddSingleton<ForecastWeatherClient>();
 builder.Services.AddSingleton<PredictionService>();
 builder.Services.AddSingleton<F1RaceLens.Api.Predictions.Integration.LocalMlForecast>();
+builder.Services.AddSingleton<F1RaceLens.Api.Predictions.Updates.ForecastUpdateJob>();
+builder.Services.AddSingleton<F1RaceLens.Api.Predictions.Updates.ForecastUpdateStatus>();
 
 var app = builder.Build();
+if (args.Contains("--refresh-data", StringComparer.Ordinal) || args.Contains("--publish-forecasts", StringComparer.Ordinal))
+{
+    if (!persistenceEnabled) throw new InvalidOperationException("Configure PostgreSQL first.");
+    using var timeout = new CancellationTokenSource(TimeSpan.FromMinutes(14));
+    var job = app.Services.GetRequiredService<F1RaceLens.Api.Predictions.Updates.ForecastUpdateJob>();
+    try
+    {
+        if (args.Contains("--refresh-data", StringComparer.Ordinal)) await job.RefreshDataAsync(timeout.Token);
+        else await job.PublishAsync(timeout.Token);
+    }
+    catch (F1RaceLens.Api.Predictions.Updates.SourceRateLimitedException)
+    {
+        app.Logger.LogWarning("Jolpica rate limit reached. Retry after the source cooldown.");
+        Environment.ExitCode = 3;
+    }
+    return;
+}
 if (args.Contains("--migrate", StringComparer.Ordinal))
 {
     if (!persistenceEnabled) throw new InvalidOperationException("Configure ConnectionStrings:RaceLens before migrating.");
@@ -79,6 +105,8 @@ app.MapGet("/health/storage", async (IServiceProvider services, CancellationToke
     catch (Exception error) when (error is Npgsql.NpgsqlException or TimeoutException) { return Results.StatusCode(503); }
 });
 PredictionService.MapEndpoints(app);
+app.MapGet("/api/predictions/update-status", async (F1RaceLens.Api.Predictions.Updates.ForecastUpdateStatus status, CancellationToken token)
+    => Results.Ok(await status.ReadAsync(token)));
 app.MapGet("/api/predictions/ml", async (F1RaceLens.Api.Predictions.Integration.LocalMlForecast model,
     IServiceProvider services, CancellationToken token, ILogger<Program> logger) => {
     try {

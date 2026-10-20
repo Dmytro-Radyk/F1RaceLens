@@ -51,5 +51,6 @@ def fetch_input(root: Path, season: int, through: int, refresh: bool = False) ->
               "teams": parse_standings(teams_page, season, through, True),
               "calendar": calendar, "source": "Jolpica; official standings pinned to observed round"}
     target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
+    from ..atomic import write_json
+    write_json(target, result)
     return result

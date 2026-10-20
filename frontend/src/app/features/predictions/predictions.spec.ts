@@ -56,6 +56,25 @@ describe('Prediction page', () => {
     http = TestBed.inject(HttpTestingController);
   });
   afterEach(() => http.verify());
+  it('shows a failed update and the last success without triggering an update or hiding forecasts', async () => {
+    const h = await RouterTestingHarness.create('/predictions');
+    http.expectOne('/api/predictions/current').flush(prediction);
+    await settle(h, 'Прогнозований залік команд');
+    [...h.routeNativeElement!.querySelectorAll<HTMLButtonElement>('button')]
+      .find((x) => x.textContent?.trim() === 'Оновлення даних')!
+      .click();
+    await vi.waitFor(() => {
+      h.detectChanges();
+      const request = http.expectOne('/api/predictions/update-status');
+      expect(request.request.method).toBe('GET');
+      request.flush({ state: 'failed', stage: 'ml', lastSuccessfulAt: '2026-10-19T12:00:00Z' });
+    });
+    await settle(h, 'Помилка оновлення');
+    expect(h.routeNativeElement!.textContent).toContain('Раніше опубліковані прогнози збережено');
+    expect(h.routeNativeElement!.textContent).toContain('Останнє успішне оновлення');
+    expect(h.routeNativeElement!.querySelectorAll('app-prediction-table')).toHaveLength(2);
+    http.expectNone((request) => request.method === 'POST');
+  });
   it('loads ML directly from the URL and keeps it independent from the script', async () => {
     const h = await RouterTestingHarness.create('/predictions?engine=ml');
     http
@@ -84,23 +103,21 @@ describe('Prediction page', () => {
       .click();
     await vi.waitFor(() => {
       h.detectChanges();
-      http
-        .expectOne('/api/predictions/accuracy')
-        .flush({
-          rows: [
-            {
-              engine: 'ml',
-              version: 'lightgbm-race-v4',
-              round: 18,
-              throughRound: 17,
-              name: 'Future GP',
-              status: 'pending',
-              rankMae: null,
-              winnerBrier: null,
-              winnerHit: null,
-            },
-          ],
-        });
+      http.expectOne('/api/predictions/accuracy').flush({
+        rows: [
+          {
+            engine: 'ml',
+            version: 'lightgbm-race-v4',
+            round: 18,
+            throughRound: 17,
+            name: 'Future GP',
+            status: 'pending',
+            rankMae: null,
+            winnerBrier: null,
+            winnerHit: null,
+          },
+        ],
+      });
     });
     await settle(h, 'Очікуємо гонку');
     const cells = h.routeNativeElement!.querySelectorAll('app-forecast-accuracy tbody td');

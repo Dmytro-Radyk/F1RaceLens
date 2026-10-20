@@ -9,7 +9,11 @@ public sealed class LocalMlForecast(IHostEnvironment environment, IConfiguration
     public async Task<PredictionResponse> ReadAsync(CancellationToken token)
     {
         var root = configuration["Predictions:MlRoot"] ?? Path.GetFullPath(Path.Combine(environment.ContentRootPath, "../../ml"));
-        var text = await File.ReadAllTextAsync(Path.Combine(root, "reports/season-forecast-lightgbm-v4.json"), token);
+        // Keep Windows readers compatible with an atomic report replacement by the local update job.
+        using var reportFile = new FileStream(Path.Combine(root, "reports/season-forecast-lightgbm-v4.json"), FileMode.Open,
+            FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+        using var reportReader = new StreamReader(reportFile);
+        var text = await reportReader.ReadToEndAsync(token);
         using var document = JsonDocument.Parse(text); var data = document.RootElement;
         if (data.GetProperty("model").GetString() != "lightgbm-race-v4") throw new InvalidDataException("Unexpected ML model.");
         var modelPath = Path.Combine(root, "models/lightgbm-v4");

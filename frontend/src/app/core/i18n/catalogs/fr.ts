@@ -752,4 +752,22 @@ export const fr: Readonly<Record<string, string>> = {
   Так: 'Oui',
   Ні: 'Non',
   'Завантаження…': 'Chargement…',
+  'Оновлення даних': 'Mise à jour des données',
+  'Перевірка стану не запускає оновлення.': 'Consulter l’état ne lance pas de mise à jour.',
+  'Останнє успішне оновлення: {0}': 'Dernière mise à jour réussie : {0}',
+  'Оновлення завершилося помилкою. Раніше опубліковані прогнози збережено.':
+    'La mise à jour a échoué. Les prévisions déjà publiées sont conservées.',
+  'Оновлення ще не виконувалось': 'Aucune mise à jour effectuée',
+  'Оновлення триває': 'Mise à jour en cours',
+  'Оновлення виконано': 'Mise à jour terminée',
+  'Помилка оновлення': 'Échec de la mise à jour',
+  'Оновлення перервано': 'Mise à jour interrompue',
+  'Статус оновлення недоступний': 'État de mise à jour indisponible',
+  'Оновлення спортивних даних': 'Mise à jour des données de course',
+  'Розрахунок ML': 'Calcul de la prévision ML',
+  'Збереження прогнозів і перевірка точності':
+    'Publication des prévisions et évaluation de la précision',
+  'Перевірка готовності': 'Vérification de la disponibilité',
+  'Джерело тимчасово обмежило запити. Повторіть оновлення пізніше.':
+    'La source limite temporairement les requêtes. Réessayez la mise à jour plus tard.',
 };

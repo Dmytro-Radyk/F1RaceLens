@@ -12,6 +12,21 @@ public sealed class ForecastJournal(IDbContextFactory<RaceLensDbContext> factory
     public static readonly JsonSerializerOptions Json = new(JsonSerializerDefaults.Web);
     public static string Hash(string value) => Convert.ToHexStringLower(SHA256.HashData(Encoding.UTF8.GetBytes(value)));
 
+    public async Task<PredictionResponse?> ReadLatestScriptAsync(int year, CancellationToken token)
+    {
+        var now = clock.GetUtcNow();
+        await using var db = await factory.CreateDbContextAsync(token);
+        var run = await db.ForecastRuns.AsNoTracking().Where(x => x.Engine == "script" && x.Season == year
+            && x.GeneratedAt > now.AddMinutes(-15) && x.GeneratedAt <= now && x.SourceUpdatedAt > now.AddHours(-24))
+            .OrderByDescending(x => x.ThroughRound).ThenByDescending(x => x.SourceUpdatedAt)
+            .ThenByDescending(x => x.GeneratedAt).FirstOrDefaultAsync(token);
+        if (run is null) return null;
+        if (Hash(run.Output) != run.OutputHash || Hash(run.Inputs) != run.InputHash)
+            throw new InvalidDataException("Published forecast integrity check failed.");
+        var result = JsonSerializer.Deserialize<PredictionResponse>(run.Output, Json)!;
+        return result with { RunId = run.Id, RecordedAt = run.RecordedAt, InputsJson = run.Inputs };
+    }
+
     public async Task<PredictionResponse> SaveAsync(string engine, PredictionResponse forecast, CancellationToken token)
     {
         if (forecast.Status != "ready" || forecast.Factors?.IsScenario == true || forecast.InputsJson is null

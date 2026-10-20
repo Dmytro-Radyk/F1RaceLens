@@ -738,4 +738,21 @@ export const en: Readonly<Record<string, string>> = {
   Так: 'Yes',
   Ні: 'No',
   'Завантаження…': 'Loading…',
+  'Оновлення даних': 'Data updates',
+  'Перевірка стану не запускає оновлення.': 'Checking the status does not start an update.',
+  'Останнє успішне оновлення: {0}': 'Last successful update: {0}',
+  'Оновлення завершилося помилкою. Раніше опубліковані прогнози збережено.':
+    'The update failed. Previously published forecasts have been preserved.',
+  'Оновлення ще не виконувалось': 'No update has run yet',
+  'Оновлення триває': 'Update in progress',
+  'Оновлення виконано': 'Update completed',
+  'Помилка оновлення': 'Update failed',
+  'Оновлення перервано': 'Update interrupted',
+  'Статус оновлення недоступний': 'Update status unavailable',
+  'Оновлення спортивних даних': 'Updating race data',
+  'Розрахунок ML': 'Calculating ML forecast',
+  'Збереження прогнозів і перевірка точності': 'Publishing forecasts and evaluating accuracy',
+  'Перевірка готовності': 'Checking readiness',
+  'Джерело тимчасово обмежило запити. Повторіть оновлення пізніше.':
+    'The source has temporarily limited requests. Try updating again later.',
 };

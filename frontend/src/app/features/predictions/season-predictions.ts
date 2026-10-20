@@ -6,6 +6,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { httpResource } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ForecastAccuracy } from './components/forecast-accuracy';
+import { ForecastUpdateStatus } from './components/forecast-update-status';
 import { SourceNote } from '../calendar/components/source-note';
 import { PredictionTable, modelChance } from './prediction-table';
 import type { ForecastRow, PredictionResponse, ForecastScenario } from './predictions.types';
@@ -21,6 +22,7 @@ import { PredictionContext } from './components/prediction-context';
     PredictionTable,
     PredictionContext,
     ForecastAccuracy,
+    ForecastUpdateStatus,
   ],
   templateUrl: './season-predictions.html',
   styleUrl: './season-predictions.css',
@@ -35,6 +37,7 @@ export class SeasonPredictions {
     this.query().get('engine') === 'ml' ? 'ml' : 'script',
   );
   protected readonly showAccuracy = signal(false);
+  protected readonly showUpdate = signal(false);
   protected selectEngine(engine: 'script' | 'ml') {
     this.scenario.set(null);
     void this.router.navigate([], {

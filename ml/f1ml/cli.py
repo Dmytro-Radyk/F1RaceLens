@@ -2,6 +2,7 @@
 import argparse
 import json
 import sys
+import urllib.error
 from pathlib import Path
 from .source import fetch_season, snapshot_hash
 ROOT = Path(__file__).resolve().parents[1]
@@ -86,4 +87,10 @@ def main():
     print(json.dumps(output, indent=2, ensure_ascii=False))
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except urllib.error.HTTPError as error:
+        if error.code == 429:
+            print('Source rate limit reached. Retry after the cooldown.', file=sys.stderr)
+            sys.exit(3)
+        raise

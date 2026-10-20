@@ -4,7 +4,8 @@ using F1RaceLens.Api.Standings;
 namespace F1RaceLens.Api.Predictions;
 
 public sealed class PredictionService(CalendarService calendars, StandingsService standings,
-    PredictionSource source, ForecastWeatherClient weather, TimeProvider clock, ILogger<PredictionService> logger)
+    PredictionSource source, ForecastWeatherClient weather, TimeProvider clock, ILogger<PredictionService> logger,
+    Journal.ForecastJournal? journal = null)
 {
     private PredictionResponse? cached;
     private ForecastInput? cachedInput;
@@ -12,9 +13,32 @@ public sealed class PredictionService(CalendarService calendars, StandingsServic
     private DateTimeOffset refreshAfter;
     private readonly SemaphoreSlim refreshLock = new(1, 1);
 
-    public async Task<PredictionResponse> GetAsync(CancellationToken token)
+    public async Task<PredictionResponse> GetAsync(CancellationToken token, bool readPublished = true)
     {
         var year = clock.GetUtcNow().Year;
+        if (readPublished && journal is not null)
+        {
+            var published = await journal.ReadLatestScriptAsync(year, token);
+            bool Newer(PredictionResponse candidate) => cached is null || candidate.ThroughRound > cached.ThroughRound
+                || candidate.ThroughRound == cached.ThroughRound && (candidate.UpdatedAt > cached.UpdatedAt
+                    || candidate.UpdatedAt == cached.UpdatedAt && candidate.GeneratedAt > cached.GeneratedAt);
+            if (published?.GeneratedAt is { } generated && Newer(published))
+            {
+                await refreshLock.WaitAsync(token);
+                try
+                {
+                    if (Newer(published))
+                    {
+                        var inputs = System.Text.Json.JsonSerializer.Deserialize<PublishedInputs>(published.InputsJson!, Journal.ForecastJournal.Json)
+                            ?? throw new InvalidDataException("Published forecast inputs missing.");
+                        cachedInput = MakeInput(inputs.Calendar, inputs.Drivers, inputs.Teams, inputs.History, inputs.Prior, inputs.Events);
+                        cached = published with { Schedule = inputs.Events };
+                        refreshAfter = generated.AddMinutes(15);
+                    }
+                }
+                finally { refreshLock.Release(); }
+            }
+        }
         if (Fresh(year)) return cached!;
         await refreshLock.WaitAsync(token);
         try
@@ -62,6 +86,8 @@ public sealed class PredictionService(CalendarService calendars, StandingsServic
     }
     private bool Fresh(int year) => cached is not null && cached.Season == year && refreshAfter > clock.GetUtcNow()
         && cached.UpdatedAt.AddHours(24) > clock.GetUtcNow();
+    private sealed record PublishedInputs(CalendarResponse Calendar, StandingsResponse Drivers, StandingsResponse Teams,
+        ForecastObservation[] History, ForecastObservation[]? Prior, ForecastEvent[]? Events);
 
     private async Task<IReadOnlyList<ForecastObservation>> LoadPrior(int year, CancellationToken token)
     {

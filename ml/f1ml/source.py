@@ -5,10 +5,25 @@ import json
 import time
 import urllib.error
 import urllib.request
+from email.utils import parsedate_to_datetime
 from datetime import datetime, timezone
 from pathlib import Path
 
 BASE_URL = "https://api.jolpi.ca/ergast/f1/"
+
+
+def retry_delay(header, attempt, now=None):
+    if header:
+        try:
+            return max(0, int(header))
+        except ValueError:
+            try:
+                stamp = parsedate_to_datetime(header)
+                if stamp.tzinfo:
+                    return max(0, (stamp-(now or datetime.now(timezone.utc))).total_seconds())
+            except (ValueError, TypeError, OverflowError):
+                pass
+    return min(60, 2 ** (attempt + 1))
 
 
 def request_json(path: str) -> dict:
@@ -21,7 +36,9 @@ def request_json(path: str) -> dict:
         except urllib.error.HTTPError as error:
             if error.code not in (429, 500, 502, 503, 504) or attempt == 3:
                 raise
-            delay = min(60, max(2 ** (attempt + 1), int(error.headers.get("Retry-After", "5"))))
+            delay = retry_delay(error.headers.get("Retry-After"), attempt)
+            if delay > 120:
+                raise  # Do not retry earlier than a long server cooldown.
             time.sleep(delay)
         except (TimeoutError, urllib.error.URLError):
             if attempt == 3:

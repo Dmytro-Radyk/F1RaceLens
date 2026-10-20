@@ -23,6 +23,8 @@ ML-команди запускати з директорії `ml`; переві�
 
 ## PostgreSQL
 
+Оновлення даних і двох прогнозів однією локальною командою: `./scripts/Update-Forecasts.ps1`. Контракт: @context/features/forecast-update-workflow.md. Не запускати цикли паралельно; це перерахунок на чинних вагах, не навчання чи фоновий розклад.
+
 Перед API: `./scripts/database/Start.ps1`; перше встановлення Windows — `./scripts/database/Setup.ps1`. Контракт: @context/architecture/postgresql-storage.md.
 Міграції: `dotnet run --project backend/F1RaceLens.Api --no-launch-profile -- --migrate`; готовність: `/health/storage`.
 Ніколи не друкувати connection string або пароль; `.local/`, кластер, дампи та `appsettings.Local.json` виключені з Git. Коміт лише за командою користувача.

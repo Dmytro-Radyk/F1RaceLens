@@ -4,6 +4,7 @@
 
 | Група файлів | Значення |
 | --- | --- |
+| [forecast-update-workflow.md](forecast-update-workflow.md) | Єдина команда, захист паралельного запуску, збої, атомарність і підхоплення нового прогнозу |
 | [integrated-forecasts.md](integrated-forecasts.md) | Інтеграція двох рушіїв, PostgreSQL-журнал, ревізії оцінок і перевірки UI/API |
 | `prediction-backtest*.json` | Історична перевірка статистичного C#-скрипта на зрізах сезону 2025 |
 | `lightgbm-audit-2025.json`, `lightgbm-v1.json` | Початковий LightGBM: аудит 2025 та послідовний аудит 2026 |

@@ -741,4 +741,21 @@ export const it: Readonly<Record<string, string>> = {
   Так: 'Sì',
   Ні: 'No',
   'Завантаження…': 'Caricamento…',
+  'Оновлення даних': 'Aggiornamento dati',
+  'Перевірка стану не запускає оновлення.': 'La verifica dello stato non avvia un aggiornamento.',
+  'Останнє успішне оновлення: {0}': 'Ultimo aggiornamento riuscito: {0}',
+  'Оновлення завершилося помилкою. Раніше опубліковані прогнози збережено.':
+    'Aggiornamento non riuscito. Le previsioni già pubblicate sono conservate.',
+  'Оновлення ще не виконувалось': 'Nessun aggiornamento ancora eseguito',
+  'Оновлення триває': 'Aggiornamento in corso',
+  'Оновлення виконано': 'Aggiornamento completato',
+  'Помилка оновлення': 'Aggiornamento non riuscito',
+  'Оновлення перервано': 'Aggiornamento interrotto',
+  'Статус оновлення недоступний': 'Stato aggiornamento non disponibile',
+  'Оновлення спортивних даних': 'Aggiornamento dei dati di gara',
+  'Розрахунок ML': 'Calcolo previsione ML',
+  'Збереження прогнозів і перевірка точності': 'Pubblicazione previsioni e verifica accuratezza',
+  'Перевірка готовності': 'Verifica disponibilità',
+  'Джерело тимчасово обмежило запити. Повторіть оновлення пізніше.':
+    'La fonte ha temporaneamente limitato le richieste. Riprova più tardi.',
 };

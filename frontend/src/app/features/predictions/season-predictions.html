@@ -34,9 +34,21 @@
     >
       {{ 'Перевірка точності' | translate }}
     </button>
+    <button
+      type="button"
+      class="secondary-action"
+      [attr.aria-expanded]="showUpdate()"
+      [attr.aria-controls]="showUpdate() ? 'forecast-update-status' : null"
+      (click)="showUpdate.set(!showUpdate())"
+    >
+      {{ 'Оновлення даних' | translate }}
+    </button>
   </div>
   @if (showAccuracy()) {
     <app-forecast-accuracy id="forecast-accuracy" />
+  }
+  @if (showUpdate()) {
+    <app-forecast-update-status id="forecast-update-status" />
   }
   @if (engine() === 'ml') {
     <p class="note">

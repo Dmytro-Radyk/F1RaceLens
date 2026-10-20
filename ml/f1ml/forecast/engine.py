@@ -193,5 +193,6 @@ def forecast(root: Path, records: list[dict], version: str, threads: int = 4, re
                        "Equal points use race first/second/etc counts; remaining ties randomly resolved. Already completed points are never re-simulated.",
                    ]})
     target = root / f"reports/season-forecast-{version}.json"
-    target.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
+    from ..atomic import write_json
+    write_json(target, result)
     return result
