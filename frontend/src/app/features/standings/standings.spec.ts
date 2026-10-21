@@ -78,6 +78,33 @@ describe('Season standings', () => {
     expect(page.querySelector<HTMLSelectElement>('.season-picker select')?.value).toBe('2025');
     expect(page.textContent).toContain('Підсумковий залік сезону');
     expect(page.textContent).toContain('Після етапу 24');
+    expect(page.querySelectorAll('.points-leader')).toHaveLength(1);
+    expect(page.querySelector('.leader-badge')).toBeNull();
+  });
+
+  it('highlights all points ties and excludes disqualified records from leaders', async () => {
+    const harness = await RouterTestingHarness.create('/standings');
+    await respond(harness, '/api/seasons/current/standings/drivers', {
+      ...data,
+      entries: [
+        row,
+        { ...row, id: 'tied', name: 'Tied Driver', position: 2 },
+        {
+          ...row,
+          id: 'excluded',
+          name: 'Excluded',
+          position: null,
+          positionText: 'D',
+          points: 1000,
+        },
+      ],
+    });
+    expect(harness.routeNativeElement!.querySelectorAll('.points-leader')).toHaveLength(2);
+    expect(
+      harness
+        .routeNativeElement!.querySelector('tbody tr:last-child')
+        ?.classList.contains('points-leader'),
+    ).toBe(false);
   });
 
   it('requests the provider current season and displays the actual round', async () => {

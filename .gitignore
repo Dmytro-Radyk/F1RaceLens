@@ -36,6 +36,19 @@ yarn-error.log*
 appsettings.Local.json
 appsettings.*.local.json
 
+# Private key exports and database backups outside .local
+*.pem
+*.key
+*.pfx
+*.p12
+*.dump
+*.backup
+*.bundle
+*.sql.gz
+*.sql.zip
+.pgpass
+pgpass.conf
+
 # Tooling and OS files
 **/.codex/
 .playwright-mcp/

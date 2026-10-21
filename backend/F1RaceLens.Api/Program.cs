@@ -27,6 +27,13 @@ if (persistenceEnabled)
     builder.Services.AddAccounts(builder.Environment);
 }
 builder.Services.AddProblemDetails();
+builder.Services.AddSingleton<F1RaceLens.Api.Catalog.CareerCatalog>();
+builder.Services.AddHttpClient("F1News", client => {
+    client.Timeout = TimeSpan.FromSeconds(10);
+    client.DefaultRequestHeaders.UserAgent.ParseAdd("F1RaceLens/0.1.0");
+    client.DefaultRequestHeaders.Accept.ParseAdd("application/rss+xml");
+}).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler { AllowAutoRedirect = false });
+builder.Services.AddSingleton<F1RaceLens.Api.News.F1News>();
 builder.Services.AddSingleton(TimeProvider.System);
 var isForecastUpdate = args.Contains("--refresh-data", StringComparer.Ordinal) || args.Contains("--publish-forecasts", StringComparer.Ordinal);
 if (isForecastUpdate)
@@ -106,6 +113,14 @@ if (persistenceEnabled)
     app.MapAccountEndpoints();
 }
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
+app.MapGet("/api/catalog", (F1RaceLens.Api.Catalog.CareerCatalog catalog, HttpContext context) => {
+    context.Response.Headers.CacheControl = "public,max-age=3600";
+    return Results.Ok(catalog.Read());
+});
+app.MapGet("/api/news", async (F1RaceLens.Api.News.F1News news, CancellationToken token) => {
+    var feed = await news.ReadAsync(token);
+    return feed is null ? Results.Problem(statusCode: 503, title: "News feed unavailable.") : Results.Ok(feed);
+});
 var sports = app.MapGroup("");
 if (persistenceEnabled) sports.AddEndpointFilter<PersistenceFilter>();
 sports.MapCalendarEndpoints();

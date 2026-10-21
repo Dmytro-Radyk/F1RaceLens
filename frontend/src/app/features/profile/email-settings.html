@@ -1,0 +1,47 @@
+<h2 id="email-heading">{{ 'Пошта акаунта' | translate }}</h2>
+@if (auth.user(); as user) {
+  <p>{{ (user.emailConfirmed ? 'Пошту підтверджено' : 'Пошта не підтверджена') | translate }}</p>
+  @if (!user.emailConfirmed) {
+    <button type="button" [disabled]="busy()" (click)="sendConfirmation()">
+      {{ 'Надіслати підтвердження пошти' | translate }}
+    </button>
+  }
+  <h3>{{ 'Змінити електронну пошту' | translate }}</h3>
+  <p>
+    {{
+      'Нова адреса замінить поточну лише після підтвердження. Після зміни потрібно увійти знову; логін залишиться тим самим.'
+        | translate
+    }}
+  </p>
+  <form
+    novalidate
+    (submit)="change($event)"
+    [attr.aria-busy]="busy()"
+    aria-describedby="email-feedback"
+  >
+    <fieldset [disabled]="busy()">
+      <label for="new-email">{{ 'Нова електронна пошта' | translate }}</label>
+      <input
+        id="new-email"
+        type="email"
+        autocomplete="email"
+        [formField]="fields.newEmail"
+        [attr.aria-invalid]="submitted() && fields.newEmail().invalid()"
+      />
+      <label for="email-current-password">{{ 'Поточний пароль' | translate }}</label>
+      <input
+        id="email-current-password"
+        type="password"
+        autocomplete="current-password"
+        [formField]="fields.currentPassword"
+        [attr.aria-invalid]="submitted() && fields.currentPassword().invalid()"
+      />
+      <button type="submit">
+        {{ (busy() ? 'Зберігаємо…' : 'Надіслати запит на зміну пошти') | translate }}
+      </button>
+    </fieldset>
+  </form>
+  <p id="email-feedback" [attr.role]="failed() ? 'alert' : 'status'">
+    {{ feedback() | translate }}
+  </p>
+}

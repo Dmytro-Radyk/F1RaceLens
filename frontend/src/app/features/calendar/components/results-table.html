@@ -85,6 +85,26 @@
                   <td>{{ row.time ?? '—' | translate }}</td>
                   <td>
                     {{ status.text(row.status) }}
+                    @if (status.hasDetails(row.status)) {
+                      <details class="status-details">
+                        <summary>
+                          {{ 'Пояснення статусу' | translate
+                          }}<span class="status-driver"> · {{ row.driverName }}</span>
+                        </summary>
+                        <div class="status-explanation">
+                          <p>
+                            <strong>{{
+                              'Причина / статус: {0}' | translate: [status.text(row.status)]
+                            }}</strong>
+                          </p>
+                          <p>{{ status.explanation(row.status) }}</p>
+                          @if (row.laps !== null) {
+                            <p>{{ 'Завершено кіл: {0}' | translate: [row.laps] }}</p>
+                          }
+                          <p>{{ 'Джерело: Jolpica' | translate }}</p>
+                        </div>
+                      </details>
+                    }
                   </td>
                   <td class="result-points">{{ points(row.points) | translate }}</td>
                 }

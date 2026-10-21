@@ -52,6 +52,21 @@ export class SeasonStandings {
     return new Intl.NumberFormat(currentLocale());
   }
   protected readonly points = (value: number) => this.numberFormat.format(value);
+  protected readonly leadingPoints = computed(() => {
+    const eligible = this.standings.hasValue()
+      ? this.standings
+          .value()
+          .entries.filter((entry) => entry.position !== null && /^\d+$/.test(entry.positionText))
+      : [];
+    return eligible.length ? Math.max(...eligible.map((entry) => entry.points)) : null;
+  });
+  protected isPointsLeader(entry: StandingsEntry): boolean {
+    return (
+      entry.position !== null &&
+      /^\d+$/.test(entry.positionText) &&
+      entry.points === this.leadingPoints()
+    );
+  }
   protected readonly positionLabel = (entry: StandingsEntry) => {
     const labels: Readonly<Record<string, string>> = {
       E: 'Виключено',

@@ -86,6 +86,18 @@ describe('Home overview', () => {
     driverResult = drivers,
     teamResult = teams,
   ) {
+    await vi.waitFor(() =>
+      http
+        .expectOne('/api/news')
+        .flush({
+          source: 'BBC Sport',
+          sourceUrl: 'https://www.bbc.com/sport/formula1',
+          language: 'en',
+          updatedAt: calendar.updatedAt,
+          isStale: false,
+          articles: [],
+        }),
+    );
     await vi.waitFor(() => {
       const request = http.expectOne('/api/seasons/current/calendar');
       if (calendarResult) request.flush(calendarResult);
@@ -156,6 +168,18 @@ describe('Home overview', () => {
 
   it('keeps the calendar and team table when driver standings fail', async () => {
     const harness = await RouterTestingHarness.create('/home?season=1953');
+    await vi.waitFor(() =>
+      http
+        .expectOne('/api/news')
+        .flush({
+          source: 'BBC Sport',
+          sourceUrl: 'https://www.bbc.com/sport/formula1',
+          language: 'en',
+          updatedAt: calendar.updatedAt,
+          isStale: false,
+          articles: [],
+        }),
+    );
     await vi.waitFor(() => http.expectOne('/api/seasons/current/calendar').flush(calendar));
     http
       .expectOne('/api/seasons/current/standings/drivers')

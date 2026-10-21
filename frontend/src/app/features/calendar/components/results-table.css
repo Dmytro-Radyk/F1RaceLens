@@ -67,6 +67,44 @@ tbody th {
 .results-empty {
   padding: 16px 0;
 }
+.status-details {
+  margin-top: 6px;
+  max-width: 320px;
+  min-width: 180px;
+  white-space: normal;
+}
+.status-details summary {
+  color: var(--accent-text);
+  cursor: pointer;
+  min-height: 44px;
+  align-content: center;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.status-details summary:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 3px;
+}
+.status-explanation {
+  padding: 12px;
+  border-left: 2px solid var(--accent-text);
+  background: var(--panel-bg);
+  line-height: 1.7;
+}
+.status-explanation p {
+  margin: 0 0 8px;
+}
+.status-explanation p:last-child {
+  margin-bottom: 0;
+  color: var(--muted);
+}
+.status-driver {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
 @media (max-width: 540px) {
   .results-panel {
     padding: 16px;

@@ -1,0 +1,64 @@
+<section class="news-page" [attr.aria-busy]="feed.isLoading()" aria-labelledby="news-heading">
+  <p class="eyebrow">F1 RACE LENS</p>
+  <h2 class="news-title" id="news-heading">{{ 'Новини F1' | translate }}</h2>
+  <p class="intro">
+    {{
+      'Заголовки англійською від BBC Sport. Повні матеріали відкриваються на сайті джерела.'
+        | translate
+    }}
+  </p>
+  @if (feed.isLoading()) {
+    <p role="status">{{ 'Завантажуємо новини…' | translate }}</p>
+  } @else if (feed.error()) {
+    <div class="notice" role="alert">
+      <h3>{{ 'Новини тимчасово недоступні' | translate }}</h3>
+      <p>{{ 'Джерело тимчасово недоступне. Спробуйте ще раз.' | translate }}</p>
+      <button type="button" (click)="feed.reload()">{{ 'Спробувати ще раз' | translate }}</button>
+    </div>
+  } @else if (feed.hasValue()) {
+    @let data = feed.value();
+    @if (data.isStale) {
+      <p class="notice" role="status">
+        {{ 'Показуємо збережені новини: джерело тимчасово недоступне.' | translate }}
+      </p>
+    }
+    <div class="feed-meta">
+      <p>{{ 'Оновлено: {0}' | translate: [date(data.updatedAt)] }}</p>
+      <button type="button" (click)="feed.reload()">{{ 'Оновити новини' | translate }}</button>
+    </div>
+    @if (data.articles.length) {
+      <ul class="articles">
+        @for (article of data.articles; track article.url) {
+          <li>
+            <article>
+              <app-news-image [url]="article.imageUrl" [title]="article.title" />
+              <p class="article-meta">
+                {{ data.source }} ·
+                <time [attr.datetime]="article.publishedAt">{{ date(article.publishedAt) }}</time>
+              </p>
+              <h3>
+                <a [href]="article.url" target="_blank" rel="noopener noreferrer"
+                  ><span lang="en">{{ article.title }}</span
+                  ><span aria-hidden="true"> ↗</span
+                  ><span class="sr-only">
+                    · {{ 'Відкриється в новій вкладці' | translate }}</span
+                  ></a
+                >
+              </h3>
+              <p class="article-meta">{{ 'Читати на сайті джерела' | translate }}</p>
+            </article>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p role="status">{{ 'Новин поки немає' | translate }}</p>
+    }
+    <p class="source">
+      <a [href]="data.sourceUrl" target="_blank" rel="noopener noreferrer"
+        >{{ data.source }} F1 <span aria-hidden="true">↗</span
+        ><span class="sr-only"> · {{ 'Відкриється в новій вкладці' | translate }}</span></a
+      >
+      · {{ 'Час указано у вашому часовому поясі.' | translate }}
+    </p>
+  }
+</section>

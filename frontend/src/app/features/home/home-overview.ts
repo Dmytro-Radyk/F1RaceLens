@@ -5,7 +5,9 @@ import { RouterLink } from '@angular/router';
 import type { CalendarResponse, RaceSchedule } from '../calendar/models/calendar.types';
 import type { StandingsResponse } from '../standings/standings.types';
 import { StandingsSummary } from './components/standings-summary';
+import { HomeNews } from '../news/components/home-news';
 import { SourceNote } from '../calendar/components/source-note';
+import { PersonalHome } from './components/personal-home';
 import {
   countryName,
   formatScheduleDate,
@@ -28,7 +30,7 @@ export function nextHomeRace(
 
 @Component({
   selector: 'app-home-overview',
-  imports: [TranslatePipe, RouterLink, SourceNote, StandingsSummary],
+  imports: [TranslatePipe, RouterLink, SourceNote, StandingsSummary, HomeNews, PersonalHome],
   templateUrl: './home-overview.html',
   styleUrl: './home-overview.css',
 })

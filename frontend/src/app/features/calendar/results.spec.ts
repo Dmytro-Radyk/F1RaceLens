@@ -110,6 +110,13 @@ describe('Grand Prix results', () => {
     expect(table.textContent).toContain('4,5');
     expect(table.textContent).toContain('0*');
     expect(table.textContent).toContain('—');
+    const details = table.querySelector('details')!;
+    expect(details.open).toBe(false);
+    details.querySelector('summary')!.click();
+    expect(details.open).toBe(true);
+    expect(details.textContent).toContain('Причина / статус: Схід: двигун');
+    expect(details.textContent).toContain('Завершено кіл: 12');
+    expect(details.textContent).toContain('Джерело: Jolpica');
     expect(
       harness
         .routeNativeElement!.querySelector('.session-navigation [aria-current="page"]')
@@ -125,6 +132,7 @@ describe('Grand Prix results', () => {
     await harness.navigateByUrl('/calendar/2025/2?session=sprint');
     await respond(harness, 'sprint', [{ ...row, status: 'Finished' }]);
     expect(harness.routeNativeElement!.querySelector('table')?.textContent).toContain('Фінішував');
+    expect(harness.routeNativeElement!.querySelector('details')).toBeNull();
     expect(harness.routeNativeElement!.querySelectorAll('thead th')).toHaveLength(8);
   });
 

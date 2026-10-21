@@ -1,0 +1,74 @@
+<section class="home-news" aria-labelledby="home-news-heading" [attr.aria-busy]="feed.isLoading()">
+  <div class="news-heading">
+    <h2 id="home-news-heading">{{ 'Останні новини F1' | translate }}</h2>
+    <a routerLink="/news">{{ 'Усі новини' | translate }} ↗</a>
+  </div>
+  @if (feed.isLoading()) {
+    <p role="status">{{ 'Завантажуємо новини…' | translate }}</p>
+  } @else if (feed.error()) {
+    <p>{{ 'Новини тимчасово недоступні' | translate }}</p>
+    <button type="button" (click)="feed.reload()">{{ 'Спробувати ще раз' | translate }}</button>
+  } @else if (story(); as article) {
+    @if (feed.hasValue() && feed.value().isStale) {
+      <p role="status">
+        {{ 'Показуємо збережені новини: джерело тимчасово недоступне.' | translate }}
+      </p>
+    }
+    <div
+      class="story"
+      (pointerdown)="down($event)"
+      (pointerup)="up($event)"
+      (pointercancel)="cancel()"
+    >
+      <app-news-image [url]="article.imageUrl" [title]="article.title" />
+      <div class="story-copy">
+        <p>
+          {{ 'BBC Sport' }} ·
+          <time [attr.datetime]="article.publishedAt">{{ date(article.publishedAt) }}</time> ·
+          <span>{{ 'Заголовок мовою джерела' | translate }}</span>
+        </p>
+        <h3>
+          <a [href]="article.url" target="_blank" rel="noopener noreferrer" (click)="follow($event)"
+            ><span lang="en">{{ article.title }}</span
+            ><span aria-hidden="true"> ↗</span></a
+          >
+        </h3>
+      </div>
+    </div>
+    <div class="carousel-controls">
+      <button
+        type="button"
+        (click)="move(-1)"
+        [disabled]="stories().length < 2"
+        [attr.aria-label]="'Попередня новина' | translate"
+      >
+        ←
+      </button>
+      <div class="carousel-indicators">
+        @for (item of stories(); track item.url; let i = $index) {
+          <button
+            type="button"
+            class="carousel-indicator"
+            [class.is-active]="index() === i"
+            [attr.aria-current]="index() === i ? 'true' : null"
+            [attr.aria-label]="'Новина {0} із {1}' | translate: [i + 1, stories().length]"
+            (click)="index.set(i)"
+          ></button>
+        }
+      </div>
+      <p class="sr-only" role="status" aria-live="polite">
+        {{ 'Новина {0} із {1}' | translate: [index() + 1, stories().length] }}
+      </p>
+      <button
+        type="button"
+        (click)="move(1)"
+        [disabled]="stories().length < 2"
+        [attr.aria-label]="'Наступна новина' | translate"
+      >
+        →
+      </button>
+    </div>
+  } @else {
+    <p>{{ 'Новин поки немає' | translate }}</p>
+  }
+</section>

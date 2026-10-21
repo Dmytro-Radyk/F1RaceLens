@@ -15,7 +15,16 @@ import { accountError, AuthService } from '../../auth/services/auth.service';
 import { ThemeService } from '../../core/services/theme.service';
 
 type NavId =
-  'home' | 'calendar' | 'standings' | 'drivers' | 'teams' | 'compare' | 'insights' | 'predictions';
+  | 'home'
+  | 'calendar'
+  | 'standings'
+  | 'drivers'
+  | 'teams'
+  | 'compare'
+  | 'insights'
+  | 'predictions'
+  | 'news'
+  | 'history';
 
 interface NavItem {
   id: NavId;
@@ -64,6 +73,7 @@ export class AppShell {
   protected readonly theme = inject(ThemeService);
   protected readonly menuItems: readonly NavItem[] = [
     { id: 'home', label: 'Головна', icon: '#icon-home' },
+    { id: 'news', label: 'Новини F1', icon: '#icon-standings' },
     { id: 'calendar', label: 'Календар', icon: '#icon-calendar' },
     { id: 'standings', label: 'Турнірна таблиця', icon: '#icon-standings' },
     { id: 'drivers', label: 'Пілоти', icon: '#icon-drivers' },
@@ -71,6 +81,7 @@ export class AppShell {
     { id: 'compare', label: 'Порівняння', icon: '#icon-compare' },
     { id: 'insights', label: 'Аналітика', icon: '#icon-insights' },
     { id: 'predictions', label: 'Прогнози', icon: '#icon-predictions' },
+    { id: 'history', label: 'Історія F1', icon: '#icon-calendar' },
   ];
 
   protected readonly isMenuOpen = signal(false);
@@ -82,7 +93,14 @@ export class AppShell {
   protected onPageActivated(): void {
     this.activeLabel.set(this.route.firstChild?.snapshot.data['label'] ?? 'F1 Race Lens');
     this.closeMenu();
-    setTimeout(() => document.getElementById('page-heading')?.focus());
+    setTimeout(() => {
+      const fragment = this.route.firstChild?.snapshot.fragment;
+      const target = fragment ? document.getElementById(fragment) : null;
+      if (target) {
+        target.scrollIntoView();
+        target.querySelector<HTMLElement>('h3[tabindex]')?.focus({ preventScroll: true });
+      } else document.getElementById('page-heading')?.focus();
+    });
   }
 
   protected toggleMenu(): void {

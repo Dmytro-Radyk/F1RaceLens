@@ -90,7 +90,7 @@ describe('Driver profile routes', () => {
     );
     expect(page.querySelector('.primary-nav a[href="/standings?season=2025"]')).not.toBeNull();
     expect(page.querySelector('.primary-nav .is-active')?.getAttribute('href')).toBe(
-      '/drivers?season=2025',
+      '/drivers',
     );
   });
 

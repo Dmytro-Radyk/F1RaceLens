@@ -6,10 +6,12 @@ import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { LanguagePicker } from '../../core/i18n/language-picker';
 import { ThemeService } from '../../core/services/theme.service';
 import type { StandingsResponse } from '../standings/standings.types';
+import { PasswordForm } from '../../auth/components/password-form/password-form';
+import { EmailSettings } from './email-settings';
 
 @Component({
   selector: 'app-user-profile',
-  imports: [TranslatePipe, RouterLink, LanguagePicker],
+  imports: [TranslatePipe, RouterLink, LanguagePicker, PasswordForm, EmailSettings],
   templateUrl: './user-profile.html',
   styleUrl: './user-profile.css',
 })

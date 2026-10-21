@@ -21,6 +21,7 @@ const account: Account = {
   driverIds: [],
   teamIds: [],
   favourites: [],
+  emailConfirmed: false,
 };
 describe('Persistent accounts', () => {
   let http: HttpTestingController;

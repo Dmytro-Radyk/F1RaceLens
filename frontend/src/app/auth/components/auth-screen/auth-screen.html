@@ -47,8 +47,12 @@
     <div class="auth-form-panel">
       @if (mode() === 'login') {
         <app-login-form (registerRequested)="switchTo('register')" />
-      } @else {
+      } @else if (mode() === 'register') {
         <app-register-form (loginRequested)="switchTo('login')" />
+      } @else if (mode() === 'forgot' || mode() === 'reset') {
+        <app-password-form [mode]="mode() === 'reset' ? 'reset' : 'forgot'" />
+      } @else {
+        <app-email-confirmation [change]="mode() === 'confirm-email-change'" />
       }
     </div>
   </section>

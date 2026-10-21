@@ -88,3 +88,9 @@ tbody th {
     padding: 16px;
   }
 }
+.points-leader {
+  background: color-mix(in srgb, var(--accent-text) 9%, var(--panel-bg));
+}
+.points-leader > :first-child {
+  box-shadow: inset 3px 0 var(--accent-text);
+}

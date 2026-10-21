@@ -21,7 +21,13 @@ public static class AccountSecurity
             options.Password.RequireLowercase = false;
             options.Lockout.MaxFailedAccessAttempts = 5;
             options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
-        }).AddEntityFrameworkStores<RaceLensDbContext>().AddSignInManager();
+        }).AddEntityFrameworkStores<RaceLensDbContext>().AddSignInManager().AddDefaultTokenProviders();
+        services.Configure<DataProtectionTokenProviderOptions>(options => options.TokenLifespan = TimeSpan.FromMinutes(30));
+        services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval = TimeSpan.Zero);
+        services.AddSingleton<PasswordRecovery>();
+        services.AddSingleton<IAccountMailQueue>(services => services.GetRequiredService<PasswordRecovery>());
+        services.AddSingleton<IAccountMailTransport, SmtpAccountMailTransport>();
+        services.AddHostedService(services => services.GetRequiredService<PasswordRecovery>());
         services.Configure<PasswordHasherOptions>(options => options.IterationCount = 210_000);
         services.AddAuthentication(IdentityConstants.ApplicationScheme).AddIdentityCookies();
         services.Configure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, options => {
@@ -46,6 +52,9 @@ public static class AccountSecurity
         if (OperatingSystem.IsWindows()) protection.ProtectKeysWithDpapi();
         services.AddRateLimiter(options => {
             options.RejectionStatusCode = 429;
+            options.AddPolicy("password-recovery", context => RateLimitPartition.GetFixedWindowLimiter(
+                context.Connection.RemoteIpAddress?.ToString() ?? "local",
+                _ => new FixedWindowRateLimiterOptions { PermitLimit = 5, Window = TimeSpan.FromMinutes(15), QueueLimit = 0 }));
             options.AddPolicy("account-entry", context => RateLimitPartition.GetFixedWindowLimiter(
                 context.Connection.RemoteIpAddress?.ToString() ?? "local",
                 _ => new FixedWindowRateLimiterOptions { PermitLimit = 20, Window = TimeSpan.FromMinutes(1), QueueLimit = 0 }));

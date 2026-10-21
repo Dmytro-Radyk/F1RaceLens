@@ -1,0 +1,134 @@
+<div class="catalog-page">
+  <header class="catalog-heading">
+    <h2>{{ 'Пошук по сайту' | translate }}</h2>
+    <p>
+      {{ 'Шукайте сторінки, пілотів, конструкторів, Гран-прі та заголовки новин.' | translate }}
+    </p>
+  </header>
+  <form class="catalog-filters" (submit)="search($event)">
+    <label for="site-search"
+      >{{ 'Пошуковий запит' | translate
+      }}<input
+        id="site-search"
+        type="search"
+        [value]="query()"
+        (input)="update($event)"
+        maxlength="100"
+        minlength="2" /></label
+    ><button type="submit">{{ 'Знайти' | translate }}</button>
+  </form>
+  @if (submitted().length < 2) {
+    <p role="status">{{ 'Введіть щонайменше два символи.' | translate }}</p>
+  } @else {
+    <p class="source-note">
+      {{
+        'Новини: поточна стрічка. Гран-прі: поточний сезон або рік із запиту. Імена краще вводити латинкою.'
+          | translate
+      }}
+    </p>
+    <section>
+      <h3>{{ 'Історія F1' | translate }}</h3>
+      <ul>
+        @for (chapter of history(); track chapter.year) {
+          <li>
+            <a [href]="'/history#' + chapter.year"
+              >{{ chapter.year }} · {{ chapter.title | translate }}</a
+            >
+          </li>
+        } @empty {
+          <li>{{ 'Нічого не знайдено' | translate }}</li>
+        }
+      </ul>
+    </section>
+    <section>
+      <h3>{{ 'Сторінки' | translate }}</h3>
+      <ul>
+        @for (page of sections(); track page[0]) {
+          <li>
+            <a [routerLink]="['/', page[0]]">{{ page[1] | translate }}</a>
+          </li>
+        } @empty {
+          <li>{{ 'Нічого не знайдено' | translate }}</li>
+        }
+      </ul>
+    </section>
+    @if (catalog.isLoading()) {
+      <p role="status">{{ 'Завантажуємо довідник…' | translate }}</p>
+    } @else if (catalog.error()) {
+      <p role="alert">{{ 'Довідник тимчасово недоступний' | translate }}</p>
+      <button type="button" (click)="catalog.reload()">
+        {{ 'Спробувати ще раз' | translate }}
+      </button>
+    } @else {
+      <section>
+        <h3>{{ 'Пілоти' | translate }} · {{ drivers().length }}</h3>
+        <ul>
+          @for (row of drivers(); track row.id) {
+            <li>
+              <a [routerLink]="['/drivers/career', row.id]">{{ row.name }}</a> ·
+              {{ 'Титули' | translate }}: {{ row.titles }}
+            </li>
+          } @empty {
+            <li>{{ 'Нічого не знайдено' | translate }}</li>
+          }
+        </ul>
+      </section>
+      <section>
+        <h3>{{ 'Команди' | translate }} · {{ teams().length }}</h3>
+        <ul>
+          @for (row of teams(); track row.id) {
+            <li>
+              <a [routerLink]="['/teams/career', row.id]">{{ row.name }}</a>
+            </li>
+          } @empty {
+            <li>{{ 'Нічого не знайдено' | translate }}</li>
+          }
+        </ul>
+      </section>
+    }
+    <section>
+      <h3>{{ 'Гран-прі' | translate }}</h3>
+      @if (calendar.isLoading()) {
+        <p role="status">{{ 'Завантажуємо календар…' | translate }}</p>
+      } @else if (calendar.error()) {
+        <p>{{ 'Не вдалося завантажити календар' | translate }}</p>
+        <button type="button" (click)="calendar.reload()">
+          {{ 'Спробувати ще раз' | translate }}
+        </button>
+      } @else {
+        <ul>
+          @for (row of races(); track row.round) {
+            <li>
+              <a [routerLink]="['/calendar', row.season, row.round]"
+                >{{ row.name }} · {{ row.season }}</a
+              >
+            </li>
+          } @empty {
+            <li>{{ 'Нічого не знайдено' | translate }}</li>
+          }
+        </ul>
+      }
+    </section>
+    <section>
+      <h3>{{ 'Новини F1' | translate }}</h3>
+      @if (news.isLoading()) {
+        <p role="status">{{ 'Завантажуємо новини…' | translate }}</p>
+      } @else if (news.error()) {
+        <p>{{ 'Новини тимчасово недоступні' | translate }}</p>
+        <button type="button" (click)="news.reload()">{{ 'Спробувати ще раз' | translate }}</button>
+      } @else {
+        <ul>
+          @for (row of articles(); track row.url) {
+            <li>
+              <a [href]="row.url" target="_blank" rel="noopener noreferrer"
+                ><span lang="en">{{ row.title }}</span> ↗</a
+              >
+            </li>
+          } @empty {
+            <li>{{ 'Нічого не знайдено' | translate }}</li>
+          }
+        </ul>
+      }
+    </section>
+  }
+</div>

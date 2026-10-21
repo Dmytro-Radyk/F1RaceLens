@@ -24,6 +24,28 @@ export class AuthApiService {
   logout(): Promise<void> {
     return this.write('POST', 'logout', {});
   }
+  changePassword(currentPassword: string, newPassword: string): Promise<void> {
+    return this.write('POST', 'change-password', { currentPassword, newPassword });
+  }
+  forgotPassword(email: string): Promise<void> {
+    return this.write('POST', 'forgot-password', { email });
+  }
+  requestEmailConfirmation(): Promise<void> {
+    return this.write('POST', 'request-email-confirmation', {});
+  }
+  requestEmailChange(newEmail: string, currentPassword: string): Promise<void> {
+    return this.write('POST', 'request-email-change', { newEmail, currentPassword });
+  }
+  confirmEmail(userId: string, token: string, newEmail?: string): Promise<void> {
+    return this.write('POST', newEmail === undefined ? 'confirm-email' : 'confirm-email-change', {
+      userId,
+      token,
+      newEmail,
+    });
+  }
+  resetPassword(userId: string, token: string, newPassword: string): Promise<void> {
+    return this.write('POST', 'reset-password', { userId, token, newPassword });
+  }
   preferences(language: Account['language'], theme: Account['theme']): Promise<Account> {
     return this.write('PUT', 'preferences', { language, theme });
   }

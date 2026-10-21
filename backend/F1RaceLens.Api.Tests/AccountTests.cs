@@ -16,8 +16,15 @@ namespace F1RaceLens.Api.Tests;
 public partial class StorageTests
 {
     private const string TestPassword = "A test password for accounts 2026";
-    private sealed class AccountApplication(DatabaseFixture fixture) : WebApplicationFactory<Program>
+    private sealed class TestAccountMailQueue(bool available) : IAccountMailQueue
     {
+        public bool Available => available;
+        public List<AccountMail> Messages { get; } = [];
+        public bool Enqueue(AccountMail mail) { Messages.Add(mail); return true; }
+    }
+    private sealed class AccountApplication(DatabaseFixture fixture, bool mailAvailable = false) : WebApplicationFactory<Program>
+    {
+        public TestAccountMailQueue Mail { get; } = new(mailAvailable);
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.UseEnvironment("Development");
@@ -27,6 +34,8 @@ public partial class StorageTests
                 services.AddSingleton(fixture.Factory);
                 services.RemoveAll<RaceLensDbContext>();
                 services.AddScoped(_ => fixture.Factory.CreateDbContext());
+                services.RemoveAll<IAccountMailQueue>();
+                services.AddSingleton<IAccountMailQueue>(Mail);
             });
         }
         public HttpClient Client() => CreateClient(new WebApplicationFactoryClientOptions { BaseAddress = new Uri("http://localhost"), AllowAutoRedirect = false });

@@ -3,11 +3,11 @@ import { Component, inject, output, signal } from '@angular/core';
 import { form, FormField, required, maxLength } from '@angular/forms/signals';
 import { accountError, AuthService } from '../../services/auth.service';
 import type { AuthCredentials } from '../../models/auth.types';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
-  imports: [TranslatePipe, FormField],
+  imports: [TranslatePipe, FormField, RouterLink],
   templateUrl: './login-form.html',
 })
 export class LoginForm {
@@ -23,7 +23,6 @@ export class LoginForm {
     maxLength(fields.password, 128, { message: 'Пароль: від 12 до 128 символів.' });
   });
   protected readonly error = signal('');
-  protected readonly notice = signal('');
   protected readonly busy = signal(false);
 
   protected async submit(event: Event): Promise<void> {
@@ -49,10 +48,5 @@ export class LoginForm {
       this.busy.set(false);
       this.model.update((value) => ({ ...value, password: '' }));
     }
-  }
-
-  protected showResetNotice(event: Event): void {
-    event.preventDefault();
-    this.notice.set('Відновлення пароля через пошту ще не налаштоване.');
   }
 }

@@ -20,4 +20,4 @@ public sealed record RegisterRequest(string? Login, string? Email, string? Passw
 public sealed record PreferencesRequest(string? Language, string? Theme);
 public sealed record FavouritesRequest(string[]? DriverIds, string[]? TeamIds);
 public sealed record FavouriteResponse(string Kind, string Id, string Name);
-public sealed record AccountResponse(string Id, string Login, string Email, string Language, string Theme, string[] DriverIds, string[] TeamIds, FavouriteResponse[] Favourites);
+public sealed record AccountResponse(string Id, string Login, string Email, string Language, string Theme, string[] DriverIds, string[] TeamIds, FavouriteResponse[] Favourites, bool EmailConfirmed);

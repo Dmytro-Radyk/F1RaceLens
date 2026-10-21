@@ -1,0 +1,130 @@
+@if (auth.user(); as user) {
+  <section class="personal-panel" aria-labelledby="personal-heading">
+    <div class="personal-heading">
+      <div>
+        <p class="eyebrow">{{ 'ВАШЕ ОБРАНЕ' | translate }}</p>
+        <h3 id="personal-heading">{{ 'Вітаємо, {0}!' | translate: [user.login] }}</h3>
+      </div>
+      <a routerLink="/profile">{{ 'Налаштувати обране' | translate }}</a>
+    </div>
+    @if (!favourites().length) {
+      <p>{{ 'Оберіть пілотів і команди у профілі, щоб бачити їхні показники тут.' | translate }}</p>
+    } @else {
+      @if (loading()) {
+        <p role="status">{{ 'Завантаження…' | translate }}</p>
+      }
+      @if (failed()) {
+        <p role="alert">{{ 'Частина показників обраного тимчасово недоступна.' | translate }}</p>
+        <button type="button" (click)="retry.emit()">{{ 'Спробувати ще раз' | translate }}</button>
+      }
+      @if (nextRace(); as race) {
+        <p class="next-start">
+          <strong>{{
+            (past(race) ? 'ОЧІКУЄМО ОНОВЛЕННЯ РЕЗУЛЬТАТІВ' : 'Наступний етап календаря') | translate
+          }}</strong>
+          <a [routerLink]="['/calendar', race.season, race.round]">{{ race.name | translate }}</a>
+          <span>{{ date(race) | translate }} · {{ time(race) | translate }}</span>
+        </p>
+        <p class="note">
+          {{
+            'Це розклад чемпіонату; участь кожного обраного пілота чи команди окремо не підтверджена.'
+              | translate
+          }}
+        </p>
+      }
+      @if (lastRace(); as race) {
+        <p class="last-race">
+          {{ 'Остання підтверджена гонка' | translate }}:
+          <a
+            [routerLink]="['/calendar', race.season, race.round]"
+            [queryParams]="{ session: 'race' }"
+            >{{ race.name | translate }}</a
+          >
+        </p>
+      }
+      <div class="personal-grid">
+        @for (card of cards(); track card.kind + card.id) {
+          <article class="favourite-card">
+            <span class="eyebrow">{{
+              (card.kind === 'driver' ? 'Пілот' : 'Команда') | translate
+            }}</span>
+            <h4>
+              @if (card.standing) {
+                <a
+                  [routerLink]="[card.kind === 'driver' ? '/drivers' : '/teams', card.id]"
+                  [queryParams]="{ season: season() }"
+                  >{{ card.standing.name | translate }}</a
+                >
+              } @else {
+                <a routerLink="/search" [queryParams]="{ q: card.name }">{{
+                  card.name | translate
+                }}</a>
+              }
+            </h4>
+            @if (card.standing; as standing) {
+              <dl>
+                <div>
+                  <dt>{{ 'Місце' | translate }}</dt>
+                  <dd>{{ standing.position ?? standing.positionText | translate }}</dd>
+                </div>
+                <div>
+                  <dt>{{ 'Очки' | translate }}</dt>
+                  <dd>{{ number(standing.points) | translate }}</dd>
+                </div>
+                <div>
+                  <dt>{{ 'Перемоги' | translate }}</dt>
+                  <dd>{{ number(standing.wins) | translate }}</dd>
+                </div>
+              </dl>
+            } @else if (!loading()) {
+              <p class="note">
+                {{ 'У поточному заліку немає запису. Обране збережено.' | translate }}
+              </p>
+            }
+            @for (result of card.last; track $index) {
+              <p>
+                {{ 'Класифікація' | translate }}:
+                {{ result.positionText ?? result.position | translate }} ·
+                {{ status.text(result.status) }}
+              </p>
+              <p class="note">
+                {{ 'Очки за гонку' | translate }}: {{ number(result.points) | translate }}
+              </p>
+            }
+            @if (card.kind === 'team' && lastRace()) {
+              <p>{{ 'Очки за гонку' | translate }}: {{ number(card.racePoints) | translate }}</p>
+            }
+            @if (
+              card.kind === 'driver' &&
+              lastRace() &&
+              !card.last.length &&
+              !results.isLoading() &&
+              !results.error()
+            ) {
+              <p class="note">
+                {{ 'Результат цієї гонки для обраного учасника відсутній.' | translate }}
+              </p>
+            }
+          </article>
+        }
+      </div>
+      @if (results.isLoading()) {
+        <p role="status">{{ 'Завантажуємо результати…' | translate }}</p>
+      }
+      @if (results.error()) {
+        <p role="alert">{{ 'Не вдалося завантажити результати' | translate }}</p>
+        <button type="button" (click)="results.reload()">
+          {{ 'Спробувати ще раз' | translate }}
+        </button>
+      } @else if (results.hasValue()) {
+        <app-source-note [metadata]="results.value()" />
+      }
+      @if (drivers(); as data) {
+        <app-source-note [metadata]="data" />
+      }
+      @if (teams(); as data) {
+        <app-source-note [metadata]="data" />
+      }
+    }
+  </section>
+}

@@ -45,8 +45,6 @@
               [queryParams]="
                 item.id === 'calendar' ||
                 item.id === 'standings' ||
-                item.id === 'drivers' ||
-                item.id === 'teams' ||
                 item.id === 'compare' ||
                 item.id === 'insights'
                   ? seasonQuery()
@@ -67,15 +65,10 @@
 
     <div class="sidebar-bottom">
       <p class="nav-heading">{{ 'Інструменти' | translate }}</p>
-      <button
-        class="nav-item tool-item"
-        type="button"
-        disabled
-        [attr.title]="'Пошук з’явиться згодом' | translate"
-      >
+      <a class="nav-item tool-item" routerLink="/search" (click)="closeMenu()">
         <svg class="nav-icon" aria-hidden="true"><use href="#icon-search" /></svg>
         <span>{{ 'Пошук' | translate }}</span>
-      </button>
+      </a>
       <button class="nav-item tool-item" type="button" (click)="toggleTheme()">
         <svg class="nav-icon" aria-hidden="true">
           <use [attr.href]="theme.isDark() ? '#icon-sun' : '#icon-moon'" />

@@ -42,13 +42,10 @@
     </div>
 
     <div class="auth-helper">
-      <a href="#" (click)="showResetNotice($event)">{{ 'Забули пароль?' | translate }}</a>
+      <a routerLink="/forgot-password">{{ 'Забули пароль?' | translate }}</a>
     </div>
     @if (error()) {
       <p class="form-error" role="alert">{{ error() | translate }}</p>
-    }
-    @if (notice()) {
-      <p class="form-notice" role="status">{{ notice() | translate }}</p>
     }
     <button class="auth-primary" type="submit" [disabled]="busy()">
       {{ (busy() ? 'Входимо…' : 'Увійти') | translate }}

@@ -114,6 +114,34 @@ export const raceStatuses: Readonly<Record<string, string>> = {
 export class RaceStatus {
   private readonly locale = inject(LocaleService);
 
+  hasDetails(value: string | null | undefined): boolean {
+    const status = value?.trim();
+    return (
+      !!status && status !== 'Finished' && status !== 'Lapped' && !/^\+\d+ Laps?$/.test(status)
+    );
+  }
+
+  explanation(value: string | null | undefined): string {
+    const status = value?.trim();
+    if (status === 'Retired')
+      return this.locale.text('Пілот зійшов. Джерело не повідомляє точної причини сходу.');
+    if (status === 'Disqualified' || status === 'Excluded')
+      return this.locale.text(
+        'Пілота виключено з результатів. Це не означає технічного сходу; подробиці рішення тут відсутні.',
+      );
+    if (status === 'Did not start' || status === 'Withdrew' || status === 'Not restarted')
+      return this.locale.text(
+        'Пілот не стартував або припинив участь. Точних обставин джерело не надало.',
+      );
+    if (status === 'Not classified')
+      return this.locale.text(
+        'Пілот не класифікований. Сам цей статус не пояснює причину завершення участі.',
+      );
+    return this.locale.text(
+      'Показано причину або статус із Jolpica. Докладного опису інциденту та його точного кола джерело не надає.',
+    );
+  }
+
   text(value: string | null | undefined): string {
     if (!value?.trim()) return this.locale.text('Не вказано');
     const status = value.trim();

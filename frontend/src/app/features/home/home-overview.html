@@ -1,4 +1,14 @@
 <div class="schedule-page home-page">
+  <app-home-news />
+  <app-personal-home
+    [calendar]="calendar.hasValue() ? calendar.value() : undefined"
+    [drivers]="drivers.hasValue() ? drivers.value() : undefined"
+    [teams]="teams.hasValue() ? teams.value() : undefined"
+    [nextRace]="nextRace()"
+    [loading]="drivers.isLoading() || teams.isLoading()"
+    [failed]="!!drivers.error() || !!teams.error()"
+    (retry)="drivers.reload(); teams.reload()"
+  />
   <div class="home-heading">
     <div>
       <p class="section-eyebrow">{{ 'ВАШ ПОГЛЯД НА ПЕРЕГОНИ' | translate }}</p>

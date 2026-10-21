@@ -1,0 +1,43 @@
+<div class="catalog-page">
+  <header class="catalog-heading">
+    <p class="eyebrow">{{ 'F1 Race Lens' }} · 1950+</p>
+    <h2>{{ 'Історія Формули-1' | translate }}</h2>
+    <p>
+      {{
+        'Від перших чемпіонатів до сучасних машин: коротка хронологія ключових змін.' | translate
+      }}
+    </p>
+  </header>
+  <nav class="catalog-tabs" [attr.aria-label]="'Розділи історії' | translate">
+    @for (chapter of chapters; track chapter.year) {
+      <a [href]="'/history#' + chapter.year">{{ chapter.year }}</a>
+    }
+  </nav>
+  @for (chapter of chapters; track chapter.year) {
+    <section
+      class="career-card history-chapter"
+      [id]="chapter.year"
+      [attr.aria-labelledby]="'era-' + chapter.year"
+    >
+      <p class="eyebrow">{{ chapter.year }}</p>
+      <h3 [id]="'era-' + chapter.year" tabindex="-1">{{ chapter.title | translate }}</h3>
+      <p>{{ chapter.text | translate }}</p>
+      <a [href]="chapter.source" target="_blank" rel="noopener noreferrer"
+        >{{ 'Джерело' | translate }}: {{ sourceName(chapter.source) }} ↗</a
+      >
+    </section>
+  }
+  <p class="source-note">
+    {{
+      'Короткий авторський огляд із посиланнями на першоджерела. Історична статистика доступна в довідниках.'
+        | translate
+    }}
+  </p>
+  <nav class="catalog-tabs">
+    <a routerLink="/drivers">{{ 'Пілоти' | translate }}</a
+    ><a routerLink="/teams">{{ 'Команди' | translate }}</a
+    ><a routerLink="/calendar" [queryParams]="{ season: 1950 }"
+      >{{ 'Календар' | translate }} · 1950</a
+    >
+  </nav>
+</div>

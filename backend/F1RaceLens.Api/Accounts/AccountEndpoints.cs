@@ -19,6 +19,8 @@ public static partial class AccountEndpoints
     public static void MapAccountEndpoints(this WebApplication app)
     {
         var group = app.MapGroup("/api/auth").AddEndpointFilter<AccountCsrfFilter>();
+        group.MapPasswordEndpoints();
+        group.MapEmailEndpoints();
         group.MapGet("/csrf", (HttpContext context, IAntiforgery antiforgery) => {
             var tokens = antiforgery.GetAndStoreTokens(context);
             context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken!, new CookieOptions {
@@ -46,7 +48,7 @@ public static partial class AccountEndpoints
         group.MapPut("/favourites", Favourites).RequireAuthorization();
     }
 
-    private static async Task<IResult> Register(RegisterRequest request, UserManager<ApplicationUser> users, SignInManager<ApplicationUser> signIn, RaceLensDbContext db, CancellationToken token)
+    private static async Task<IResult> Register(RegisterRequest request, UserManager<ApplicationUser> users, SignInManager<ApplicationUser> signIn, RaceLensDbContext db, IAccountMailQueue mail, CancellationToken token)
     {
         var login = request.Login?.Trim(); var email = request.Email?.Trim();
         if (login is null || !LoginPattern().IsMatch(login) || email is null || email.Length > 254 || !MailAddress.TryCreate(email, out var address) || address.Address != email
@@ -59,6 +61,7 @@ public static partial class AccountEndpoints
         { return Results.BadRequest(new { code = "registration-unavailable" }); }
         if (!created.Succeeded) return Results.BadRequest(new { code = "registration-unavailable" });
         await signIn.SignInAsync(user, isPersistent: false);
+        if (mail.Available) mail.Enqueue(new AccountMail(AccountMailKind.Confirmation, user.Email!, user.Id, await users.GenerateEmailConfirmationTokenAsync(user), user.Language));
         return Results.Ok(await Response(user, db, token));
     }
     private static async Task<IResult> Login(LoginRequest request, SignInManager<ApplicationUser> signIn, UserManager<ApplicationUser> users, RaceLensDbContext db, CancellationToken token)
@@ -105,6 +108,6 @@ public static partial class AccountEndpoints
         var driverNames = await db.Drivers.AsNoTracking().Where(x => driverIds.Contains(x.Id)).Select(x => new FavouriteResponse("driver", x.Id, x.Name)).ToArrayAsync(token);
         var teamNames = await db.Constructors.AsNoTracking().Where(x => teamIds.Contains(x.Id)).Select(x => new FavouriteResponse("team", x.Id, x.Name)).ToArrayAsync(token);
         return new(user.Id, user.UserName!, user.Email!, user.Language, user.Theme,
-            driverIds, teamIds, [.. driverNames, .. teamNames]);
+            driverIds, teamIds, [.. driverNames, .. teamNames], user.EmailConfirmed);
     }
 }

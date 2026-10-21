@@ -16,6 +16,19 @@ const examples: readonly [Language, string, string, string, string][] = [
 ];
 
 describe('Localised source results', () => {
+  it('distinguishes retirement details from finishes and non-starts without inventing a cause', () => {
+    const status = TestBed.inject(RaceStatus);
+    expect(status.hasDetails('Engine')).toBe(true);
+    expect(status.hasDetails('Retired')).toBe(true);
+    expect(status.hasDetails('Disqualified')).toBe(true);
+    for (const value of ['Finished', 'Lapped', '+1 Lap', '+12 Laps', '', null]) {
+      expect(status.hasDetails(value)).toBe(false);
+    }
+    expect(status.explanation('Retired')).toContain('не повідомляє точної причини');
+    expect(status.explanation('Disqualified')).toContain('не означає технічного сходу');
+    expect(status.explanation('Did not start')).toContain('не стартував');
+    expect(status.explanation('Not classified')).toContain('не пояснює причину');
+  });
   beforeEach(() => localStorage.clear());
   afterEach(async () => {
     await TestBed.inject(LocaleService).setLanguage('uk');

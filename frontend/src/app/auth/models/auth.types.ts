@@ -11,6 +11,7 @@ export interface Account {
   readonly id: string;
   readonly login: string;
   readonly email: string;
+  readonly emailConfirmed: boolean;
   readonly language: import('../../core/i18n/translations').Language;
   readonly theme: 'dark' | 'light';
   readonly driverIds: readonly string[];

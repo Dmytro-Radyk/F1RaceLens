@@ -1,5 +1,140 @@
 // Ukrainian source messages are stable catalog keys.
 export const fr: Readonly<Record<string, string>> = {
+  'Поштовий сервіс ще не налаштований або тимчасово недоступний.':
+    'Le service de messagerie n’est pas configuré ou est temporairement indisponible.',
+  'Кар’єрний підсумок — титули: {0}; перемоги: {1}; старти: {2}.':
+    'Bilan de carrière — titres : {0} ; victoires : {1} ; départs : {2}.',
+  'Очки за даними F1DB': 'Points selon F1DB',
+  Джерело: 'Source',
+  'Новий технічний регламент': 'Nouveau règlement technique',
+  'Оновлено правила шасі та силових установок. Активна аеродинаміка й більша роль електричної складової змінюють роботу машин та управління енергією.':
+    'Les règles des châssis et des unités de puissance ont changé. L’aérodynamique active et une contribution électrique accrue modifient le fonctionnement des voitures et la gestion de l’énergie.',
+  'Короткий авторський огляд із посиланнями на першоджерела. Історична статистика доступна в довідниках.':
+    'Un bref aperçu original avec des liens vers les sources primaires. Les statistiques historiques figurent dans les répertoires.',
+  'Народження чемпіонату світу': 'Naissance du championnat du monde',
+  '13 травня 1950 року в Сільверстоуні відбулася перша гонка чемпіонату світу. Першим чемпіоном став Ніно Фаріна на Alfa Romeo. Ранні календарі також включали Indianapolis 500.':
+    'La première course du championnat du monde eut lieu à Silverstone le 13 mai 1950. Nino Farina fut le premier champion sur Alfa Romeo. Les premiers calendriers comprenaient aussi les 500 Miles d’Indianapolis.',
+  'Поява заліку конструкторів': 'Création du championnat des constructeurs',
+  'До боротьби пілотів за титул додали окремий залік конструкторів. Його першим переможцем став Vanwall. Саме тому для сезонів 1950–1957 не існує командного чемпіонського заліку.':
+    'Un championnat distinct des constructeurs s’ajouta au titre des pilotes. Vanwall remporta la première édition. Il n’existe donc pas de classement mondial des constructeurs pour 1950–1957.',
+  'Компонування та аеродинаміка': 'Architecture et aérodynamique',
+  'Успіхи Cooper допомогли утвердити розташування двигуна позаду пілота. Згодом антикрила зробили аеродинаміку одним із головних напрямів розвитку гоночних машин.':
+    'Les succès de Cooper contribuèrent à imposer le moteur derrière le pilote. Les ailerons firent ensuite de l’aérodynamique un axe majeur du développement des voitures.',
+  'Технологічне змагання': 'La compétition technologique',
+  'Команди розвивали аеродинаміку, матеріали шасі та силові установки. Турбодвигуни, електронні системи й зміни технічного регламенту неодноразово змінювали співвідношення сил.':
+    'Les équipes développèrent l’aérodynamique, les matériaux des châssis et les moteurs. Turbos, électronique et changements de règlement modifièrent régulièrement l’équilibre des forces.',
+  'Безпека як постійний розвиток': 'La sécurité en progrès continu',
+  'Захист пілота, конструкція машин і безпека трас поступово посилювалися. У 2018 році обов’язковим став Halo — захисна конструкція навколо кокпіта.':
+    'La protection des pilotes, les structures des voitures et la sécurité des circuits progressèrent. En 2018, le Halo de protection du cockpit devint obligatoire.',
+  'Гібридна ера': 'L’ère hybride',
+  'Формула-1 перейшла на турбовані гібридні силові установки V6. Рекуперація енергії та ефективність стали важливою частиною швидкості й стратегії.':
+    'La Formule 1 adopta les unités de puissance V6 turbo hybrides. La récupération d’énergie et l’efficacité devinrent essentielles aux performances et à la stratégie.',
+  'Сучасна аеродинаміка та стратегія': 'Aérodynamique et stratégie modernes',
+  'Новий регламент 2022 року посилив роль днища у створенні притискної сили. Сучасна гонка поєднує роботу пілота, темп машини, шини, стратегію та рішення команди.':
+    'Le règlement 2022 renforça le rôle du plancher dans la production d’appui. Les courses modernes associent pilotage, rythme de la voiture, pneus, stratégie et décisions de l’équipe.',
+  'Пошук · F1 Race Lens': 'Recherche · F1 Race Lens',
+  'Історія F1': 'Histoire de la F1',
+  'Історія F1 · F1 Race Lens': 'Histoire de la F1 · F1 Race Lens',
+  'Кар’єра пілота': 'Carrière du pilote',
+  'Кар’єра пілота · F1 Race Lens': 'Carrière du pilote · F1 Race Lens',
+  'Історія конструктора': 'Histoire du constructeur',
+  'Історія конструктора · F1 Race Lens': 'Histoire du constructeur · F1 Race Lens',
+  'Режим довідника': 'Vue du répertoire',
+  'За всю історію': 'Toute l’histoire',
+  'За сезоном': 'Par saison',
+  'Пілоти за всю історію': 'Pilotes de toute l’histoire',
+  'Конструктори за всю історію': 'Constructeurs de toute l’histoire',
+  'Кар’єрні досягнення, чемпіонські титули та історичні довідки.':
+    'Palmarès, titres mondiaux et notices historiques.',
+  'Пошук за ім’ям або назвою': 'Rechercher par nom',
+  Сортування: 'Tri',
+  'За титулами': 'Par titres',
+  'За перемогами': 'Par victoires',
+  'За алфавітом': 'Par ordre alphabétique',
+  'Завантажуємо довідник…': 'Chargement du répertoire…',
+  'Довідник тимчасово недоступний': 'Répertoire temporairement indisponible',
+  'Зріз: сезон {0}, після етапу {1}': 'Données : saison {0}, après la manche {1}',
+  'Статистика окремих конструкторів; титули різних назв не об’єднуються.':
+    'Statistiques par constructeur ; les titres sous différents noms ne sont pas regroupés.',
+  'Учасники чемпіонату світу з гоночними заявками, включно з історичним Indianapolis 500.':
+    'Participants au championnat du monde inscrits en course, y compris les 500 Miles d’Indianapolis historiques.',
+  'Знайдено: {0}': 'Résultats : {0}',
+  Титули: 'Titres',
+  Старти: 'Départs',
+  Подіуми: 'Podiums',
+  'Нічого не знайдено': 'Aucun résultat',
+  'Показати ще': 'Afficher plus',
+  'До довідника': 'Retour au répertoire',
+  'Коротка біографія': 'Courte biographie',
+  'Історична довідка': 'Notice historique',
+  'Дата народження: {0}': 'Naissance : {0}',
+  'Дата смерті: {0}': 'Décès : {0}',
+  'Участь у чемпіонаті світу: {0}–{1}.': 'Participation au championnat du monde : {0}–{1}.',
+  'Кар’єрний підсумок: {0} титулів, {1} перемог і {2} стартів.':
+    'Bilan de carrière : {0} titres, {1} victoires et {2} départs.',
+  'Чемпіонські сезони': 'Saisons couronnées',
+  'Довідка складена зі структурованих фактів F1DB; це не повна біографія.':
+    'Cette notice repose sur les données structurées F1DB ; ce n’est pas une biographie complète.',
+  'Заявки на гонки': 'Engagements en course',
+  'Поул-позиції': 'Pole positions',
+  'Найшвидші кола': 'Meilleurs tours',
+  'Очки за результатами гонок': 'Points issus des résultats des courses',
+  'Заявка не завжди означає старт; спринтерські перемоги не входять до перемог у Гран-прі. Системи нарахування очок різних епох відрізняються.':
+    'Un engagement ne signifie pas toujours un départ ; les victoires en sprint sont distinctes des Grands Prix. Les barèmes de points varient selon les époques.',
+  'Пов’язані назви в хронології F1DB': 'Noms associés dans la chronologie F1DB',
+  'Сезони участі': 'Saisons de participation',
+  'Запис не знайдено': 'Entrée introuvable',
+  'Останні новини F1': 'Dernières actualités F1',
+  'Усі новини': 'Toutes les actualités',
+  'Заголовок мовою джерела': 'Titre dans la langue de la source',
+  'Попередня новина': 'Actualité précédente',
+  'Наступна новина': 'Actualité suivante',
+  'Новина {0} із {1}': 'Actualité {0} sur {1}',
+  'Пошук по сайту': 'Recherche sur le site',
+  'Шукайте сторінки, пілотів, конструкторів, Гран-прі та заголовки новин.':
+    'Recherchez des pages, pilotes, constructeurs, Grands Prix et titres d’actualité.',
+  'Пошуковий запит': 'Termes de recherche',
+  Знайти: 'Rechercher',
+  'Введіть щонайменше два символи.': 'Saisissez au moins deux caractères.',
+  'Новини: поточна стрічка. Гран-прі: поточний сезон або рік із запиту. Імена краще вводити латинкою.':
+    'Actualités : flux actuel. Grands Prix : saison actuelle ou année de la recherche. Privilégiez l’orthographe latine des noms.',
+  Сторінки: 'Pages',
+  'Лідер за очками': 'Leader aux points',
+  'Історія Формули-1': 'L’histoire de la Formule 1',
+  'Від перших чемпіонатів до сучасних машин: коротка хронологія ключових змін.':
+    'Des premiers championnats aux voitures modernes : une courte chronologie des grandes évolutions.',
+  'Розділи історії': 'Chapitres historiques',
+  'Джерело: Formula 1': 'Source : Formula 1',
+  'Короткий авторський огляд за матеріалами Formula 1. Історична статистика доступна в довідниках.':
+    'Un bref aperçu original fondé sur les sources Formula 1. Les statistiques historiques figurent dans les répertoires.',
+  'Новини F1': 'Actualités F1',
+  'Новини F1 · F1 Race Lens': 'Actualités F1 · F1 Race Lens',
+  'Заголовки англійською від BBC Sport. Повні матеріали відкриваються на сайті джерела.':
+    'Titres en anglais de BBC Sport. Les articles complets s’ouvrent sur le site de la source.',
+  'Завантажуємо новини…': 'Chargement des actualités…',
+  'Новини тимчасово недоступні': 'Actualités temporairement indisponibles',
+  'Показуємо збережені новини: джерело тимчасово недоступне.':
+    'Actualités en cache : la source est temporairement indisponible.',
+  'Оновлено: {0}': 'Mis à jour : {0}',
+  'Оновити новини': 'Actualiser les actualités',
+  'Відкриється в новій вкладці': 'S’ouvre dans un nouvel onglet',
+  'Читати на сайті джерела': 'Lire sur le site de la source',
+  'Новин поки немає': 'Aucune actualité pour le moment',
+  'Час указано у вашому часовому поясі.': 'Les heures sont indiquées dans votre fuseau horaire.',
+  'Пояснення статусу': 'Détails du statut',
+  'Причина / статус: {0}': 'Motif / statut : {0}',
+  'Завершено кіл: {0}': 'Tours effectués : {0}',
+  'Джерело: Jolpica': 'Source : Jolpica',
+  'Пілот зійшов. Джерело не повідомляє точної причини сходу.':
+    'Le pilote a abandonné. La source ne précise pas le motif exact.',
+  'Пілота виключено з результатів. Це не означає технічного сходу; подробиці рішення тут відсутні.':
+    'Le pilote a été exclu des résultats. Cela ne signifie pas un abandon mécanique ; les détails de la décision ne sont pas disponibles ici.',
+  'Пілот не стартував або припинив участь. Точних обставин джерело не надало.':
+    'Le pilote n’a pas pris le départ ou s’est retiré de l’épreuve. La source ne précise pas les circonstances.',
+  'Пілот не класифікований. Сам цей статус не пояснює причину завершення участі.':
+    'Le pilote n’est pas classé. Ce statut seul n’explique pas la raison de la fin de sa participation.',
+  'Показано причину або статус із Jolpica. Докладного опису інциденту та його точного кола джерело не надає.':
+    'Le motif ou le statut provient de Jolpica. La source ne fournit ni description détaillée de l’incident ni son tour exact.',
   'Календар сезону · F1 Race Lens': 'Calendrier de saison · F1 Race Lens',
   'Календар сезону': 'Calendrier de saison',
   'Гран-прі · F1 Race Lens': 'Grand Prix · F1 Race Lens',
@@ -920,4 +1055,74 @@ export const fr: Readonly<Record<string, string>> = {
   'Зберігаємо…': 'Enregistrement…',
   'Зберегти обране': 'Enregistrer les favoris',
   'Обране збережено.': 'Favoris enregistrés.',
+  'Змінити пароль': 'Changer le mot de passe',
+  'Поточний пароль': 'Mot de passe actuel',
+  'Новий пароль': 'Nouveau mot de passe',
+  'Повторіть новий пароль': 'Confirmer le nouveau mot de passe',
+  'Введіть поточний пароль.': 'Saisissez votre mot de passe actuel.',
+  'Паролі не збігаються.': 'Les mots de passe ne correspondent pas.',
+  'Після зміни пароля інші сесії завершаться.':
+    'Le changement de mot de passe fermera vos autres sessions.',
+  'Пароль змінено. Інші сесії завершено.':
+    'Mot de passe modifié. Les autres sessions sont fermées.',
+  'Відновлення пароля': 'Récupération du mot de passe',
+  'Зберегти пароль': 'Enregistrer le mot de passe',
+  'Надіслати посилання': 'Envoyer le lien',
+  'Запросити нове посилання': 'Demander un nouveau lien',
+  'Новий пароль має відрізнятися від поточного.':
+    'Le nouveau mot de passe doit être différent du mot de passe actuel.',
+  'Не вдалося змінити пароль. Перевірте поточний пароль або спробуйте пізніше.':
+    'Impossible de changer le mot de passe. Vérifiez votre mot de passe actuel ou réessayez plus tard.',
+  'Відновлення пароля зараз недоступне. Поштовий сервіс ще не налаштований або тимчасово недоступний.':
+    'La récupération du mot de passe est indisponible. Le service de messagerie n’est pas configuré ou est temporairement indisponible.',
+  'Посилання недійсне або строк його дії минув. Запросіть нове.':
+    'Ce lien est invalide ou a expiré. Demandez-en un nouveau.',
+  'Пароль відновлено. Увійдіть із новим паролем.':
+    'Mot de passe réinitialisé. Connectez-vous avec le nouveau mot de passe.',
+  'Якщо обліковий запис із цією поштою існує, посилання буде надіслано. Перевірте також спам. Посилання діє 30 хвилин.':
+    'Si un compte utilise cette adresse, un lien sera envoyé. Vérifiez aussi les indésirables. Le lien est valable 30 minutes.',
+  'Підтвердження нової пошти': 'Confirmer la nouvelle adresse email',
+  'Підтвердження пошти': 'Confirmation de l’adresse email',
+  'Підтвердьте дію кнопкою нижче. Саме відкриття посилання нічого не змінює.':
+    'Confirmez avec le bouton ci-dessous. L’ouverture du lien seule ne change rien.',
+  Підтвердити: 'Confirmer',
+  'Посилання підтвердження недійсне або прострочене. Запросіть нове у профілі.':
+    'Ce lien de confirmation est invalide ou expiré. Demandez-en un nouveau dans votre profil.',
+  'Пошту змінено й підтверджено. Увійдіть знову зі своїм логіном.':
+    'Adresse email modifiée et confirmée. Reconnectez-vous avec votre identifiant.',
+  'Електронну пошту підтверджено.': 'Adresse email confirmée.',
+  'Вкажіть іншу електронну адресу.': 'Saisissez une autre adresse email.',
+  'Перевірте нову пошту та поточний пароль.':
+    'Vérifiez la nouvelle adresse email et le mot de passe actuel.',
+  'Не вдалося надіслати запит. Перевірте поточний пароль або спробуйте пізніше.':
+    'Impossible d’envoyer la demande. Vérifiez votre mot de passe actuel ou réessayez plus tard.',
+  'ВАШЕ ОБРАНЕ': 'VOS FAVORIS',
+  'Вітаємо, {0}!': 'Bienvenue, {0} !',
+  'Налаштувати обране': 'Gérer les favoris',
+  'Оберіть пілотів і команди у профілі, щоб бачити їхні показники тут.':
+    'Choisissez des pilotes et des équipes dans votre profil pour voir leurs statistiques ici.',
+  'Частина показників обраного тимчасово недоступна.':
+    'Certaines statistiques de vos favoris sont temporairement indisponibles.',
+  'Наступний етап календаря': 'Prochaine manche du calendrier',
+  'Це розклад чемпіонату; участь кожного обраного пілота чи команди окремо не підтверджена.':
+    'Il s’agit du calendrier du championnat ; la participation de chaque pilote ou équipe favorite n’est pas confirmée individuellement.',
+  'Остання підтверджена гонка': 'Dernière course confirmée',
+  'У поточному заліку немає запису. Обране збережено.':
+    'Aucune entrée dans le classement actuel. Votre favori reste enregistré.',
+  'Очки за гонку': 'Points de la course',
+  'Результат цієї гонки для обраного учасника відсутній.':
+    'Aucun résultat pour ce favori dans cette course.',
+  'Пошта акаунта': 'Adresse email du compte',
+  'Пошту підтверджено': 'Adresse email vérifiée',
+  'Пошта не підтверджена': 'Adresse email non vérifiée',
+  'Надіслати підтвердження пошти': 'Envoyer l’email de vérification',
+  'Змінити електронну пошту': 'Changer l’adresse email',
+  'Нова адреса замінить поточну лише після підтвердження. Після зміни потрібно увійти знову; логін залишиться тим самим.':
+    'La nouvelle adresse remplacera l’actuelle uniquement après confirmation. Vous devrez vous reconnecter ; votre identifiant restera inchangé.',
+  'Нова електронна пошта': 'Nouvelle adresse email',
+  'Надіслати запит на зміну пошти': 'Demander le changement d’adresse',
+  'Запит прийнято. Перевірте пошту та спам. Посилання діє 30 хвилин.':
+    'Demande acceptée. Vérifiez votre boîte de réception et les indésirables. Le lien est valable 30 minutes.',
+  'Якщо нова адреса доступна, на неї надійде посилання. До підтвердження поточна пошта не зміниться.':
+    'Si la nouvelle adresse est disponible, elle recevra un lien. L’adresse actuelle restera inchangée jusqu’à la confirmation.',
 };

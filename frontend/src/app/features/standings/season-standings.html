@@ -103,7 +103,7 @@
             </thead>
             <tbody>
               @for (entry of data.entries; track entry.id) {
-                <tr [class.podium]="podium(entry)">
+                <tr [class.podium]="podium(entry)" [class.points-leader]="isPointsLeader(entry)">
                   <td class="standing-position">{{ positionLabel(entry) | translate }}</td>
                   <th scope="row">
                     @if (kind() === 'drivers') {

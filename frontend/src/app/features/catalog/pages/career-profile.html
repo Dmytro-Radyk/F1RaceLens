@@ -1,0 +1,133 @@
+<div class="catalog-page">
+  <a [routerLink]="['/', kind]">← {{ 'До довідника' | translate }}</a>
+  @if (catalog.isLoading()) {
+    <p role="status">{{ 'Завантажуємо довідник…' | translate }}</p>
+  } @else if (catalog.error()) {
+    <p role="alert">{{ 'Довідник тимчасово недоступний' | translate }}</p>
+    <button type="button" (click)="catalog.reload()">{{ 'Спробувати ще раз' | translate }}</button>
+  } @else if (entry(); as person) {
+    <header class="catalog-heading">
+      <p class="eyebrow">{{ 'За всю історію' | translate }}</p>
+      <h2>{{ person.name }}</h2>
+      <p>{{ person.fullName }} · {{ country(person.country) }}</p>
+    </header>
+    <section class="career-card" aria-labelledby="career-bio">
+      <h3 id="career-bio">
+        {{ (kind === 'drivers' ? 'Коротка біографія' : 'Історична довідка') | translate }}
+      </h3>
+      @if (person.born) {
+        <p>
+          {{ 'Дата народження: {0}' | translate: [date(person.born)] }}
+          @if (person.birthplace) {
+            · {{ person.birthplace }}
+          }
+        </p>
+      }
+      @if (person.died) {
+        <p>{{ 'Дата смерті: {0}' | translate: [date(person.died)] }}</p>
+      }
+      <p>
+        {{
+          'Участь у чемпіонаті світу: {0}–{1}.'
+            | translate
+              : [person.seasons[0] ?? '—', person.seasons[person.seasons.length - 1] ?? '—']
+        }}
+      </p>
+      <p>
+        {{
+          'Кар’єрний підсумок — титули: {0}; перемоги: {1}; старти: {2}.'
+            | translate: [number(person.titles), number(person.wins), number(person.starts)]
+        }}
+      </p>
+      @if (person.titleYears.length) {
+        <p>
+          <strong>{{ 'Чемпіонські сезони' | translate }}:</strong>
+          {{ person.titleYears.join(', ') }}
+        </p>
+      }
+      @if (kind === 'teams') {
+        <p class="source-note">
+          {{ 'Статистика окремих конструкторів; титули різних назв не об’єднуються.' | translate }}
+        </p>
+      }
+      <p class="source-note">
+        {{ 'Довідка складена зі структурованих фактів F1DB; це не повна біографія.' | translate }}
+      </p>
+    </section>
+    <dl class="career-stats profile-stats">
+      <div>
+        <dt>{{ 'Титули' | translate }}</dt>
+        <dd>{{ number(person.titles) }}</dd>
+      </div>
+      <div>
+        <dt>{{ 'Перемоги' | translate }}</dt>
+        <dd>{{ number(person.wins) }}</dd>
+      </div>
+      <div>
+        <dt>{{ 'Заявки на гонки' | translate }}</dt>
+        <dd>{{ number(person.entries) }}</dd>
+      </div>
+      <div>
+        <dt>{{ 'Старти' | translate }}</dt>
+        <dd>{{ number(person.starts) }}</dd>
+      </div>
+      <div>
+        <dt>{{ 'Подіуми' | translate }}</dt>
+        <dd>{{ number(person.podiums) }}</dd>
+      </div>
+      <div>
+        <dt>{{ 'Поул-позиції' | translate }}</dt>
+        <dd>{{ number(person.poles) }}</dd>
+      </div>
+      <div>
+        <dt>{{ 'Найшвидші кола' | translate }}</dt>
+        <dd>{{ number(person.fastestLaps) }}</dd>
+      </div>
+      <div>
+        <dt>{{ 'Очки за даними F1DB' | translate }}</dt>
+        <dd>{{ number(person.points) }}</dd>
+      </div>
+    </dl>
+    <p class="source-note">
+      {{
+        'Заявка не завжди означає старт; спринтерські перемоги не входять до перемог у Гран-прі. Системи нарахування очок різних епох відрізняються.'
+          | translate
+      }}
+    </p>
+    @if (related().length) {
+      <section class="career-card">
+        <h3>{{ 'Пов’язані назви в хронології F1DB' | translate }}</h3>
+        <ul>
+          @for (row of related(); track $index) {
+            <li>{{ row.name }} · {{ row.yearFrom }}–{{ row.yearTo ?? '—' }}</li>
+          }
+        </ul>
+      </section>
+    }
+    <section>
+      <h3>{{ 'Сезони участі' | translate }}</h3>
+      <div class="season-links">
+        @for (year of person.seasons; track year) {
+          <a [routerLink]="['/', kind]" [queryParams]="{ season: year, view: 'season' }">{{
+            year
+          }}</a>
+        }
+      </div>
+    </section>
+    @if (catalog.hasValue()) {
+      @let data = catalog.value();
+      <p class="source-note">
+        {{
+          'Зріз: сезон {0}, після етапу {1}' | translate: [data.throughSeason, data.throughRound]
+        }}
+        ·
+        <a [href]="data.sourceUrl" target="_blank" rel="noopener noreferrer"
+          >F1DB {{ data.version }}</a
+        >
+        · <a [href]="data.licenseUrl" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>
+      </p>
+    }
+  } @else {
+    <p role="status">{{ 'Запис не знайдено' | translate }}</p>
+  }
+</div>

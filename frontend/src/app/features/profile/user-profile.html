@@ -19,6 +19,12 @@
       </button>
     </div>
   </section>
+  <section class="profile-card" aria-labelledby="password-heading">
+    <app-password-form mode="change" />
+  </section>
+  <section class="profile-card" aria-labelledby="email-heading">
+    <app-email-settings />
+  </section>
   <section class="profile-card" aria-labelledby="favourites-heading" [attr.aria-busy]="busy()">
     <h2 id="favourites-heading">{{ 'Обрані пілоти та команди' | translate }}</h2>
     <p>{{ 'Оберіть до 20 пілотів і 20 команд. Обране зберігається між сезонами.' | translate }}</p>

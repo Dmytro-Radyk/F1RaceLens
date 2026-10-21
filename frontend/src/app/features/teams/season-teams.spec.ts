@@ -69,7 +69,7 @@ describe('Team routes', () => {
       '/teams/team_a?season=2025',
     );
     expect(page.querySelector('.primary-nav a.is-active')?.getAttribute('href')).toBe(
-      '/teams?season=2025',
+      '/teams',
     );
     http.expectNone('/api/seasons/2025/standings/drivers');
   });

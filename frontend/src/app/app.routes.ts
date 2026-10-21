@@ -2,6 +2,18 @@ import { Routes } from '@angular/router';
 import { accountGuard } from './auth/services/account.guard';
 
 export const routes: Routes = [
+  ...(['confirm-email', 'confirm-email-change'] as const).map((path) => ({
+    path,
+    data: { emailMode: path },
+    loadComponent: () =>
+      import('./auth/components/auth-screen/auth-screen').then((m) => m.AuthScreen),
+  })),
+  ...(['forgot', 'reset'] as const).map((mode) => ({
+    path: mode + '-password',
+    data: { passwordMode: mode },
+    loadComponent: () =>
+      import('./auth/components/auth-screen/auth-screen').then((m) => m.AuthScreen),
+  })),
   {
     path: 'login',
     loadComponent: () =>
@@ -12,6 +24,38 @@ export const routes: Routes = [
     loadComponent: () => import('./layout/app-shell/app-shell').then((m) => m.AppShell),
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'home' },
+      {
+        path: 'search',
+        title: 'Пошук · F1 Race Lens',
+        data: { label: 'Пошук' },
+        loadComponent: () => import('./features/search/site-search').then((m) => m.SiteSearch),
+      },
+      {
+        path: 'history',
+        title: 'Історія F1 · F1 Race Lens',
+        data: { label: 'Історія F1' },
+        loadComponent: () => import('./features/history/f1-history').then((m) => m.F1History),
+      },
+      {
+        path: 'drivers/career/:id',
+        title: 'Кар’єра пілота · F1 Race Lens',
+        data: { label: 'Кар’єра пілота', catalogKind: 'drivers' },
+        loadComponent: () =>
+          import('./features/catalog/pages/career-profile').then((m) => m.CareerProfile),
+      },
+      {
+        path: 'teams/career/:id',
+        title: 'Історія конструктора · F1 Race Lens',
+        data: { label: 'Історія конструктора', catalogKind: 'teams' },
+        loadComponent: () =>
+          import('./features/catalog/pages/career-profile').then((m) => m.CareerProfile),
+      },
+      {
+        path: 'news',
+        title: 'Новини F1 · F1 Race Lens',
+        data: { label: 'Новини F1' },
+        loadComponent: () => import('./features/news/f1-news').then((m) => m.F1News),
+      },
       {
         path: 'profile',
         canActivate: [accountGuard],
@@ -45,8 +89,9 @@ export const routes: Routes = [
       {
         path: 'teams',
         title: 'Команди · F1 Race Lens',
-        data: { label: 'Команди' },
-        loadComponent: () => import('./features/teams/season-teams').then((m) => m.SeasonTeams),
+        data: { label: 'Команди', catalogKind: 'teams' },
+        loadComponent: () =>
+          import('./features/catalog/pages/career-directory').then((m) => m.CareerDirectory),
       },
       {
         path: 'teams/:teamId',
@@ -57,9 +102,9 @@ export const routes: Routes = [
       {
         path: 'drivers',
         title: 'Пілоти · F1 Race Lens',
-        data: { label: 'Пілоти' },
+        data: { label: 'Пілоти', catalogKind: 'drivers' },
         loadComponent: () =>
-          import('./features/drivers/pages/drivers-list').then((m) => m.DriversList),
+          import('./features/catalog/pages/career-directory').then((m) => m.CareerDirectory),
       },
       {
         path: 'drivers/:driverId',

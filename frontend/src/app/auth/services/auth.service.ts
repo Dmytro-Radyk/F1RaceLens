@@ -10,6 +10,26 @@ export function accountError(error: unknown): string {
     if (error.status === 429) return 'Забагато спроб. Спробуйте пізніше.';
     if (error.status === 401) return 'Невірний логін або пароль, або вхід тимчасово заблоковано.';
     switch (error.error?.code) {
+      case 'invalid-email-link':
+        return 'Посилання підтвердження недійсне або прострочене. Запросіть нове у профілі.';
+      case 'same-email':
+        return 'Вкажіть іншу електронну адресу.';
+      case 'invalid-email-change':
+        return 'Перевірте нову пошту та поточний пароль.';
+      case 'email-change-failed':
+        return 'Не вдалося надіслати запит. Перевірте поточний пароль або спробуйте пізніше.';
+      case 'invalid-password':
+        return 'Пароль: від 12 до 128 символів.';
+      case 'password-change-failed':
+        return 'Не вдалося змінити пароль. Перевірте поточний пароль або спробуйте пізніше.';
+      case 'same-password':
+        return 'Новий пароль має відрізнятися від поточного.';
+      case 'recovery-unavailable':
+        return 'Поштовий сервіс ще не налаштований або тимчасово недоступний.';
+      case 'invalid-email':
+        return 'Введіть коректну електронну пошту.';
+      case 'invalid-reset':
+        return 'Посилання недійсне або строк його дії минув. Запросіть нове.';
       case 'invalid-registration':
         return 'Перевірте логін, електронну пошту та пароль.';
       case 'registration-unavailable':
@@ -121,6 +141,42 @@ export class AuthService {
       } catch (error) {
         if (error instanceof HttpErrorResponse && error.status === 401) this.selected.set(null);
         throw error;
+      }
+    });
+  }
+  async changePassword(currentPassword: string, newPassword: string): Promise<void> {
+    await this.enqueue(async () => {
+      try {
+        await this.api.changePassword(currentPassword, newPassword);
+      } catch (error) {
+        if (error instanceof HttpErrorResponse && error.status === 401) this.selected.set(null);
+        throw error;
+      }
+    });
+  }
+  async resetPassword(userId: string, token: string, newPassword: string): Promise<void> {
+    await this.enqueue(async () => {
+      await this.api.resetPassword(userId, token, newPassword);
+      this.selected.set(null);
+      this.preferenceError.set('');
+    });
+  }
+  async requestEmailConfirmation(): Promise<void> {
+    await this.enqueue(() => this.api.requestEmailConfirmation());
+  }
+  async requestEmailChange(newEmail: string, currentPassword: string): Promise<void> {
+    await this.enqueue(() => this.api.requestEmailChange(newEmail, currentPassword));
+  }
+  async confirmEmail(userId: string, token: string, newEmail?: string): Promise<void> {
+    await this.enqueue(async () => {
+      await this.api.confirmEmail(userId, token, newEmail);
+      if (newEmail !== undefined) {
+        this.selected.set(null);
+        this.preferenceError.set('');
+      } else if (this.user()?.id === userId) {
+        this.selected.update((user) =>
+          user?.id === userId ? { ...user, emailConfirmed: true } : user,
+        );
       }
     });
   }

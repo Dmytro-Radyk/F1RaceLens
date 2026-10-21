@@ -1,0 +1,123 @@
+<div class="catalog-page">
+  <nav class="catalog-tabs" [attr.aria-label]="'Режим довідника' | translate">
+    <a
+      [routerLink]="['/', kind]"
+      [class.selected]="!seasonMode()"
+      [attr.aria-current]="!seasonMode() ? 'page' : null"
+      >{{ 'За всю історію' | translate }}</a
+    >
+    <a
+      [routerLink]="['/', kind]"
+      [queryParams]="{ view: 'season' }"
+      [class.selected]="seasonMode()"
+      [attr.aria-current]="seasonMode() ? 'page' : null"
+      >{{ 'За сезоном' | translate }}</a
+    >
+  </nav>
+  @if (seasonMode()) {
+    @if (kind === 'drivers') {
+      <app-drivers-list />
+    } @else {
+      <app-season-teams />
+    }
+  } @else {
+    <header class="catalog-heading">
+      <p class="eyebrow">{{ 'F1 Race Lens' }} · 1950+</p>
+      <h2>
+        {{
+          (kind === 'drivers' ? 'Пілоти за всю історію' : 'Конструктори за всю історію') | translate
+        }}
+      </h2>
+      <p>{{ 'Кар’єрні досягнення, чемпіонські титули та історичні довідки.' | translate }}</p>
+    </header>
+    <div class="catalog-filters">
+      <label
+        >{{ 'Пошук за ім’ям або назвою' | translate
+        }}<input type="search" [value]="filter()" (input)="filterChanged($event)" maxlength="100"
+      /></label>
+      <label
+        >{{ 'Сортування' | translate
+        }}<select [value]="sort()" (change)="sortChanged($event)">
+          <option value="titles">{{ 'За титулами' | translate }}</option>
+          <option value="wins">{{ 'За перемогами' | translate }}</option>
+          <option value="name">{{ 'За алфавітом' | translate }}</option>
+        </select></label
+      >
+    </div>
+    @if (catalog.isLoading()) {
+      <p role="status">{{ 'Завантажуємо довідник…' | translate }}</p>
+    } @else if (catalog.error()) {
+      <div role="alert">
+        <p>{{ 'Довідник тимчасово недоступний' | translate }}</p>
+        <button type="button" (click)="catalog.reload()">
+          {{ 'Спробувати ще раз' | translate }}
+        </button>
+      </div>
+    } @else if (catalog.hasValue()) {
+      @let data = catalog.value();
+      <p class="source-note">
+        {{
+          'Зріз: сезон {0}, після етапу {1}' | translate: [data.throughSeason, data.throughRound]
+        }}
+        · {{ data.version }}
+      </p>
+      <p class="source-note">
+        {{
+          (kind === 'teams'
+            ? 'Статистика окремих конструкторів; титули різних назв не об’єднуються.'
+            : 'Учасники чемпіонату світу з гоночними заявками, включно з історичним Indianapolis 500.'
+          ) | translate
+        }}
+      </p>
+      <p role="status">{{ 'Знайдено: {0}' | translate: [number(entries().length)] }}</p>
+      <div class="career-grid">
+        @for (entry of visible(); track entry.id) {
+          <article class="career-card">
+            <p class="source-note">
+              {{ country(entry.country) }} · {{ entry.seasons[0] ?? '—' }}–{{
+                entry.seasons[entry.seasons.length - 1] ?? '—'
+              }}
+            </p>
+            <h3>
+              <a [routerLink]="['/', kind, 'career', entry.id]">{{ entry.name }}</a>
+            </h3>
+            @if (kind === 'teams' && entry.fullName !== entry.name) {
+              <p class="source-note">{{ entry.fullName }}</p>
+            }
+            <dl class="career-stats">
+              <div>
+                <dt>{{ 'Титули' | translate }}</dt>
+                <dd>{{ number(entry.titles) }}</dd>
+              </div>
+              <div>
+                <dt>{{ 'Перемоги' | translate }}</dt>
+                <dd>{{ number(entry.wins) }}</dd>
+              </div>
+              <div>
+                <dt>{{ 'Старти' | translate }}</dt>
+                <dd>{{ number(entry.starts) }}</dd>
+              </div>
+              <div>
+                <dt>{{ 'Подіуми' | translate }}</dt>
+                <dd>{{ number(entry.podiums) }}</dd>
+              </div>
+            </dl>
+          </article>
+        } @empty {
+          <p>{{ 'Нічого не знайдено' | translate }}</p>
+        }
+      </div>
+      @if (visible().length < entries().length) {
+        <button type="button" class="more" (click)="limit.set(limit() + 40)">
+          {{ 'Показати ще' | translate }}
+        </button>
+      }
+      <p class="source-note">
+        <a [href]="data.sourceUrl" target="_blank" rel="noopener noreferrer"
+          >F1DB {{ data.version }}</a
+        >
+        · <a [href]="data.licenseUrl" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>
+      </p>
+    }
+  }
+</div>
