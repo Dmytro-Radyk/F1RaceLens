@@ -193,16 +193,14 @@ describe('Authentication screen', () => {
       TestBed.inject(HttpTestingController).expectOne('/api/auth/login').flush(account),
     );
     await vi.waitFor(() =>
-      TestBed.inject(HttpTestingController)
-        .expectOne('/api/news')
-        .flush({
-          source: 'BBC Sport',
-          sourceUrl: 'https://www.bbc.com/sport/formula1',
-          language: 'en',
-          updatedAt: '2026-10-21T00:00:00Z',
-          isStale: false,
-          articles: [],
-        }),
+      TestBed.inject(HttpTestingController).expectOne('/api/news').flush({
+        source: 'BBC Sport',
+        sourceUrl: 'https://www.bbc.com/sport/formula1',
+        language: 'en',
+        updatedAt: '2026-10-21T00:00:00Z',
+        isStale: false,
+        articles: [],
+      }),
     );
     await vi.waitFor(() => {
       TestBed.inject(HttpTestingController).expectOne('/api/seasons/current/calendar').flush({
@@ -229,7 +227,8 @@ describe('Authentication screen', () => {
     await fixture.whenStable();
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(page.querySelector('.brand')?.textContent).toContain('F1 Race Lens');
-    expect(page.querySelectorAll('.primary-nav .nav-item')).toHaveLength(10);
+    expect(page.querySelectorAll('.primary-nav .nav-item')).toHaveLength(11);
+    expect(page.querySelector('.primary-nav a[href="/assistant"]')).not.toBeNull();
     expect(page.querySelector('.primary-nav a[href="/news"]')).not.toBeNull();
     expect(page.querySelector('.primary-nav a[href="/predictions"]')).not.toBeNull();
     expect(page.querySelector('.workspace')?.textContent).toContain('Календар ще не опубліковано');

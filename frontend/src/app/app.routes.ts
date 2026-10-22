@@ -23,6 +23,12 @@ export const routes: Routes = [
     path: '',
     loadComponent: () => import('./layout/app-shell/app-shell').then((m) => m.AppShell),
     children: [
+      {
+        path: 'assistant',
+        title: 'F1-асистент · F1 Race Lens',
+        data: { label: 'F1-асистент' },
+        loadComponent: () => import('./features/assistant/f1-assistant').then((m) => m.F1Assistant),
+      },
       { path: '', pathMatch: 'full', redirectTo: 'home' },
       {
         path: 'search',

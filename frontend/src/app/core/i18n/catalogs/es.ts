@@ -1,5 +1,33 @@
 // Ukrainian source messages are stable catalog keys.
 export const es: Readonly<Record<string, string>> = {
+  'Довідка з джерела': 'Información de la fuente',
+  'Відповідь мовної моделі': 'Respuesta del modelo de lenguaje',
+
+  'F1-асистент · F1 Race Lens': 'Asistente F1 · F1 Race Lens',
+  'Запитати асистента': 'Preguntar al asistente',
+  'Контекст: відкрита вами сторінка F1': 'Contexto: tu página de F1',
+
+  'F1-асистент': 'Asistente F1',
+  'Тимчасова розмова': 'Conversación temporal',
+  'Нова розмова': 'Nueva conversación',
+  'Історія зникне після перезавантаження, закриття вкладки або виходу з акаунта. Повідомлення не зберігаються.':
+    'El historial desaparece al recargar, cerrar la pestaña o salir de la cuenta. Los mensajes no se guardan.',
+  'Розмова з асистентом': 'Conversación con el asistente',
+  'Поговорімо про Формулу-1': 'Hablemos de Fórmula 1',
+  'Запитайте про пілотів, команди, результати, правила або прогнози. Пошук працює з публічними даними нашого додатку; новини — із заголовками BBC Sport.':
+    'Pregunta por pilotos, equipos, resultados, reglas o pronósticos. La búsqueda usa datos públicos de la app y titulares de BBC Sport.',
+  Ви: 'Tú',
+  'Джерела відповіді': 'Fuentes de la respuesta',
+  'Асистент шукає й готує відповідь…': 'El asistente busca y prepara una respuesta…',
+  'Ваше запитання про F1': 'Tu pregunta sobre F1',
+  'До 1500 символів. Відповіді можуть містити помилки — перевіряйте джерела.':
+    'Hasta 1500 caracteres. Las respuestas pueden contener errores: comprueba las fuentes.',
+  Зупинити: 'Detener',
+  Надіслати: 'Enviar',
+  'Асистент зайнятий. Спробуйте за хвилину.': 'El asistente está ocupado. Inténtalo en un minuto.',
+  'Асистент тимчасово недоступний. Спробуйте пізніше.':
+    'El asistente no está disponible temporalmente. Inténtalo más tarde.',
+
   'Поштовий сервіс ще не налаштований або тимчасово недоступний.':
     'El servicio de correo no está configurado o no está disponible temporalmente.',
   'Кар’єрний підсумок — титули: {0}; перемоги: {1}; старти: {2}.':
@@ -1118,4 +1146,17 @@ export const es: Readonly<Record<string, string>> = {
     'Solicitud aceptada. Revisa tu bandeja de entrada y el correo no deseado. El enlace es válido durante 30 minutos.',
   'Якщо нова адреса доступна, на неї надійде посилання. До підтвердження поточна пошта не зміниться.':
     'Si la nueva dirección está disponible, recibirá un enlace. El correo actual no cambiará hasta la confirmación.',
+  'Пілоти, команди, історія, правила й останні новини. Запитуйте, уточнюйте та перевіряйте джерела у відповідях.':
+    'Pilotos, equipos, historia, reglas y últimas noticias. Pregunta, pide aclaraciones y consulta las fuentes de cada respuesta.',
+  'До останнього повідомлення': 'Último mensaje',
+  'Пошук у мережі': 'Buscar en la web',
+  'Пошук у мережі: джерела знайдено': 'Búsqueda web: fuentes encontradas',
+  'Пошук у мережі: відповідних джерел немає': 'Búsqueda web: sin fuentes pertinentes',
+  'Пошук у мережі тимчасово недоступний': 'Búsqueda web no disponible temporalmente',
+  'Без пошуку в мережі': 'Sin búsqueda web',
+  'Enter — надіслати, Shift+Enter — новий рядок. Відповіді можуть містити помилки.':
+    'Enter para enviar, Shift+Enter para una nueva línea. Las respuestas pueden contener errores.',
+  'Мережа: Wikipedia та BBC. Пошукові слова останнього запитання передаються Wikipedia; історія не зберігається.':
+    'Web: Wikipedia y BBC. Los términos de búsqueda de tu última pregunta se envían a Wikipedia; el historial no se guarda.',
+  'Знайдені вебсторінки': 'Páginas web encontradas',
 };

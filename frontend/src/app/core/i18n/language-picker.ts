@@ -43,9 +43,9 @@ import { TranslatePipe } from './translate.pipe';
       font-size: 0.8rem;
     }
     select {
-      min-height: 40px;
+      min-height: 44px;
       min-width: 0;
-      max-width: 150px;
+      max-width: 160px;
       padding: 0.45rem 2.5rem 0.45rem 0.65rem;
       color: var(--text);
       background-color: var(--field-bg);
@@ -67,7 +67,7 @@ import { TranslatePipe } from './translate.pipe';
         clip-path: inset(50%);
       }
       select {
-        max-width: 125px;
+        max-width: 160px;
         width: 100%;
       }
     }

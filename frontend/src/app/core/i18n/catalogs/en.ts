@@ -1,5 +1,33 @@
 // Ukrainian source messages are stable catalog keys.
 export const en: Readonly<Record<string, string>> = {
+  'Довідка з джерела': 'Source reference',
+  'Відповідь мовної моделі': 'Language model response',
+
+  'F1-асистент · F1 Race Lens': 'F1 assistant · F1 Race Lens',
+  'Запитати асистента': 'Ask the assistant',
+  'Контекст: відкрита вами сторінка F1': 'Context: your F1 page',
+
+  'F1-асистент': 'F1 assistant',
+  'Тимчасова розмова': 'Temporary conversation',
+  'Нова розмова': 'New conversation',
+  'Історія зникне після перезавантаження, закриття вкладки або виходу з акаунта. Повідомлення не зберігаються.':
+    'History disappears after reloading, closing the tab or signing out. Messages are not saved.',
+  'Розмова з асистентом': 'Conversation with the assistant',
+  'Поговорімо про Формулу-1': 'Let’s talk Formula 1',
+  'Запитайте про пілотів, команди, результати, правила або прогнози. Пошук працює з публічними даними нашого додатку; новини — із заголовками BBC Sport.':
+    'Ask about drivers, teams, results, rules or predictions. Search uses our app’s public data; news uses BBC Sport headlines.',
+  Ви: 'You',
+  'Джерела відповіді': 'Answer sources',
+  'Асистент шукає й готує відповідь…': 'The assistant is searching and preparing a reply…',
+  'Ваше запитання про F1': 'Your F1 question',
+  'До 1500 символів. Відповіді можуть містити помилки — перевіряйте джерела.':
+    'Up to 1500 characters. Answers may contain mistakes — check the sources.',
+  Зупинити: 'Stop',
+  Надіслати: 'Send',
+  'Асистент зайнятий. Спробуйте за хвилину.': 'The assistant is busy. Try again in a minute.',
+  'Асистент тимчасово недоступний. Спробуйте пізніше.':
+    'The assistant is temporarily unavailable. Try again later.',
+
   'Поштовий сервіс ще не налаштований або тимчасово недоступний.':
     'Email delivery is not configured or is temporarily unavailable.',
   'Кар’єрний підсумок — титули: {0}; перемоги: {1}; старти: {2}.':
@@ -1105,4 +1133,17 @@ export const en: Readonly<Record<string, string>> = {
     'Request accepted. Check your inbox and spam folder. The link is valid for 30 minutes.',
   'Якщо нова адреса доступна, на неї надійде посилання. До підтвердження поточна пошта не зміниться.':
     'If the new address is available, it will receive a link. Your current email stays unchanged until confirmation.',
+  'Пілоти, команди, історія, правила й останні новини. Запитуйте, уточнюйте та перевіряйте джерела у відповідях.':
+    'Drivers, teams, history, rules and the latest news. Ask, follow up and check the sources in each answer.',
+  'До останнього повідомлення': 'Latest message',
+  'Пошук у мережі': 'Search the web',
+  'Пошук у мережі: джерела знайдено': 'Web search: sources found',
+  'Пошук у мережі: відповідних джерел немає': 'Web search: no relevant sources',
+  'Пошук у мережі тимчасово недоступний': 'Web search is temporarily unavailable',
+  'Без пошуку в мережі': 'Without web search',
+  'Enter — надіслати, Shift+Enter — новий рядок. Відповіді можуть містити помилки.':
+    'Enter to send, Shift+Enter for a new line. Answers may contain mistakes.',
+  'Мережа: Wikipedia та BBC. Пошукові слова останнього запитання передаються Wikipedia; історія не зберігається.':
+    'Web: Wikipedia and BBC. Search terms from your latest question are sent to Wikipedia; chat history is not saved.',
+  'Знайдені вебсторінки': 'Web pages found',
 };

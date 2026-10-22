@@ -78,7 +78,11 @@
     </div>
   </div>
 
-  <div class="page-frame" [inert]="isMenuOpen()">
+  <div
+    class="page-frame"
+    [class.chat-frame]="router.url.startsWith('/assistant')"
+    [inert]="isMenuOpen()"
+  >
     <header class="topbar">
       <button
         #menuToggle
@@ -101,6 +105,14 @@
       </div>
       <app-language-picker />
       <div class="account-actions">
+        @if (!router.url.startsWith('/profile') && !router.url.startsWith('/assistant')) {
+          <a
+            class="logout-button"
+            routerLink="/assistant"
+            [queryParams]="{ page: assistantPage() }"
+            >{{ 'Запитати асистента' | translate }}</a
+          >
+        }
         @if (auth.isAuthenticated()) {
           <a class="logout-button" routerLink="/profile">{{ 'Мій профіль' | translate }}</a>
           <button class="logout-button" type="button" (click)="logout()" [disabled]="loggingOut()">

@@ -1,0 +1,165 @@
+<section class="chat-page" aria-labelledby="chat-title">
+  <header class="chat-heading">
+    <div class="chat-identity">
+      <span class="avatar" aria-hidden="true">F1</span>
+      <div>
+        <h2 id="chat-title">{{ 'F1-асистент' | translate }}</h2>
+        <p>{{ 'Тимчасова розмова' | translate }}</p>
+      </div>
+    </div>
+    <button type="button" (click)="clear()">{{ 'Нова розмова' | translate }}</button>
+  </header>
+  <div
+    class="conversation"
+    #feed
+    (scroll)="onScroll()"
+    role="log"
+    aria-live="polite"
+    aria-relevant="additions"
+    [attr.aria-label]="'Розмова з асистентом' | translate"
+    tabindex="0"
+  >
+    @if (!chat.messages().length) {
+      <div class="welcome">
+        <span class="avatar welcome-mark" aria-hidden="true">F1</span>
+        <h3>{{ 'Поговорімо про Формулу-1' | translate }}</h3>
+        <p>
+          {{
+            'Пілоти, команди, історія, правила й останні новини. Запитуйте, уточнюйте та перевіряйте джерела у відповідях.'
+              | translate
+          }}
+        </p>
+      </div>
+    }
+    @for (message of chat.messages(); track $index) {
+      <article class="message" [class.user]="message.role === 'user'">
+        <span class="avatar" aria-hidden="true">{{ message.role === 'user' ? '●' : 'F1' }}</span>
+        <div class="message-body">
+          <h3>{{ (message.role === 'user' ? 'Ви' : 'F1-асистент') | translate }}</h3>
+          <div class="bubble">
+            <p>{{ message.content }}</p>
+          </div>
+          @if (message.role === 'assistant') {
+            <div class="message-meta">
+              <small>{{
+                (message.kind === 'reference' ? 'Довідка з джерела' : 'Відповідь мовної моделі')
+                  | translate
+              }}</small>
+              <small>{{ webLabel(message.webStatus) | translate }}</small>
+            </div>
+          }
+          @if (message.sources?.length) {
+            <nav [attr.aria-label]="'Джерела відповіді' | translate">
+              <ul>
+                @for (source of message.sources; track source.id) {
+                  <li>
+                    <a [href]="source.url" target="_blank" rel="noopener noreferrer">{{
+                      source.title
+                    }}</a>
+                  </li>
+                }
+              </ul>
+            </nav>
+          }
+          @if (message.webSources?.length) {
+            <details>
+              <summary>
+                {{ 'Знайдені вебсторінки' | translate }} ({{ message.webSources?.length }})
+              </summary>
+              <ul>
+                @for (source of message.webSources; track source.id) {
+                  <li>
+                    <a [href]="source.url" target="_blank" rel="noopener noreferrer">{{
+                      source.title
+                    }}</a>
+                  </li>
+                }
+              </ul>
+            </details>
+          }
+        </div>
+      </article>
+    }
+    @if (chat.busy()) {
+      <div class="pending" role="status">
+        <span class="thinking" aria-hidden="true">•••</span
+        >{{ 'Асистент шукає й готує відповідь…' | translate }}
+      </div>
+    }
+    @if (chat.error()) {
+      <div class="chat-error">
+        <p class="error" role="alert">{{ chat.error() | translate }}</p>
+        <button type="button" (click)="retry()">{{ 'Спробувати ще раз' | translate }}</button>
+      </div>
+    }
+  </div>
+  <div class="composer-area">
+    @if (awayFromBottom()) {
+      <button class="latest" type="button" (click)="scrollToBottom()">
+        ↓ {{ 'До останнього повідомлення' | translate }}
+      </button>
+    }
+    <div class="chat-options">
+      <label class="web-toggle"
+        ><input
+          type="checkbox"
+          [checked]="chat.webSearch()"
+          (change)="setWebSearch($event)"
+          [disabled]="chat.busy()"
+        />{{ 'Пошук у мережі' | translate }}</label
+      >
+      @if (page) {
+        <a class="page-context" [href]="page">{{
+          'Контекст: відкрита вами сторінка F1' | translate
+        }}</a>
+      }
+    </div>
+    <form (submit)="send($event)">
+      <label class="sr-only" for="chat-input">{{ 'Ваше запитання про F1' | translate }}</label>
+      <div class="composer">
+        <textarea
+          #input
+          id="chat-input"
+          [formField]="fields.message"
+          rows="2"
+          [placeholder]="'Ваше запитання про F1' | translate"
+          (keydown)="keydown($event)"
+          aria-describedby="chat-help chat-privacy"
+        ></textarea>
+        @if (chat.busy()) {
+          <button
+            class="send"
+            type="button"
+            (click)="chat.stop()"
+            [attr.aria-label]="'Зупинити' | translate"
+            [attr.title]="'Зупинити' | translate"
+          >
+            <span aria-hidden="true">■</span>
+          </button>
+        } @else {
+          <button
+            class="send primary"
+            type="submit"
+            [disabled]="fields().invalid() || !fields.message().value().trim()"
+            [attr.aria-label]="'Надіслати' | translate"
+            [attr.title]="'Надіслати' | translate"
+          >
+            <span aria-hidden="true">↑</span>
+          </button>
+        }
+      </div>
+      <small id="chat-help">{{
+        'Enter — надіслати, Shift+Enter — новий рядок. Відповіді можуть містити помилки.'
+          | translate
+      }}</small>
+    </form>
+    <p class="chat-notice" id="chat-privacy">
+      {{
+        (chat.webSearch()
+          ? 'Мережа: Wikipedia та BBC. Пошукові слова останнього запитання передаються Wikipedia; історія не зберігається.'
+          : 'Історія зникне після перезавантаження, закриття вкладки або виходу з акаунта. Повідомлення не зберігаються.'
+        ) | translate
+      }}
+    </p>
+  </div>
+</section>

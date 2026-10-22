@@ -11,11 +11,14 @@ section {
 }
 .card-heading {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
 }
 h3 {
+  min-width: 0;
+  overflow-wrap: anywhere;
   margin: 0;
   font-size: 19px;
   letter-spacing: -0.02em;

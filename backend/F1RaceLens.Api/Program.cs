@@ -8,6 +8,7 @@ using F1RaceLens.Api.Drivers;
 using F1RaceLens.Api.Teams;
 using F1RaceLens.Api.Predictions;
 using F1RaceLens.Api.Accounts;
+using F1RaceLens.Api.Assistant;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true).AddEnvironmentVariables();
@@ -27,6 +28,7 @@ if (persistenceEnabled)
     builder.Services.AddAccounts(builder.Environment);
 }
 builder.Services.AddProblemDetails();
+builder.Services.AddAssistant();
 builder.Services.AddSingleton<F1RaceLens.Api.Catalog.CareerCatalog>();
 builder.Services.AddHttpClient("F1News", client => {
     client.Timeout = TimeSpan.FromSeconds(10);
@@ -96,6 +98,16 @@ if (args.Contains("--migrate", StringComparer.Ordinal))
     return;
 }
 app.UseExceptionHandler();
+app.Use(async (context, next) => {
+    if (context.Request.Path == "/api/assistant/chat")
+    {
+        context.Response.Headers.CacheControl = "no-store";
+        var limit = context.Features.Get<Microsoft.AspNetCore.Http.Features.IHttpMaxRequestBodySizeFeature>();
+        if (limit is { IsReadOnly: false }) limit.MaxRequestBodySize = 64 * 1024;
+        if (context.Request.ContentLength > 64 * 1024) { context.Response.StatusCode = 413; return; }
+    }
+    await next(context);
+});
 if (persistenceEnabled)
 {
     app.Use(async (context, next) => {
@@ -109,9 +121,10 @@ if (persistenceEnabled)
     });
     app.UseAuthentication();
     app.UseAuthorization();
-    app.UseRateLimiter();
     app.MapAccountEndpoints();
 }
+app.UseRateLimiter();
+app.MapAssistant();
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
 app.MapGet("/api/catalog", (F1RaceLens.Api.Catalog.CareerCatalog catalog, HttpContext context) => {
     context.Response.Headers.CacheControl = "public,max-age=3600";

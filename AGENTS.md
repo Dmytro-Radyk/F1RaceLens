@@ -21,6 +21,10 @@ ML-команди запускати з директорії `ml`; переві�
 Ваги, сирі дані, кеші й локальні середовища не додавати в Git. На /predictions доступні скрипт і збережений LightGBM v4 через backend; журнал у PostgreSQL: @context/features/integrated-forecasts.md. Переглядач 4300 лишається окремим технічним інструментом.
 
 
+## Тимчасовий F1-асистент
+
+`/assistant`: локальна Qwen3-4B-Instruct-2507 через llama.cpp на loopback 4310. Одноразово `./scripts/assistant/Setup.ps1`, потім `./scripts/assistant/Start.ps1`; `Stop.ps1` завершує лише власний runtime. CPU-режим: `Start.ps1 -Cpu`. Контракт: @context/features/f1-assistant.md. Ваги/runtime у `.local/assistant` поза Git. Не зберігати й не логувати повідомлення; історія тільки у RAM вкладки до pagehide/виходу. Це окрема мовна модель; LightGBM не змінювати через задачі чату.
+
 ## PostgreSQL
 
 Оновлення даних і двох прогнозів однією локальною командою: `./scripts/Update-Forecasts.ps1`. Контракт: @context/features/forecast-update-workflow.md. Не запускати цикли паралельно; це перерахунок на чинних вагах, не навчання чи фоновий розклад.

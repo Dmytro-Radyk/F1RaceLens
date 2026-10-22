@@ -595,7 +595,7 @@
   }
   .calendar-filters button {
     flex: 1;
-    min-height: 38px;
+    min-height: 44px;
     padding: 7px 9px;
   }
   .race-grid {

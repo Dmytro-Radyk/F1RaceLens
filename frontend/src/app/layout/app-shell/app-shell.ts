@@ -13,9 +13,11 @@ import {
 } from '@angular/router';
 import { accountError, AuthService } from '../../auth/services/auth.service';
 import { ThemeService } from '../../core/services/theme.service';
+import { AssistantService } from '../../features/assistant/assistant.service';
 
 type NavId =
   | 'home'
+  | 'assistant'
   | 'calendar'
   | 'standings'
   | 'drivers'
@@ -43,6 +45,8 @@ interface NavItem {
   },
 })
 export class AppShell {
+  // Start ephemeral lifecycle handling even if this tab only performs sign-out.
+  private readonly assistant = inject(AssistantService);
   protected readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly navigation = toSignal(
@@ -82,6 +86,7 @@ export class AppShell {
     { id: 'insights', label: 'Аналітика', icon: '#icon-insights' },
     { id: 'predictions', label: 'Прогнози', icon: '#icon-predictions' },
     { id: 'history', label: 'Історія F1', icon: '#icon-calendar' },
+    { id: 'assistant', label: 'F1-асистент', icon: '#icon-search' },
   ];
 
   protected readonly isMenuOpen = signal(false);
@@ -101,6 +106,12 @@ export class AppShell {
         target.querySelector<HTMLElement>('h3[tabindex]')?.focus({ preventScroll: true });
       } else document.getElementById('page-heading')?.focus();
     });
+  }
+
+  protected assistantPage(): string {
+    const path = this.router.url.split(/[?#]/)[0];
+    const season = this.router.parseUrl(this.router.url).queryParams['season'];
+    return path + (/^\d{4}$/.test(season ?? '') ? '?season=' + season : '');
   }
 
   protected toggleMenu(): void {
